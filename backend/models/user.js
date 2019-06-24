@@ -72,7 +72,6 @@ userSchema.pre('save', async function preSaveOperation(next) {
 
 userSchema.static('findByCredentials', async ({ input, password }) => {
   let user;
-
   if (validator.isEmail(input)) {
     user = await User.findOne({ email: input });
   } else {
