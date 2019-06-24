@@ -5,10 +5,15 @@ const cookieParser = require('cookie-parser');
 
 const { connectDB } = require('./backend/database/mongoose');
 
+const { connectRoutes } = require('./backend/routes/routes');
+
 const app = express();
-connectDB();
 
 const port = process.env.PORT;
+
+connectDB();
+
+app.use(connectRoutes());
 
 app.use(cors());
 
