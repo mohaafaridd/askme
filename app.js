@@ -3,7 +3,10 @@ const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
+const { connectDB } = require('./backend/database/mongoose');
+
 const app = express();
+connectDB();
 
 const port = process.env.PORT;
 

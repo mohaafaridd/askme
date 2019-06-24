@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Ask and answer questions",
   "main": "app.js",
-  "scripts": {},
+  "scripts": {
+    "dev": "env-cmd -f ./config/dev.env nodemon app.js"
+  },
   "author": "Mohammed Farid",
   "license": "ISC",
   "dependencies": {
