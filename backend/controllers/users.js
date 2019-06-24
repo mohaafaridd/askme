@@ -23,7 +23,18 @@ const postLogin = async (req, res) => {
   }
 }
 
+const getProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ id });
+    res.json({ success: true, message: 'user found', user });
+  } catch {
+    res.json({ success: false, message: 'user not found' });
+  }
+}
+
 module.exports = {
   postRegister,
-  postLogin
+  postLogin,
+  getProfile
 }

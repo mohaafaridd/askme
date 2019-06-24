@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -59,6 +60,8 @@ const userSchema = mongoose.Schema({
     },
   }],
 });
+
+userSchema.plugin(AutoIncrement, { inc_field: 'id' });
 
 userSchema.pre('save', async function preSaveOperation(next) {
   const user = this;
