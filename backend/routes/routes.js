@@ -5,6 +5,7 @@ const router = express.Router();
 
 const connectRoutes = () => {
   router.use('/users', usersRoutes);
+
   return router;
 }
 
