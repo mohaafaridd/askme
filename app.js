@@ -25,18 +25,6 @@ app.use(cookieParser());
 
 app.use(connectRoutes());
 
-const User = require('./backend/models/user')
-const Question = require('./backend/models/question')
-
-const test = async () => {
-  const user = await User.findOne({ id: 1 });
-  await user.populate('questions').execPopulate();
-
-  console.log(user.questions);
-}
-
-test();
-
 app.listen(port, () => {
   console.log(`Server is on port ${port}`);
 })

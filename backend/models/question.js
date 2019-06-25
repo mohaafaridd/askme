@@ -9,6 +9,11 @@ const questionSchema = mongoose.Schema({
     maxlength: 200,
     trim: true,
   },
+
+  asker: {
+    type: Number,
+    required: true,
+  }
 });
 
 questionSchema.plugin(AutoIncrement, { id: 'question_counter', inc_field: 'id' });

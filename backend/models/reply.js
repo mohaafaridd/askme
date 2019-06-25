@@ -8,7 +8,17 @@ const replySchema = mongoose.Schema({
     minlength: 2,
     maxlength: 200,
     trim: true,
-  }
+  },
+
+  question: {
+    type: Number,
+    required: true,
+  },
+
+  replier: {
+    type: Number,
+    required: true,
+  },
 });
 
 replySchema.plugin(AutoIncrement, { inc_field: 'id' });
