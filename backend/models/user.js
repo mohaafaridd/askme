@@ -61,7 +61,7 @@ const userSchema = mongoose.Schema({
   }],
 });
 
-userSchema.plugin(AutoIncrement, { inc_field: 'id' });
+userSchema.plugin(AutoIncrement, { id: 'user_counter', inc_field: 'id' });
 
 userSchema.pre('save', async function preSaveOperation(next) {
   const user = this;

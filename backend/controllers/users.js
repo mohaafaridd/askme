@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Question = require('../models/question');
 
 const postRegister = async (req, res) => {
   try {
@@ -26,14 +27,15 @@ const postLogin = async (req, res) => {
 const getProfile = async (req, res) => {
   try {
     const { id } = req.params;
+
     const user = await User.findOne({ id });
 
-    // const questions = await user.populate('questions').execPopulate();
-    // const replies = await user.populate('replies').execPopulate();
-
     res.json({ success: true, message: 'user found', user });
+
   } catch {
+
     res.json({ success: false, message: 'user not found' });
+
   }
 }
 

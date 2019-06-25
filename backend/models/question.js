@@ -11,7 +11,7 @@ const questionSchema = mongoose.Schema({
   },
 });
 
-questionSchema.plugin(AutoIncrement, { inc_field: 'id' });
+questionSchema.plugin(AutoIncrement, { id: 'question_counter', inc_field: 'id' });
 
 const Question = mongoose.model('Question', questionSchema);
 
