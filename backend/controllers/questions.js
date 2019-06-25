@@ -77,7 +77,9 @@ const deleteQuestion = async (req, res) => {
 
   try {
 
-    const question = await Question.findOneAndDelete({ id: req.params.id, asker: req.user.id });
+    const question = await Question.findOneAndDelete(
+      { id: req.params.id, asker: req.user.id }
+    );
 
     if (!question) {
 
