@@ -1,4 +1,5 @@
 const Question = require('../models/question');
+const Reply = require('../models/reply');
 
 const postQuestion = async (req, res) => {
 
@@ -8,7 +9,7 @@ const postQuestion = async (req, res) => {
 
     await question.save();
 
-    res.send({ success: true, message: 'Question Posted!', question });
+    res.send({ success: true, message: 'Question posted!', question });
 
   } catch (error) {
 
@@ -30,7 +31,9 @@ const getQuestion = async (req, res) => {
 
     }
 
-    res.send({ success: true, message: 'Question found!', question });
+    const reply = await Reply.find({ question: req.params.id });
+
+    res.send({ success: true, message: 'Question found!', question, reply });
 
   } catch (error) {
 
