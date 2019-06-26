@@ -14,25 +14,25 @@
         <mat-form-field appearance="outline">
             <mat-label>Middle Name</mat-label>
             <input matInput placeholder="Doe" type="text" formControlName="middleName">
-            <mat-error *ngIf="firstName.invalid">{{getErrorMessage('middleName')}}</mat-error>
+            <mat-error *ngIf="middleName.invalid">{{getErrorMessage('middleName')}}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
             <input matInput placeholder="AshDragon" type="text" formControlName="username">
-            <mat-error *ngIf="firstName.invalid">{{getErrorMessage('username')}}</mat-error>
+            <mat-error *ngIf="username.invalid">{{getErrorMessage('username')}}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput placeholder="user@gmail.com" type="email" formControlName="email">
-            <mat-error *ngIf="firstName.invalid">{{getErrorMessage('email')}}</mat-error>
+            <mat-error *ngIf="email.invalid">{{getErrorMessage('email')}}</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
             <input matInput placeholder="***********" type="password" formControlName="password">
-            <mat-error *ngIf="firstName.invalid">{{getErrorMessage('password')}}</mat-error>
+            <mat-error *ngIf="password.invalid">{{getErrorMessage('password')}}</mat-error>
         </mat-form-field>
 
         <p>

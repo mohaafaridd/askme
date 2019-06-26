@@ -51,6 +51,18 @@ export class RegisterComponent implements OnInit {
   get firstName() {
     return this.profileForm.get('firstName');
   }
+  get middleName() {
+    return this.profileForm.get('middleName');
+  }
+  get username() {
+    return this.profileForm.get('username');
+  }
+  get email() {
+    return this.profileForm.get('email');
+  }
+  get password() {
+    return this.profileForm.get('password');
+  }
 
   getErrorMessage(property) {
     const formProperty = this.profileForm.get(property);
