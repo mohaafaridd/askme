@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
     minlength: 2,
     maxlength: 15,
     trim: true,
-    match: /^[a-zA-Z][a-z-A-Z ]+[a-zA-Z]$/,
+    match: /^[a-zA-Z][a-z-A-Z]+[a-zA-Z]$/,
   },
 
   midName: {
@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
     minlength: 2,
     maxlength: 15,
     trim: true,
-    match: /^[a-zA-Z][a-z-A-Z ]+[a-zA-Z]$/,
+    match: /^[a-zA-Z][a-z-A-Z-]+[a-zA-Z]$/,
   },
 
   username: {
