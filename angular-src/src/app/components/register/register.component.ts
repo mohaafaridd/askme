@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +11,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private titleService: Title) {
+  constructor(
+    private titleService: Title,
+    private authServices: AuthService,
+    private router: Router) {
     this.titleService.setTitle('Register');
   }
 
@@ -110,8 +115,17 @@ export class RegisterComponent implements OnInit {
     }
   }
   onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.profileForm.value);
+    try {
+      this.authServices.registerUser(this.profileForm.value)
+        .subscribe(data => {
+          console.log(data);
+          if (data.success) {
+            this.router.navigate(['/']);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   ngOnInit() {

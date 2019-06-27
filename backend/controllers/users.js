@@ -7,17 +7,19 @@ const postRegister = async (req, res) => {
 
     const user = new User(req.body);
 
-    await user.save();
+    await user.save().catch(error => {
+      console.log('err' + error);
+    });
 
     const token = await user.generateAuthToken();
 
     res.cookie('auth', token, { maxAge: process.env.EXP_DATE });
 
-    res.status(201).send({ success: true, message: 'user is created', user });
+    return res.status(201).json({ success: true, message: 'user is created', user });
 
   } catch (error) {
 
-    res.status(400).send({ success: false, message: 'failed creating user' });
+    return res.status(400).json({ success: false, message: 'failed creating user', error });
 
   }
 
@@ -33,11 +35,11 @@ const postLogin = async (req, res) => {
 
     res.cookie('auth', token, { maxAge: process.env.EXP_DATE });
 
-    res.status(200).send({ success: true, message: 'user has logged in', user });
+    res.status(200).json({ success: true, message: 'user has logged in', user });
 
   } catch (error) {
 
-    res.status(400).send({ success: false, message: 'login failed' });
+    res.status(400).json({ success: false, message: 'login failed' });
 
   }
 
@@ -48,15 +50,15 @@ const getProfile = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findOne({ id });
+    const user = await User.findOne({ username: id });
 
-    const questions = await Question.find({ asker: id });
+    const questions = await Question.find({ asker: user.id });
 
-    res.send({ success: true, message: 'user found', user, questions });
+    res.json({ success: true, message: 'user found', user, questions });
 
   } catch {
 
-    res.send({ success: false, message: 'user not found' });
+    res.json({ success: false, message: 'user not found' });
 
   }
 
