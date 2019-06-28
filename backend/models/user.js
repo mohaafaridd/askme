@@ -29,9 +29,9 @@ const userSchema = mongoose.Schema({
     minlength: 2,
     maxlength: 15,
     unique: true,
-    lowercase: true,
     trim: true,
     match: /^\w([-.]?\w)+\w$/,
+    lowercase: true,
   },
 
   email: {

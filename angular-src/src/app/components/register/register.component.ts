@@ -120,6 +120,7 @@ export class RegisterComponent implements OnInit {
     this.authServices.registerUser(this.profileForm.value)
       .subscribe(data => {
         this.notificationService.open('User has been registered', 'x', 2000);
+        this.authServices.storeData(data);
         this.router.navigate(['/']);
       }, (error) => {
         this.notificationService.open(`${error.error.message} because of ${error.error.cause}`, 'x', 2000);

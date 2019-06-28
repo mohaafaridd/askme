@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private titleService: Title,
     private authService: AuthService,
+    private notificationService: NotificationService,
     private router: Router
   ) {
     this.titleService.setTitle('Login');
@@ -36,10 +38,13 @@ export class LoginComponent implements OnInit {
     const user = this.profileForm.value;
 
     this.authService.loginUser(user).subscribe(data => {
-      if (data.success) {
+      if (data) {
         this.authService.storeData(data);
-        this.router.navigate(['/']);
+        this.notificationService.open(`${data['user']['username']} has logged in`, 'x', 2000);
+        // this.router.navigate(['/']);
       }
+    }, (err) => {
+      this.notificationService.open(`Login failed`, 'x', 2000);
     });
   }
 

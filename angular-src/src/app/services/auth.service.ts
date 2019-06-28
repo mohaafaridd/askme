@@ -8,7 +8,7 @@ import { map, retry, catchError } from 'rxjs/operators';
 })
 export class AuthService {
 
-  authToken: any;
+  auth: any;
   user: any;
 
   constructor(
@@ -41,12 +41,12 @@ export class AuthService {
   }
 
   storeData(data) {
-    this.authToken = data.token;
+    this.auth = data.token;
     this.user = data.user;
   }
 
   logout() {
-    this.authToken = null;
+    this.auth = null;
     this.user = null;
   }
 
