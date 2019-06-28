@@ -78,7 +78,7 @@ userSchema.static('findByCredentials', async ({ input, password }) => {
   if (validator.isEmail(input)) {
     user = await User.findOne({ email: input });
   } else {
-    user = await User.findOne({ nickname: input });
+    user = await User.findOne({ username: input });
   }
 
   if (!user) {

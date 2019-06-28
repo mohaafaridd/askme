@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,6 +15,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private titleService: Title,
     private authServices: AuthService,
+    private notificationService: NotificationService,
     private router: Router) {
     this.titleService.setTitle('Register');
   }
@@ -115,17 +117,13 @@ export class RegisterComponent implements OnInit {
     }
   }
   onSubmit() {
-    try {
-      this.authServices.registerUser(this.profileForm.value)
-        .subscribe(data => {
-          console.log(data);
-          if (data.success) {
-            this.router.navigate(['/']);
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    this.authServices.registerUser(this.profileForm.value)
+      .subscribe(data => {
+        this.notificationService.open('User has been registered', 'x', 2000);
+        this.router.navigate(['/']);
+      }, (error) => {
+        this.notificationService.open(`${error.error.message} because of ${error.error.cause}`, 'x', 2000);
+      });
   }
 
   ngOnInit() {

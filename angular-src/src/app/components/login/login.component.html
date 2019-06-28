@@ -1,1 +1,27 @@
-<p>login works!</p>
+<div class="register-wrapper">
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+        <p>Login</p>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="AshDragon" type="text" formControlName="input">
+            <mat-error *ngIf="input.invalid">this field is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="***********" type="password" formControlName="password">
+            <mat-error *ngIf="password.invalid">this field is required</mat-error>
+        </mat-form-field>
+
+        <p>
+            Form Status: {{ profileForm.status }}
+        </p>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid">Submit</button>
+
+    </form>
+
+</div>
