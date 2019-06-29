@@ -58,6 +58,19 @@ export class AuthService {
       }));
   }
 
+  getPersonalProfile() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.get(`http://localhost:3000/users/${this.user.username}`, httpOptions)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
   public handleError(error: HttpErrorResponse | any) {
     return throwError(error);
   }

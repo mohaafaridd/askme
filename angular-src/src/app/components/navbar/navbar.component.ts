@@ -12,10 +12,14 @@ export class NavbarComponent implements OnInit {
 
   constructor(private authService: AuthService, private notificationService: NotificationService, private router: Router) { }
 
-  logout() {
-    console.log('Auth Token', this.authService.auth);
-    console.log('User', this.authService.user);
+  getProfile() {
+    console.log(this.authService.user);
+    this.authService.getPersonalProfile().subscribe(data => {
+      this.router.navigate([`${this.authService.user.username}`]);
+    });
+  }
 
+  logout() {
     this.authService.logout().subscribe(data => {
       this.notificationService.open(`You've logged out`, 'x', 2000);
       this.router.navigate(['/']);

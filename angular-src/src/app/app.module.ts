@@ -14,6 +14,7 @@ import { HomeComponent } from './components/home/home.component';
 
 import { AuthService } from './services/auth.service';
 import { NotificationService } from './services/notification.service';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NotificationService } from './services/notification.service';
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
