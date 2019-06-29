@@ -24,7 +24,7 @@ export class AuthService {
     };
 
     return this.http.post('http://localhost:3000/users/register', user, httpOptions)
-      .pipe(retry(1), catchError(this.handleError));
+      .pipe(retry(0), catchError(this.handleError));
   }
 
   loginUser(user) {
@@ -46,8 +46,16 @@ export class AuthService {
   }
 
   logout() {
-    this.auth = null;
-    this.user = null;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.post('http://localhost:3000/users/logout', { user: this.user, token: this.auth }, httpOptions)
+      .pipe(map((response: any) => {
+        return response;
+      }));
   }
 
   public handleError(error: HttpErrorResponse | any) {

@@ -23,7 +23,7 @@ const postRegister = async (req, res) => {
 
     const token = await user.generateAuthToken();
 
-    res.cookie('auth', token, { maxAge: process.env.EXP_DATE });
+    await res.cookie('auth', token, { maxAge: process.env.EXP_DATE });
 
     res.status(201).json({ success: true, message: 'user is created', user, token });
 
@@ -85,11 +85,11 @@ const postLogout = async (req, res) => {
 
     await req.user.save();
 
-    res.send();
+    res.json({ success: true, message: 'user has logged out' });
 
   } catch (error) {
 
-    res.status(500).redirect(req.header('Referer'));
+    res.status(500).json({ success: false, message: 'Error logging out' });
 
   }
 

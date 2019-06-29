@@ -41,9 +41,10 @@ export class LoginComponent implements OnInit {
       if (data) {
         this.authService.storeData(data);
         this.notificationService.open(`${data['user']['username']} has logged in`, 'x', 2000);
-        // this.router.navigate(['/']);
+        this.router.navigate(['/']);
       }
     }, (err) => {
+      console.log(err);
       this.notificationService.open(`Login failed`, 'x', 2000);
     });
   }
