@@ -23,7 +23,7 @@ const postRegister = async (req, res) => {
 
     const token = await user.generateAuthToken();
 
-    await res.cookie('auth', token, { maxAge: process.env.EXP_DATE });
+    res.cookie('auth', token, { maxAge: process.env.EXP_DATE });
 
     res.status(201).json({ success: true, message: 'user is created', user, token });
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,15 +11,17 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  isLoggedIn: boolean = false;
+  isLoggedIn: boolean = this.cookieService.get('auth') ? true : false;
 
-condition = true;
-  constructor(private authService: AuthService, private notificationService: NotificationService, private router: Router) {
+  condition = true;
+  constructor(
+    private authService: AuthService,
+    private notificationService: NotificationService,
+    private router: Router,
+    private cookieService: CookieService) {
     this.authService.isLogged$.subscribe(data => {
-      console.log('login status', data);
-      this.isLoggedIn = data
-      console.log('login status', this.isLoggedIn);
-      });
+      this.isLoggedIn = data;
+    });
   }
 
   getProfile() {
@@ -27,6 +30,8 @@ condition = true;
 
   logout() {
     this.authService.logout().subscribe(data => {
+      this.cookieService.delete('auth');
+      this.cookieService.delete('user');
       this.notificationService.open(`You've logged out`, 'x', 2000);
       this.router.navigate(['/']);
     }, err => {

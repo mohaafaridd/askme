@@ -11,10 +11,11 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 import { AuthService } from './services/auth.service';
 import { NotificationService } from './services/notification.service';
-import { ProfileComponent } from './components/profile/profile.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ProfileComponent } from './components/profile/profile.component';
   providers: [
     Title,
     AuthService,
-    NotificationService
+    NotificationService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

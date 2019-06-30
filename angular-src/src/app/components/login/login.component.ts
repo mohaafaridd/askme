@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ export class LoginComponent implements OnInit {
     private titleService: Title,
     private authService: AuthService,
     private notificationService: NotificationService,
+    private cookieService: CookieService,
     private router: Router
   ) {
     this.titleService.setTitle('Login');
@@ -39,9 +41,12 @@ export class LoginComponent implements OnInit {
 
     this.authService.loginUser(user).subscribe(data => {
       if (data) {
+        this.cookieService.set('auth', data.token, 30000);
+        this.cookieService.set('user', JSON.stringify(data.user), 30000);
+
         this.authService.storeData(data);
         this.notificationService.open(`${data['user']['username']} has logged in`, 'x', 2000);
-        this.router.navigate(['/']);
+        // this.router.navigate(['/']);
       }
     }, (err) => {
       console.log(err);

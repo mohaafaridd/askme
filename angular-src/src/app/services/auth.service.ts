@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,15 @@ export class AuthService {
   private _isLogged = new Subject<boolean>();
   isLogged$ = this._isLogged.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+    this.auth = cookieService.get('auth');
+    try {
+      this.user = JSON.parse(cookieService.get('user'));
+    } catch (error) {
+      this.user = null;
+    }
+
+  }
 
   registerUser(user) {
     const httpOptions = {
@@ -25,7 +34,9 @@ export class AuthService {
     };
 
     return this.http.post('http://localhost:3000/users/register', user, httpOptions)
-      .pipe(retry(0), catchError(this.handleError));
+      .pipe(map((response: any) => {
+        return response;
+      }));
   }
 
   loginUser(user) {

@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,7 @@ export class RegisterComponent implements OnInit {
     private titleService: Title,
     private authServices: AuthService,
     private notificationService: NotificationService,
+    private cookieService: CookieService,
     private router: Router) {
     this.titleService.setTitle('Register');
   }
@@ -116,9 +118,13 @@ export class RegisterComponent implements OnInit {
         break;
     }
   }
+
   onSubmit() {
     this.authServices.registerUser(this.profileForm.value)
       .subscribe(data => {
+        this.cookieService.set('auth', data.token, 30000);
+        this.cookieService.set('user', JSON.stringify(data.user), 30000);
+
         this.notificationService.open('User has been registered', 'x', 2000);
         this.authServices.storeData(data);
         this.router.navigate(['/']);
