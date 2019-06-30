@@ -4,6 +4,7 @@
   "description": "Ask and answer questions",
   "main": "app.js",
   "scripts": {
+    "start": "node app",
     "dev": "env-cmd -f ./config/dev.env nodemon app.js"
   },
   "author": "Mohammed Farid",
