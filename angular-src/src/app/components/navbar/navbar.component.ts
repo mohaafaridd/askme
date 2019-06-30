@@ -10,13 +10,19 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authService: AuthService, private notificationService: NotificationService, private router: Router) { }
+  isLoggedIn: boolean = false;
+
+condition = true;
+  constructor(private authService: AuthService, private notificationService: NotificationService, private router: Router) {
+    this.authService.isLogged$.subscribe(data => {
+      console.log('login status', data);
+      this.isLoggedIn = data
+      console.log('login status', this.isLoggedIn);
+      });
+  }
 
   getProfile() {
-    console.log(this.authService.user);
-    this.authService.getPersonalProfile().subscribe(data => {
-      this.router.navigate([`${this.authService.user.username}`]);
-    });
+    this.router.navigate([`${this.authService.user.username}`]);
   }
 
   logout() {

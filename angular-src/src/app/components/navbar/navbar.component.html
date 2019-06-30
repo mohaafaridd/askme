@@ -4,8 +4,19 @@
 
     <span class="spacer"></span>
 
-    <a [routerLink]="['register']" mat-raised-button color="accent">Register</a>
-    <a [routerLink]="['login']" mat-button color="accent">Login</a>
-    <a mat-raised-button color="accent" (click)="getProfile()">Profile</a>
-    <a mat-raised-button color="accent" (click)="logout()">Logout</a>
+    <div *ngIf="isLoggedIn; else elseBlock">
+        <div>
+            <a mat-raised-button color="accent" (click)="getProfile()">Profile</a>
+            <a mat-raised-button color="accent" (click)="logout()">Logout</a>
+        </div>
+    </div>
+
+    <ng-template #elseBlock>
+        <div>
+            <a [routerLink]="['register']" mat-raised-button color="accent">Register</a>
+            <a [routerLink]="['login']" mat-button color="accent">Login</a>
+        </div>
+    </ng-template>
+
+
 </mat-toolbar>
