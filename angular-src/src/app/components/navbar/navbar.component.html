@@ -6,7 +6,9 @@
 
     <div *ngIf="isLoggedIn; else elseBlock">
         <div>
-            <a mat-raised-button color="accent" (click)="getProfile()">Profile</a>
+            <a matBadge="15" matBadgeColor="warn" mat-raised-button color="accent" (click)="getProfile()">
+                <mat-icon>person</mat-icon>
+            </a>
             <a mat-raised-button color="accent" (click)="logout()">Logout</a>
         </div>
     </div>

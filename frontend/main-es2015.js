@@ -63,7 +63,7 @@ module.exports = "<div class=\"register-wrapper\">\n\n    <form [formGroup]=\"pr
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar color=\"primary\">\n\n    <span>Questionary</span>\n\n    <span class=\"spacer\"></span>\n\n    <div *ngIf=\"isLoggedIn; else elseBlock\">\n        <div>\n            <a mat-raised-button color=\"accent\" (click)=\"getProfile()\">Profile</a>\n            <a mat-raised-button color=\"accent\" (click)=\"logout()\">Logout</a>\n        </div>\n    </div>\n\n    <ng-template #elseBlock>\n        <div>\n            <a [routerLink]=\"['login']\" mat-button color=\"accent\">Login</a>\n            <a [routerLink]=\"['register']\" mat-raised-button color=\"accent\">Register</a>\n        </div>\n    </ng-template>\n\n</mat-toolbar>"
+module.exports = "<mat-toolbar color=\"primary\">\r\n\r\n    <span>Questionary</span>\r\n\r\n    <span class=\"spacer\"></span>\r\n\r\n    <div *ngIf=\"isLoggedIn; else elseBlock\">\r\n        <div>\r\n            <a matBadge=\"15\" matBadgeColor=\"warn\" mat-raised-button color=\"accent\" (click)=\"getProfile()\">\r\n                <mat-icon>person</mat-icon>\r\n            </a>\r\n            <a mat-raised-button color=\"accent\" (click)=\"logout()\">Logout</a>\r\n        </div>\r\n    </div>\r\n\r\n    <ng-template #elseBlock>\r\n        <div>\r\n            <a [routerLink]=\"['register']\" mat-raised-button color=\"accent\">Register</a>\r\n            <a [routerLink]=\"['login']\" mat-button color=\"accent\">Login</a>\r\n        </div>\r\n    </ng-template>\r\n\r\n\r\n</mat-toolbar>"
 
 /***/ }),
 
@@ -116,7 +116,8 @@ CustomMaterialModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatIconModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatFormFieldModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatInputModule"],
-            _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSnackBarModule"]
+            _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSnackBarModule"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatBadgeModule"]
         ],
         exports: [
             _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatButtonModule"],
@@ -125,7 +126,8 @@ CustomMaterialModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatIconModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatFormFieldModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatInputModule"],
-            _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSnackBarModule"]
+            _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSnackBarModule"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatBadgeModule"]
         ],
     })
 ], CustomMaterialModule);
@@ -243,9 +245,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
 /* harmony import */ var _components_register_register_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/register/register.component */ "./src/app/components/register/register.component.ts");
 /* harmony import */ var _components_home_home_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/home/home.component */ "./src/app/components/home/home.component.ts");
-/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./services/auth.service */ "./src/app/services/auth.service.ts");
-/* harmony import */ var _services_notification_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./services/notification.service */ "./src/app/services/notification.service.ts");
-/* harmony import */ var _components_profile_profile_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/profile/profile.component */ "./src/app/components/profile/profile.component.ts");
+/* harmony import */ var _components_profile_profile_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/profile/profile.component */ "./src/app/components/profile/profile.component.ts");
+/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./services/auth.service */ "./src/app/services/auth.service.ts");
+/* harmony import */ var _services_notification_service__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./services/notification.service */ "./src/app/services/notification.service.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+
 
 
 
@@ -272,7 +276,7 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _components_login_login_component__WEBPACK_IMPORTED_MODULE_10__["LoginComponent"],
             _components_register_register_component__WEBPACK_IMPORTED_MODULE_11__["RegisterComponent"],
             _components_home_home_component__WEBPACK_IMPORTED_MODULE_12__["HomeComponent"],
-            _components_profile_profile_component__WEBPACK_IMPORTED_MODULE_15__["ProfileComponent"]
+            _components_profile_profile_component__WEBPACK_IMPORTED_MODULE_13__["ProfileComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -285,8 +289,9 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         ],
         providers: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["Title"],
-            _services_auth_service__WEBPACK_IMPORTED_MODULE_13__["AuthService"],
-            _services_notification_service__WEBPACK_IMPORTED_MODULE_14__["NotificationService"]
+            _services_auth_service__WEBPACK_IMPORTED_MODULE_14__["AuthService"],
+            _services_notification_service__WEBPACK_IMPORTED_MODULE_15__["NotificationService"],
+            ngx_cookie_service__WEBPACK_IMPORTED_MODULE_16__["CookieService"]
         ],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
     })
@@ -375,6 +380,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/auth.service */ "./src/app/services/auth.service.ts");
 /* harmony import */ var _services_notification_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/notification.service */ "./src/app/services/notification.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+
 
 
 
@@ -383,10 +390,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let LoginComponent = class LoginComponent {
-    constructor(titleService, authService, notificationService, router) {
+    constructor(titleService, authService, notificationService, cookieService, router) {
         this.titleService = titleService;
         this.authService = authService;
         this.notificationService = notificationService;
+        this.cookieService = cookieService;
         this.router = router;
         this.profileForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormGroup"]({
             input: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required),
@@ -404,6 +412,8 @@ let LoginComponent = class LoginComponent {
         const user = this.profileForm.value;
         this.authService.loginUser(user).subscribe(data => {
             if (data) {
+                this.cookieService.set('auth', data.token, 30000);
+                this.cookieService.set('user', JSON.stringify(data.user), 30000);
                 this.authService.storeData(data);
                 this.notificationService.open(`${data['user']['username']} has logged in`, 'x', 2000);
                 this.router.navigate(['/']);
@@ -420,6 +430,7 @@ LoginComponent.ctorParameters = () => [
     { type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"] },
     { type: _services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"] },
     { type: _services_notification_service__WEBPACK_IMPORTED_MODULE_5__["NotificationService"] },
+    { type: ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__["CookieService"] },
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"] }
 ];
 LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -431,6 +442,7 @@ LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"],
         _services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"],
         _services_notification_service__WEBPACK_IMPORTED_MODULE_5__["NotificationService"],
+        ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__["CookieService"],
         _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]])
 ], LoginComponent);
 
@@ -445,7 +457,7 @@ LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".spacer {\n  flex: 1 1 auto;\n}\n\na {\n  margin-right: 0.5vw;\n  margin-left: 0.5vw;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvRjpcXEZ1bGwtU3RhY2sgVHJhY2tcXFByb2plY3RzXFxhc2ttZVxcYW5ndWxhci1zcmMvc3JjXFxhcHBcXGNvbXBvbmVudHNcXG5hdmJhclxcbmF2YmFyLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9jb21wb25lbnRzL25hdmJhci9uYXZiYXIuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxjQUFBO0FDQ0Y7O0FEQ0E7RUFDRSxtQkFBQTtFQUNBLGtCQUFBO0FDRUYiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL25hdmJhci9uYXZiYXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc3BhY2VyIHtcbiAgZmxleDogMSAxIGF1dG87XG59XG5he1xuICBtYXJnaW4tcmlnaHQ6IDAuNXZ3O1xuICBtYXJnaW4tbGVmdDogMC41dnc7XG59IiwiLnNwYWNlciB7XG4gIGZsZXg6IDEgMSBhdXRvO1xufVxuXG5hIHtcbiAgbWFyZ2luLXJpZ2h0OiAwLjV2dztcbiAgbWFyZ2luLWxlZnQ6IDAuNXZ3O1xufSJdfQ== */"
+module.exports = ".spacer {\n  flex: 1 1 auto;\n}\n\na {\n  margin-right: 1vw;\n  margin-left: 1vw;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvRjpcXEZ1bGwtU3RhY2sgVHJhY2tcXFByb2plY3RzXFxhc2ttZVxcYW5ndWxhci1zcmMvc3JjXFxhcHBcXGNvbXBvbmVudHNcXG5hdmJhclxcbmF2YmFyLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9jb21wb25lbnRzL25hdmJhci9uYXZiYXIuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxjQUFBO0FDQ0Y7O0FEQ0E7RUFDRSxpQkFBQTtFQUNBLGdCQUFBO0FDRUYiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL25hdmJhci9uYXZiYXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc3BhY2VyIHtcclxuICBmbGV4OiAxIDEgYXV0bztcclxufVxyXG5he1xyXG4gIG1hcmdpbi1yaWdodDogMXZ3O1xyXG4gIG1hcmdpbi1sZWZ0OiAxdnc7XHJcbn0iLCIuc3BhY2VyIHtcbiAgZmxleDogMSAxIGF1dG87XG59XG5cbmEge1xuICBtYXJnaW4tcmlnaHQ6IDF2dztcbiAgbWFyZ2luLWxlZnQ6IDF2dztcbn0iXX0= */"
 
 /***/ }),
 
@@ -464,17 +476,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/auth.service */ "./src/app/services/auth.service.ts");
 /* harmony import */ var _services_notification_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/notification.service */ "./src/app/services/notification.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+
 
 
 
 
 
 let NavbarComponent = class NavbarComponent {
-    constructor(authService, notificationService, router) {
+    constructor(authService, notificationService, router, cookieService) {
         this.authService = authService;
         this.notificationService = notificationService;
         this.router = router;
-        this.isLoggedIn = false;
+        this.cookieService = cookieService;
+        this.isLoggedIn = this.cookieService.get('auth') ? true : false;
+        this.condition = true;
         this.authService.isLogged$.subscribe(data => {
             this.isLoggedIn = data;
         });
@@ -484,6 +500,8 @@ let NavbarComponent = class NavbarComponent {
     }
     logout() {
         this.authService.logout().subscribe(data => {
+            this.cookieService.delete('auth');
+            this.cookieService.delete('user');
             this.notificationService.open(`You've logged out`, 'x', 2000);
             this.router.navigate(['/']);
         }, err => {
@@ -496,7 +514,8 @@ let NavbarComponent = class NavbarComponent {
 NavbarComponent.ctorParameters = () => [
     { type: _services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"] },
     { type: _services_notification_service__WEBPACK_IMPORTED_MODULE_3__["NotificationService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] },
+    { type: ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__["CookieService"] }
 ];
 NavbarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -504,7 +523,10 @@ NavbarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         template: __webpack_require__(/*! raw-loader!./navbar.component.html */ "./node_modules/raw-loader/index.js!./src/app/components/navbar/navbar.component.html"),
         styles: [__webpack_require__(/*! ./navbar.component.scss */ "./src/app/components/navbar/navbar.component.scss")]
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"], _services_notification_service__WEBPACK_IMPORTED_MODULE_3__["NotificationService"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"],
+        _services_notification_service__WEBPACK_IMPORTED_MODULE_3__["NotificationService"],
+        _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],
+        ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__["CookieService"]])
 ], NavbarComponent);
 
 
@@ -582,6 +604,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/auth.service */ "./src/app/services/auth.service.ts");
 /* harmony import */ var _services_notification_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/notification.service */ "./src/app/services/notification.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+
 
 
 
@@ -590,10 +614,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let RegisterComponent = class RegisterComponent {
-    constructor(titleService, authServices, notificationService, router) {
+    constructor(titleService, authServices, notificationService, cookieService, router) {
         this.titleService = titleService;
         this.authServices = authServices;
         this.notificationService = notificationService;
+        this.cookieService = cookieService;
         this.router = router;
         this.regexValues = {
             names: new RegExp(/^[a-zA-Z]+$/),
@@ -692,6 +717,8 @@ let RegisterComponent = class RegisterComponent {
     onSubmit() {
         this.authServices.registerUser(this.profileForm.value)
             .subscribe(data => {
+            this.cookieService.set('auth', data.token, 30000);
+            this.cookieService.set('user', JSON.stringify(data.user), 30000);
             this.notificationService.open('User has been registered', 'x', 2000);
             this.authServices.storeData(data);
             this.router.navigate(['/']);
@@ -706,6 +733,7 @@ RegisterComponent.ctorParameters = () => [
     { type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"] },
     { type: _services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"] },
     { type: _services_notification_service__WEBPACK_IMPORTED_MODULE_5__["NotificationService"] },
+    { type: ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__["CookieService"] },
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"] }
 ];
 RegisterComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -717,6 +745,7 @@ RegisterComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"],
         _services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"],
         _services_notification_service__WEBPACK_IMPORTED_MODULE_5__["NotificationService"],
+        ngx_cookie_service__WEBPACK_IMPORTED_MODULE_7__["CookieService"],
         _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]])
 ], RegisterComponent);
 
@@ -739,6 +768,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+
 
 
 
@@ -746,10 +777,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let AuthService = class AuthService {
-    constructor(http) {
+    constructor(http, cookieService) {
         this.http = http;
+        this.cookieService = cookieService;
         this._isLogged = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
         this.isLogged$ = this._isLogged.asObservable();
+        this.auth = cookieService.get('auth');
+        try {
+            this.user = JSON.parse(cookieService.get('user'));
+        }
+        catch (error) {
+            this.user = null;
+        }
     }
     registerUser(user) {
         const httpOptions = {
@@ -757,8 +796,10 @@ let AuthService = class AuthService {
                 'Content-Type': 'application/json'
             })
         };
-        return this.http.post('http://localhost:3000/users/register', user, httpOptions)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["retry"])(0), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        return this.http.post('users/register', user, httpOptions)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])((response) => {
+            return response;
+        }));
     }
     loginUser(user) {
         const httpOptions = {
@@ -766,7 +807,7 @@ let AuthService = class AuthService {
                 'Content-Type': 'application/json'
             })
         };
-        return this.http.post('http://localhost:3000/users/login', user, httpOptions)
+        return this.http.post('users/login', user, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])((response) => {
             return response;
         }));
@@ -782,7 +823,7 @@ let AuthService = class AuthService {
                 'Content-Type': 'application/json'
             })
         };
-        return this.http.post('http://localhost:3000/users/logout', { user: this.user, token: this.auth }, httpOptions)
+        return this.http.post('users/logout', { user: this.user, token: this.auth }, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])((response) => {
             this._isLogged.next(false);
             return response;
@@ -794,7 +835,7 @@ let AuthService = class AuthService {
                 'Content-Type': 'application/json'
             })
         };
-        return this.http.get(`http://localhost:3000/users/${this.user.username}`, httpOptions)
+        return this.http.get(`users/${this.user.username}`, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])((response) => {
             return response;
         }));
@@ -804,13 +845,14 @@ let AuthService = class AuthService {
     }
 };
 AuthService.ctorParameters = () => [
-    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
+    { type: ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__["CookieService"] }
 ];
 AuthService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
         providedIn: 'root'
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__["CookieService"]])
 ], AuthService);
 
 
