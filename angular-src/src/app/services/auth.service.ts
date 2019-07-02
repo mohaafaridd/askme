@@ -33,7 +33,9 @@ export class AuthService {
       })
     };
 
-    return this.http.post('localhost:3000/users/register', user, httpOptions)
+    console.log('here');
+
+    return this.http.post('http://localhost:3000/users/register', user, httpOptions)
       .pipe(map((response: any) => {
         return response;
       }));
@@ -46,7 +48,7 @@ export class AuthService {
       })
     };
 
-    return this.http.post('localhost:3000/users/login', user, httpOptions)
+    return this.http.post('http://localhost:3000/users/login', user, httpOptions)
       .pipe(map((response: any) => {
         return response;
       }));
@@ -65,7 +67,7 @@ export class AuthService {
       })
     };
 
-    return this.http.post('localhost:3000/users/logout', { user: this.user, token: this.auth }, httpOptions)
+    return this.http.post('http://localhost:3000/users/logout', { user: this.user, token: this.auth }, httpOptions)
       .pipe(map((response: any) => {
         this._isLogged.next(false);
         return response;
@@ -79,7 +81,7 @@ export class AuthService {
       })
     };
 
-    return this.http.get(`localhost:3000/users/${this.user.username}`, httpOptions)
+    return this.http.get(`http://localhost:3000/users/${this.user.username}`, httpOptions)
       .pipe(map((response: any) => {
         return response;
       }));
