@@ -1,5 +1,6 @@
+const _ = require('lodash');
+
 const User = require('../models/user');
-const Question = require('../models/question');
 
 const postRegister = async (req, res) => {
 
@@ -55,16 +56,16 @@ const postLogin = async (req, res) => {
 
 }
 
-const getProfile = async (req, res) => {
+const getUser = async (req, res) => {
 
   try {
     const { id } = req.params;
 
     const user = await User.findOne({ username: id });
 
-    const questions = await Question.find({ asker: user.id });
+    const picked = _.pick(user, ['id', 'firstName', 'middleName', 'username']);
 
-    res.json({ success: true, message: 'user found', user, questions });
+    res.json({ success: true, message: 'user found', user: picked });
 
   } catch {
 
@@ -98,6 +99,6 @@ const postLogout = async (req, res) => {
 module.exports = {
   postRegister,
   postLogin,
-  getProfile,
+  getUser,
   postLogout
 }
