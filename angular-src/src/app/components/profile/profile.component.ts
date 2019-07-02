@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { User } from 'src/app/models/user';
-import { inherits } from 'util';
+import { Observable, interval } from 'rxjs';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -18,6 +19,7 @@ export class ProfileComponent implements OnInit {
   };
 
   questions: any;
+  replies: any;
 
   constructor(
     private authService: AuthService,
@@ -27,10 +29,14 @@ export class ProfileComponent implements OnInit {
       this.user = data.user;
 
       this.profileService.getUserQuestions(this.user).subscribe(questions => {
+        console.log(questions);
         this.questions = questions.questions;
-        console.log(questions.questions);
       });
 
+      this.profileService.getUserReplies(this.user).subscribe(replies => {
+        console.log(replies);
+        this.replies = replies.replies;
+      });
     });
 
   }

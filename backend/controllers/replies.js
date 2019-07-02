@@ -50,19 +50,19 @@ const getRepliesByUser = async (req, res) => {
 
   try {
 
-    const reply = await Reply.findOne({ replier: req.params.id });
+    const replies = await Reply.find({ replier: req.params.id });
 
-    if (!reply) {
+    if (!replies) {
 
       throw new Error();
 
     }
 
-    res.send({ success: true, message: 'Reply found!', reply });
+    res.send({ success: true, message: 'Replies found!', replies });
 
   } catch (error) {
 
-    res.send({ success: false, message: 'Reply not found!' });
+    res.send({ success: false, message: 'Replies not found!' });
 
   }
 

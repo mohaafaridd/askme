@@ -15,8 +15,19 @@ export class ProfileService {
         'Content-Type': 'application/json'
       })
     };
-    console.log(user);
     return this.http.get(`http://localhost:3000/questions/user/${user.id}`, httpOptions)
+      .pipe(map((response: any) => {
+        return response;
+      }));
+  }
+
+  getUserReplies(user) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.get(`http://localhost:3000/replies/user/${user.id}`, httpOptions)
       .pipe(map((response: any) => {
         return response;
       }));

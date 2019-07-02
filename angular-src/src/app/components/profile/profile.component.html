@@ -7,24 +7,31 @@
                 <mat-card-subtitle>@{{ user.username }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-                <p>Joined at {{user.createdAt}}</p>
+                <p>Joined at {{user.createdAt | date}}</p>
             </mat-card-content>
         </mat-card>
     </div>
 
     <div class="tab-wrapper">
         <mat-tab-group>
-            <mat-tab label="Questions">
 
-                <mat-card class="question-container" *ngFor="let question of questions">
+            <mat-tab label="Questions">
+                <mat-card class="question-container" *ngFor="let question of comments | async">
                     <mat-card-header>
                         <mat-card-title>{{question.question}}</mat-card-title>
-                        <mat-card-subtitle>{{question.createdAt}}</mat-card-subtitle>
+                        <mat-card-subtitle>{{question.createdAt | date: 'medium'}}</mat-card-subtitle>
                     </mat-card-header>
                 </mat-card>
-
             </mat-tab>
-            <mat-tab label="Replies"> Replies </mat-tab>
+
+            <mat-tab label="Replies">
+                <mat-card class="question-container" *ngFor="let reply of replies">
+                    <mat-card-header>
+                        <mat-card-title>{{reply.reply}}</mat-card-title>
+                        <mat-card-subtitle>{{reply.createdAt | date: 'medium'}}</mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+            </mat-tab>
         </mat-tab-group>
 
     </div>
