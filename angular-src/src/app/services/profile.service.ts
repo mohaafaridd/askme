@@ -10,8 +10,14 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   getUserQuestions(user) {
-    return this.http.get(`http://localhost:3000/questions/user/${user.id}`)
-      .pipe(map(response => {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    console.log(user);
+    return this.http.get(`http://localhost:3000/questions/user/${user.id}`, httpOptions)
+      .pipe(map((response: any) => {
         return response;
       }));
   }

@@ -1,22 +1,16 @@
 .profile-grid{
   display: grid;
-  grid-template-columns: 20% auto;
-  grid-template-rows: 10% auto;
+  grid-template-columns: 20% 80%;
 }
 
 mat-card{
-  grid-row-start: 1;
-  grid-row-end: span 2;
+  margin: 1%;
 }
 
-.return-container{
+.profile-wrapper{
+  grid-column: 1;
+}
+
+.tab-wrapper{
   grid-column: 2;
-
-  mat-tab-group{
-    grid-row: 1;
-  }
-
-  .return{
-    grid-row: 2;
-  }
 }

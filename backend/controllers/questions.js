@@ -48,15 +48,15 @@ const getQuestionsByUser = async (req, res) => {
 
   try {
 
-    const question = await Question.find({ asker: req.params.id });
+    const questions = await Question.find({ asker: req.params.id });
 
-    if (!question) {
+    if (!questions) {
 
       throw new Error();
 
     }
 
-    res.send({ success: true, message: `All questions by user ${req.params.id} found`, question });
+    res.send({ success: true, message: `All questions by user ${req.params.id} found`, questions });
 
   } catch (error) {
 

@@ -1,21 +1,32 @@
 <div class="profile-grid">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>{{user.firstName}} {{ user.middleName }}</mat-card-title>
-            <mat-card-subtitle>@{{ user.username }}</mat-card-subtitle>
-        </mat-card-header>
 
-        <mat-card-content>
-            <p>Joined at {{user.createdAt}}</p>
-        </mat-card-content>
+    <div class="profile-wrapper">
+        <mat-card class="profile-card">
+            <mat-card-header>
+                <mat-card-title>{{user.firstName}} {{ user.middleName }}</mat-card-title>
+                <mat-card-subtitle>@{{ user.username }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Joined at {{user.createdAt}}</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
 
-    </mat-card>
-
-    <div class="return-container">
+    <div class="tab-wrapper">
         <mat-tab-group>
-            <mat-tab label="Questions"> Questions </mat-tab>
+            <mat-tab label="Questions">
+
+                <mat-card class="question-container" *ngFor="let question of questions">
+                    <mat-card-header>
+                        <mat-card-title>{{question.question}}</mat-card-title>
+                        <mat-card-subtitle>{{question.createdAt}}</mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+
+            </mat-tab>
             <mat-tab label="Replies"> Replies </mat-tab>
         </mat-tab-group>
 
     </div>
+
 </div>
