@@ -46,6 +46,28 @@ const getReply = async (req, res) => {
 
 }
 
+const getRepliesByUser = async (req, res) => {
+
+  try {
+
+    const reply = await Reply.findOne({ replier: req.params.id });
+
+    if (!reply) {
+
+      throw new Error();
+
+    }
+
+    res.send({ success: true, message: 'Reply found!', reply });
+
+  } catch (error) {
+
+    res.send({ success: false, message: 'Reply not found!' });
+
+  }
+
+}
+
 const updateReply = async (req, res) => {
 
   try {
@@ -109,6 +131,7 @@ const deleteReply = async (req, res) => {
 module.exports = {
   postReply,
   getReply,
+  getRepliesByUser,
   updateReply,
   deleteReply
 }

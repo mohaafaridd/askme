@@ -10,6 +10,8 @@ router.post('/create', auth, questionsController.postQuestion);
 
 router.get('/:id', questionsController.getQuestion);
 
+router.get('/user/:id', questionsController.getQuestionsByUser);
+
 router.patch('/:id', auth, questionsController.updateQuestion);
 
 router.delete('/:id', auth, questionsController.deleteQuestion);

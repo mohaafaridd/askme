@@ -10,6 +10,8 @@ router.post('/:question/create', auth, repliesController.postReply);
 
 router.get('/:question/:id', repliesController.getReply);
 
+router.get('/user/:id', repliesController.getRepliesByUser);
+
 router.patch('/:question/:id', auth, repliesController.updateReply);
 
 router.patch('/:question/:id', auth, repliesController.updateReply);

@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const Question = require('../models/question');
 const Reply = require('../models/reply');
 
@@ -38,6 +39,28 @@ const getQuestion = async (req, res) => {
   } catch (error) {
 
     res.send({ success: false, message: 'Question not found!' });
+
+  }
+
+}
+
+const getQuestionsByUser = async (req, res) => {
+
+  try {
+
+    const question = await Question.find({ asker: req.params.id });
+
+    if (!question) {
+
+      throw new Error();
+
+    }
+
+    res.send({ success: true, message: `All questions by user ${req.params.id} found`, question });
+
+  } catch (error) {
+
+    res.send({ success: false, message: `No questions for user ${req.params.id} were found!` });
 
   }
 
@@ -100,6 +123,7 @@ const deleteQuestion = async (req, res) => {
 module.exports = {
   postQuestion,
   getQuestion,
+  getQuestionsByUser,
   updateQuestion,
   deleteQuestion
 }
