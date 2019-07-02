@@ -59,7 +59,9 @@ const userSchema = mongoose.Schema({
       required: true,
     },
   }],
-});
+}, {
+    timestamps: true
+  });
 
 userSchema.plugin(AutoIncrement, { id: 'user_counter', inc_field: 'id' });
 

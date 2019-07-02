@@ -19,7 +19,9 @@ const replySchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-});
+}, {
+    timestamps: true
+  });
 
 replySchema.plugin(AutoIncrement, { inc_field: 'id' });
 

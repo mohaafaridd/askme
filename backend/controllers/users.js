@@ -63,7 +63,7 @@ const getUser = async (req, res) => {
 
     const user = await User.findOne({ username: id });
 
-    const picked = _.pick(user, ['id', 'firstName', 'middleName', 'username']);
+    const picked = _.pick(user, ['id', 'firstName', 'middleName', 'username', 'createdAt']);
 
     res.json({ success: true, message: 'user found', user: picked });
 

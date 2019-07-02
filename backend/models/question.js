@@ -14,7 +14,9 @@ const questionSchema = mongoose.Schema({
     type: Number,
     required: true,
   }
-});
+}, {
+    timestamps: true
+  });
 
 questionSchema.plugin(AutoIncrement, { id: 'question_counter', inc_field: 'id' });
 
