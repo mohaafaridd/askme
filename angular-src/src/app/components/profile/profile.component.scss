@@ -8,3 +8,15 @@ mat-card{
   grid-row-start: 1;
   grid-row-end: span 2;
 }
+
+.return-container{
+  grid-column: 2;
+
+  mat-tab-group{
+    grid-row: 1;
+  }
+
+  .return{
+    grid-row: 2;
+  }
+}
