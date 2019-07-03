@@ -37,5 +37,5 @@ export interface CustomResponse {
 export interface CustomError {
   success: boolean;
   message: string;
-  cause: string;
+  cause?: string;
 }

@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   loginUser(input: User) {
-    // return this.http.post<CustomResponse>('http://localhost:3000/users/login', { user: input });
+    return this.http.post('http://localhost:3000/users/login', { user: input });
   }
 
   logoutUser(input: User) {

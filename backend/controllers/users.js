@@ -38,10 +38,11 @@ const postRegister = async (req, res) => {
 }
 
 const postLogin = async (req, res) => {
-
   try {
 
-    const user = await User.findByCredentials(req.body);
+    let passedUser = req.body.user;
+
+    const user = await User.findByCredentials(passedUser);
 
     const token = await user.generateAuthToken();
 
@@ -51,7 +52,7 @@ const postLogin = async (req, res) => {
 
   } catch (error) {
 
-    res.status(400).send({ success: false, message: 'login failed' });
+    res.status(400).send({ success: false, message: 'Login failed' });
 
   }
 
