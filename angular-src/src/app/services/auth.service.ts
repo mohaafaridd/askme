@@ -1,93 +1,129 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { map, retry, catchError } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { CustomResponse, User } from 'src/app/models/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  auth: any;
-  user: any;
+  // auth: string = this.cookieService.get('auth');
+  // user: User = JSON.parse(this.cookieService.get('user'));
 
-  private _isLogged = new Subject<boolean>();
-  isLogged$ = this._isLogged.asObservable();
+  token: string;
+  user: User;
 
   constructor(private http: HttpClient, private cookieService: CookieService) {
-    this.auth = cookieService.get('auth');
     try {
+      const cookies = cookieService.getAll();
+
+      if (!cookies) {
+        throw new Error();
+      }
+
+      this.token = cookieService.get('token');
       this.user = JSON.parse(cookieService.get('user'));
     } catch (error) {
-      this.user = null;
     }
 
   }
 
-  registerUser(user) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    console.log('here');
-
-    return this.http.post('http://localhost:3000/users/register', user, httpOptions)
-      .pipe(map((response: any) => {
-        return response;
-      }));
+  registerUser(input: User) {
+    return this.http.post('http://localhost:3000/users/register', { user: input });
   }
 
-  loginUser(user) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    return this.http.post('http://localhost:3000/users/login', user, httpOptions)
-      .pipe(map((response: any) => {
-        return response;
-      }));
+  loginUser(input: User) {
+    // return this.http.post<CustomResponse>('http://localhost:3000/users/login', { user: input });
   }
 
-  storeData(data) {
-    this.auth = data.token;
-    this.user = data.user;
-    this._isLogged.next(true);
+  logoutUser(input: User) {
+
   }
 
-  logout() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    return this.http.post('http://localhost:3000/users/logout', { user: this.user, token: this.auth }, httpOptions)
-      .pipe(map((response: any) => {
-        this._isLogged.next(false);
-        return response;
-      }));
-  }
-
-  getPersonalProfile() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-    return this.http.get(`http://localhost:3000/users/${this.user.username}`, httpOptions)
-      .pipe(map((response: any) => {
-        return response;
-      }));
-  }
-
-  public handleError(error: HttpErrorResponse | any) {
-    return throwError(error);
-  }
+  /* 
+    auth: string;
+    user: User;
+  
+    // private _isLogged = new Subject<boolean>();
+    // isLogged$ = this._isLogged.asObservable();
+  
+    constructor(private http: HttpClient, private cookieService: CookieService) {
+      this.auth = cookieService.get('auth');
+      try {
+        this.user = JSON.parse(cookieService.get('user'));
+      } catch (error) {
+        this.user = null;
+      }
+  
+    }
+  
+    registerUser(user: User) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      };
+  
+      return this.http.post('http://localhost:3000/users/register', user, httpOptions)
+        .pipe(map((response: any) => {
+          return response;
+        }));
+  
+      // return this.http.post('http://localhost:3000/users/register', user);
+    }
+  
+    loginUser(user) {
+      // const httpOptions = {
+      //   headers: new HttpHeaders({
+      //     'Content-Type': 'application/json'
+      //   })
+      // };
+  
+      // return this.http.post('http://localhost:3000/users/login', user, httpOptions)
+      //   .pipe(map((response: any) => {
+      //     return response;
+      //   }));
+  
+      const x = this.http.post('http://localhost:3000/users/login', user);
+      console.log(x);
+      return x;
+    }
+  
+    storeData(data) {
+      this.auth = data.token;
+      this.user = data.user;
+      this._isLogged.next(true);
+    }
+  
+    logout() {
+      // const httpOptions = {
+      //   headers: new HttpHeaders({
+      //     'Content-Type': 'application/json'
+      //   })
+      // };
+  
+      // return this.http.post('http://localhost:3000/users/logout', { user: this.user, token: this.auth }, httpOptions)
+      //   .pipe(map((response: any) => {
+      //     this._isLogged.next(false);
+      //     return response;
+      //   }));
+  
+      return this.http.post('http://localhost:3000/users/logout', { user: this.user, token: this.auth });
+    }
+  
+    getPersonalProfile() {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      };
+  
+      return this.http.get(`http://localhost:3000/users/${this.user.username}`, httpOptions)
+        .pipe(map((response: any) => {
+          return response;
+        }));
+  
+      // return this.http.get(`http://localhost:3000/users/${this.user.username}`);
+    } */
 }

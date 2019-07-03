@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { CustomResponse } from 'src/app/models/models';
 
 @Component({
   selector: 'app-login',
@@ -39,19 +40,19 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     const user = this.profileForm.value;
 
-    this.authService.loginUser(user).subscribe(data => {
-      if (data) {
-        this.cookieService.set('auth', data.token, 30000);
-        this.cookieService.set('user', JSON.stringify(data.user), 30000);
+    // this.authService.loginUser(user).subscribe(data => {
+    //   if (data) {
+    //     this.cookieService.set('auth', data.token, 30000);
+    //     this.cookieService.set('user', JSON.stringify(data.user), 30000);
 
-        this.authService.storeData(data);
-        this.notificationService.open(`${data['user']['username']} has logged in`, 'x', 2000);
-        this.router.navigate(['/']);
-      }
-    }, (err) => {
-      console.log(err);
-      this.notificationService.open(`Login failed`, 'x', 2000);
-    });
+    //     this.authService.storeData(data);
+    //     this.notificationService.open(`${data['user']['username']} has logged in`, 'x', 2000);
+    //     this.router.navigate(['/']);
+    //   }
+    // }, (err) => {
+    //   console.log(err);
+    //   this.notificationService.open(`Login failed`, 'x', 2000);
+    // });
   }
 
   ngOnInit() {

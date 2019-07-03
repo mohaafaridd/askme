@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
+
+// Services
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
-import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+
+// Interfaces
+import { CustomResponse, CustomError } from 'src/app/models/models';
 
 @Component({
   selector: 'app-register',
@@ -120,17 +125,23 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authServices.registerUser(this.profileForm.value)
-      .subscribe(data => {
-        this.cookieService.set('auth', data.token, 30000);
-        this.cookieService.set('user', JSON.stringify(data.user), 30000);
+    this.authServices.registerUser(this.profileForm.value).subscribe((response: CustomResponse) => {
 
-        this.notificationService.open('User has been registered', 'x', 2000);
-        this.authServices.storeData(data);
-        this.router.navigate(['/']);
-      }, (error) => {
-        this.notificationService.open(`${error.error.message} because of ${error.error.cause}`, 'x', 2000);
-      });
+      this.cookieService.set('token', response.token, 30000);
+
+      this.cookieService.set('user', JSON.stringify(response.user), 30000);
+
+      this.notificationService.open('User has been registered and logged in', 'x', 2000);
+
+      this.router.navigate(['/']);
+
+    }, (error) => {
+
+      const errorObject: CustomError = error.error;
+      console.log(errorObject);
+      this.notificationService.open(`${errorObject.message} because of ${errorObject.cause}`, 'x', 2000);
+
+    });
   }
 
   ngOnInit() {

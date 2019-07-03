@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
-import { User } from 'src/app/models/user';
+import { User, Question, Reply } from 'src/app/models/models';
 import { Observable, interval } from 'rxjs';
 
 @Component({
@@ -11,13 +11,7 @@ import { Observable, interval } from 'rxjs';
 })
 export class ProfileComponent implements OnInit {
 
-  user: User = {
-    id: 0,
-    firstName: '',
-    middleName: '',
-    createdAt: ''
-  };
-
+  user: User;
   questions: any;
   replies: any;
 
@@ -25,7 +19,7 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private profileService: ProfileService) {
 
-    this.authService.getPersonalProfile().subscribe(data => {
+    /* this.authService.getPersonalProfile().subscribe(data => {
       this.user = data.user;
 
       this.profileService.getUserQuestions(this.user).subscribe(questions => {
@@ -37,7 +31,7 @@ export class ProfileComponent implements OnInit {
         console.log(replies);
         this.replies = replies.replies;
       });
-    });
+    }); */
 
   }
 

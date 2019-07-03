@@ -19,9 +19,6 @@ export class NavbarComponent implements OnInit {
     private notificationService: NotificationService,
     private router: Router,
     private cookieService: CookieService) {
-    this.authService.isLogged$.subscribe(data => {
-      this.isLoggedIn = data;
-    });
   }
 
   getProfile() {
@@ -29,14 +26,14 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout().subscribe(data => {
-      this.cookieService.delete('auth');
-      this.cookieService.delete('user');
-      this.notificationService.open(`You've logged out`, 'x', 2000);
-      this.router.navigate(['/']);
-    }, err => {
-      this.notificationService.open(`Error Logging out`, 'x', 2000);
-    });
+    // this.authService.logout().subscribe(data => {
+    //   this.cookieService.delete('auth');
+    //   this.cookieService.delete('user');
+    //   this.notificationService.open(`You've logged out`, 'x', 2000);
+    //   this.router.navigate(['/']);
+    // }, err => {
+    //   this.notificationService.open(`Error Logging out`, 'x', 2000);
+    // });
   }
 
   ngOnInit() {
