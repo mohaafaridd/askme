@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-
 import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { User, Question, Reply, Cookies, CustomResponse } from 'src/app/models/models';
 import { Router } from '@angular/router';
+import * as io from 'socket.io-client';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  socket;
 
   user: User = {
     createdAt: '',
@@ -22,7 +23,7 @@ export class ProfileComponent implements OnInit {
   };
   noUser: boolean;
 
-  questions: Array<Question>;
+  questions;
   noQuestions: boolean;
 
   replies: Array<Reply>;
@@ -32,53 +33,45 @@ export class ProfileComponent implements OnInit {
     private cookieService: CookieService,
     private router: Router,
     private profileService: ProfileService) {
+    this.socket = io('http://localhost:3000');
     // const cookies: Cookies = this.cookieService.getAll();
 
     this.user.username = this.router.url.slice(1);
-
 
     this.profileService.getUserProfile(this.user.username).subscribe((response: CustomResponse) => {
       this.user = response.user;
 
       // Getting Questions
-      this.profileService.getUserQuestions(this.user).subscribe((questionResponse: CustomResponse) => {
-        // Reversed to get latest first
-        let counter = 1;
-
-        this.questions = questionResponse.questions
-          .map(question => {
-            question.id = counter++;
-            return question;
-          })
-          .reverse();
-
-        if (this.questions.length === 0) {
-          this.noQuestions = true;
-        } else {
-          this.noQuestions = false;
-        }
-      });
+      this.getQuestions();
 
     });
-
-    /* this.authService.getPersonalProfile().subscribe(data => {
-      this.user = data.user;
-      
-      this.profileService.getUserQuestions(this.user).subscribe(questions => {
-        console.log(questions);
-        this.questions = questions.questions;
-      });
-      
-      this.profileService.getUserReplies(this.user).subscribe(replies => {
-        console.log(replies);
-        this.replies = replies.replies;
-      });
-  }); */
-
   }
 
 
   ngOnInit() {
+    this.socket.on('newQuestion', () => {
+      this.getQuestions();
+    });
+  }
+
+  getQuestions() {
+    this.profileService.getUserQuestions(this.user).subscribe((questionResponse: CustomResponse) => {
+      // Reversed to get latest first
+      let counter = 1;
+
+      this.questions = questionResponse.questions
+        .map(question => {
+          question.id = counter++;
+          return question;
+        })
+        .reverse();
+
+      if (this.questions.length === 0) {
+        this.noQuestions = true;
+      } else {
+        this.noQuestions = false;
+      }
+    });
   }
 
 }

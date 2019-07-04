@@ -11,6 +11,8 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   getUserProfile(username: string) {
+    console.log('here', username);
+
     return this.http.get(`http://localhost:3000/users/${username}`);
   }
 

@@ -6,9 +6,13 @@ const postQuestion = async (req, res) => {
 
   try {
 
+    const io = req.app.get('io');
+
     const question = new Question({ question: req.body.question, asker: req.user.id });
 
-    await question.save();
+    await question.save().then(() => {
+      io.emit('newQuestion');
+    });
 
     res.send({ success: true, message: 'Question posted!', question });
 
