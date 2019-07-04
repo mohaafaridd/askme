@@ -1,32 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { CustomResponse, User } from 'src/app/models/models';
+import { User } from 'src/app/models/models';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  // auth: string = this.cookieService.get('auth');
-  // user: User = JSON.parse(this.cookieService.get('user'));
+  isLoggedIn = true;
 
-  token: string;
-  user: User;
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private cookies: CookieService) {
+  }
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {
+  public isAuthenticated(): boolean {
     try {
-      const cookies = cookieService.getAll();
-
-      if (!cookies) {
-        throw new Error();
-      }
-
-      this.token = cookieService.get('token');
-      this.user = JSON.parse(cookieService.get('user'));
+      const token = this.cookies.get('token');
+      return !this.jwtHelper.isTokenExpired(token);
     } catch (error) {
+      return false;
     }
-
   }
 
   registerUser(input: User) {
@@ -37,8 +31,8 @@ export class AuthService {
     return this.http.post('http://localhost:3000/users/login', { user: input });
   }
 
-  logoutUser(input: User) {
-
+  logoutUser(input: User, token: string) {
+    return this.http.post('http://localhost:3000/users/logout', { user: input, token });
   }
 
   /* 

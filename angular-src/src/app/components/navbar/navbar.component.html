@@ -1,10 +1,10 @@
 <mat-toolbar color="primary">
 
-    <span>Questionary</span>
+    <a [routerLink]="['/']">Questionary</a>
 
     <span class="spacer"></span>
 
-    <div *ngIf="isLoggedIn; else elseBlock">
+    <div *ngIf="authService.isAuthenticated(); else elseBlock">
         <div>
             <a matBadge="15" matBadgeColor="warn" mat-raised-button color="accent" (click)="getProfile()">
                 <mat-icon>person</mat-icon>

@@ -42,12 +42,13 @@ export class LoginComponent implements OnInit {
 
     this.authService.loginUser(loginData).subscribe((response: CustomResponse) => {
       const user: User = response.user;
+      const stringUser = JSON.stringify(user);
 
       this.cookieService.set('token', response.token, 30000);
 
-      this.cookieService.set('user', JSON.stringify(response.user), 30000);
+      this.cookieService.set('user', stringUser, 30000);
 
-      this.notificationService.open(`${user.firstName} ${user.middleName} has logged in`, 'x', 2000);
+      this.notificationService.open(`${user.firstName} ${user.middleName} has logged in`, 'x', 20000);
 
       this.router.navigate(['/']);
     }, (error) => {

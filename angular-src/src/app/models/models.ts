@@ -39,3 +39,8 @@ export interface CustomError {
   message: string;
   cause?: string;
 }
+
+export interface Cookies {
+  token?: string;
+  user?: string;
+}

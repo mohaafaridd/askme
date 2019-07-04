@@ -80,11 +80,18 @@ const getUser = async (req, res) => {
 const postLogout = async (req, res) => {
 
   try {
+    console.log('trying');
 
-    req.user.tokens = req.user.tokens
-      .filter(token => token.token !== req.token);
+    const { user, token } = req.body;
+    console.log('trying', user, token);
 
-    res.clearCookie('auth');
+
+    user.tokens = user.tokens
+      .filter(i => i.token !== token);
+
+    res.clearCookie('token');
+
+    res.clearCookie('user');
 
     await req.user.save();
 

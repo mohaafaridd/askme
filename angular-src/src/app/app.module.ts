@@ -16,6 +16,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AuthService } from './services/auth.service';
 import { NotificationService } from './services/notification.service';
 import { CookieService } from 'ngx-cookie-service';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { CookieService } from 'ngx-cookie-service';
     Title,
     AuthService,
     NotificationService,
-    CookieService
+    CookieService,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService
   ],
   bootstrap: [AppComponent]
 })
