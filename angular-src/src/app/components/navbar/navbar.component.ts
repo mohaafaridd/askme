@@ -3,7 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { Cookies, CustomResponse, CustomError } from 'src/app/models/models';
+import { Cookies, CustomResponse, CustomError, User } from 'src/app/models/models';
 
 @Component({
   selector: 'app-navbar',
@@ -23,12 +23,13 @@ export class NavbarComponent implements OnInit {
   }
 
   getProfile() {
-    // this.router.navigate([`${this.authService.user.username}`]);
+    const cookies: Cookies = this.cookieService.getAll();
+    const user: User = JSON.parse(cookies.user);
+    this.router.navigate([`${user.username}`]);
   }
 
   logout() {
     const cookies: Cookies = this.cookieService.getAll();
-    console.log('here', cookies);
 
     const user = JSON.parse(cookies.user);
 

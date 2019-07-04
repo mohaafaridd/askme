@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+
+import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
-import { User, Question, Reply } from 'src/app/models/models';
-import { Observable, interval } from 'rxjs';
+import { User, Question, Reply, Cookies } from 'src/app/models/models';
 
 @Component({
   selector: 'app-profile',
@@ -12,12 +13,19 @@ import { Observable, interval } from 'rxjs';
 export class ProfileComponent implements OnInit {
 
   user: User;
-  questions: any;
-  replies: any;
+  questions: Array<Question>;
+  replies: Array<Reply>;
 
   constructor(
     private authService: AuthService,
+    private cookieService: CookieService,
     private profileService: ProfileService) {
+
+    const cookies: Cookies = this.cookieService.getAll();
+
+    this.user = JSON.parse(cookies.user);
+
+
 
     /* this.authService.getPersonalProfile().subscribe(data => {
       this.user = data.user;

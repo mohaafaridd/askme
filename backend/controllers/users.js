@@ -80,14 +80,16 @@ const getUser = async (req, res) => {
 const postLogout = async (req, res) => {
 
   try {
-    console.log('trying');
 
-    const { user, token } = req.body;
-    console.log('trying', user, token);
+    const { user: passedUser, token: passedToken } = req.body;
 
+    const user = await User.findOne({ id: passedUser.id });
 
-    user.tokens = user.tokens
-      .filter(i => i.token !== token);
+    user.tokens = user.tokens.filter(token => token.token !== passedToken);
+
+    await user.save();
+
+    console.log(user);
 
     res.clearCookie('token');
 
