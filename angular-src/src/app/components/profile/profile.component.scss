@@ -5,6 +5,14 @@
 
 mat-card{
   margin: 1%;
+
+  mat-card-footer{
+    padding-left: 1%;
+  }
+}
+
+.no-question .message {
+  text-align: center;
 }
 
 .profile-wrapper{

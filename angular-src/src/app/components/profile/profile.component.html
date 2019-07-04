@@ -16,12 +16,29 @@
         <mat-tab-group>
 
             <mat-tab label="Questions">
-                <mat-card class="question-container" *ngFor="let question of comments | async">
-                    <mat-card-header>
-                        <mat-card-title>{{question.question}}</mat-card-title>
-                        <mat-card-subtitle>{{question.createdAt | date: 'medium'}}</mat-card-subtitle>
-                    </mat-card-header>
-                </mat-card>
+                <div class="questions-wrapper">
+                    <div *ngIf="noQuestions; else questionBlock">
+                        <mat-card class="no-question">
+                            <mat-card-content>
+                                <p class="message">{{user.firstName}} doesn't have any questions!</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <ng-template #questionBlock>
+                        <mat-card class="question-container" *ngFor="let question of questions">
+                            <mat-card-header>
+                                <mat-card-title>#{{question.id}}</mat-card-title>
+                            </mat-card-header>
+
+                            <mat-card-content>
+                                <p>{{question.question}}</p>
+                                <p>{{question.createdAt | date: 'medium'}}</p>
+
+                            </mat-card-content>
+                        </mat-card>
+                    </ng-template>
+                </div>
             </mat-tab>
 
             <mat-tab label="Replies">

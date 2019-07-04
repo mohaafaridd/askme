@@ -89,8 +89,6 @@ const postLogout = async (req, res) => {
 
     await user.save();
 
-    console.log(user);
-
     res.clearCookie('token');
 
     res.clearCookie('user');

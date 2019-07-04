@@ -11,8 +11,6 @@ import { Cookies } from 'src/app/models/models';
 })
 export class HomeComponent implements OnInit {
 
-  isLogged: boolean;
-
   constructor(
     private titleService: Title,
     private cookieService: CookieService,
