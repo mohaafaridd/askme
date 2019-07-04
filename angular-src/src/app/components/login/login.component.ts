@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
 
       this.cookieService.set('user', stringUser, 30000);
 
-      this.notificationService.open(`${user.firstName} ${user.middleName} has logged in`, 'x', 20000);
+      this.notificationService.open(`Welcome Back ${user.firstName} 🙌🙌`, 'x', 3000);
 
       this.router.navigate(['/']);
     }, (error) => {

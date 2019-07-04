@@ -5,6 +5,7 @@ import { ProfileService } from 'src/app/services/profile.service';
 import { User, Question, Reply, Cookies, CustomResponse } from 'src/app/models/models';
 import { Router } from '@angular/router';
 import * as io from 'socket.io-client';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +33,7 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private cookieService: CookieService,
     private router: Router,
+    private notificationService: NotificationService,
     private profileService: ProfileService) {
     this.socket = io('http://localhost:3000');
     // const cookies: Cookies = this.cookieService.getAll();
@@ -51,6 +53,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.socket.on('newQuestion', () => {
       this.getQuestions();
+      this.notificationService.open(`${this.user.firstName} added a new question 🎉🎉`, 'x', 3000);
     });
   }
 
