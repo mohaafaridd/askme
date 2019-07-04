@@ -21,14 +21,6 @@ export class ProfileService {
   }
 
   getUserReplies(user) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.get(`http://localhost:3000/replies/user/${user.id}`, httpOptions)
-      .pipe(map((response: any) => {
-        return response;
-      }));
+    return this.http.get(`http://localhost:3000/replies/user/${user.id}`);
   }
 }

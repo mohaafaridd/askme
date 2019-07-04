@@ -24,10 +24,11 @@ export class ProfileComponent implements OnInit {
   };
   noUser: boolean;
 
-  questions;
+  questions: Array<Question>;
   noQuestions: boolean;
 
   replies: Array<Reply>;
+  noReplies: boolean;
 
   constructor(
     private authService: AuthService,
@@ -36,7 +37,6 @@ export class ProfileComponent implements OnInit {
     private notificationService: NotificationService,
     private profileService: ProfileService) {
     this.socket = io('http://localhost:3000');
-    // const cookies: Cookies = this.cookieService.getAll();
 
     this.user.username = this.router.url.slice(1);
 
@@ -45,6 +45,9 @@ export class ProfileComponent implements OnInit {
 
       // Getting Questions
       this.getQuestions();
+
+      // Getting Replies
+      this.getReplies();
 
     });
   }
@@ -58,11 +61,11 @@ export class ProfileComponent implements OnInit {
   }
 
   getQuestions() {
-    this.profileService.getUserQuestions(this.user).subscribe((questionResponse: CustomResponse) => {
+    this.profileService.getUserQuestions(this.user).subscribe((response: CustomResponse) => {
       // Reversed to get latest first
       let counter = 1;
 
-      this.questions = questionResponse.questions
+      this.questions = response.questions
         .map(question => {
           question.id = counter++;
           return question;
@@ -73,6 +76,25 @@ export class ProfileComponent implements OnInit {
         this.noQuestions = true;
       } else {
         this.noQuestions = false;
+      }
+    });
+  }
+
+  getReplies() {
+    this.profileService.getUserReplies(this.user).subscribe((response: CustomResponse) => {
+      let counter = 1;
+
+      this.replies = response.replies
+        .map(reply => {
+          reply.id = counter++;
+          return reply;
+        })
+        .reverse();
+
+      if (this.replies.length === 0) {
+        this.noReplies = true;
+      } else {
+        this.noReplies = false;
       }
     });
   }

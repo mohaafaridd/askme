@@ -42,12 +42,24 @@
             </mat-tab>
 
             <mat-tab label="Replies">
-                <mat-card class="question-container" *ngFor="let reply of replies">
-                    <mat-card-header>
-                        <mat-card-title>{{reply.reply}}</mat-card-title>
-                        <mat-card-subtitle>{{reply.createdAt | date: 'medium'}}</mat-card-subtitle>
-                    </mat-card-header>
-                </mat-card>
+                <div class="replies-wrapper">
+                    <div *ngIf="noReplies; else repliesBlock">
+                        <mat-card class="no-question">
+                            <mat-card-content>
+                                <p class="message">{{user.firstName}} didn't reply on any question!</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <ng-template #repliesBlock>
+                        <mat-card class="question-container" *ngFor="let reply of replies">
+                            <mat-card-header>
+                                <mat-card-title>{{reply.reply}}</mat-card-title>
+                                <mat-card-subtitle>{{reply.createdAt | date: 'medium'}}</mat-card-subtitle>
+                            </mat-card-header>
+                        </mat-card>
+                    </ng-template>
+                </div>
             </mat-tab>
         </mat-tab-group>
 
