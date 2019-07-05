@@ -3,7 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { User, Question, Reply, Cookies, CustomResponse } from 'src/app/models/models';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as io from 'socket.io-client';
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -14,6 +14,8 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class ProfileComponent implements OnInit {
   socket;
+
+  isMyProfile;
 
   user: User = {
     createdAt: '',
@@ -35,33 +37,61 @@ export class ProfileComponent implements OnInit {
     private cookieService: CookieService,
     private router: Router,
     private notificationService: NotificationService,
+    private activeRoute: ActivatedRoute,
     private profileService: ProfileService) {
     this.socket = io('http://localhost:3000');
-
-    this.user.username = this.router.url.slice(1);
-
-    this.profileService.getUserProfile(this.user.username).subscribe((response: CustomResponse) => {
-      this.user = response.user;
-
-      // Getting Questions
-      this.getQuestions();
-
-      // Getting Replies
-      this.getReplies();
-
-    });
   }
 
-
   ngOnInit() {
+    // Watch from route changes to reload component
+    this.activeRoute.params.subscribe(routeParams => {
+
+      console.log('url slice', this.router.url.slice(1));
+
+      // console.log('routeParams', params);
+
+      // Set Profile Information
+      this.setProfile();
+
+      // Getting Questions
+      this.setQuestions(routeParams['username']);
+
+      // Getting Replies
+      this.setReplies(routeParams['username']);
+    });
+
+    this.asyncQuestionsSocket();
+
+  }
+
+  asyncQuestionsSocket() {
     this.socket.on('newQuestion', () => {
-      this.getQuestions();
+      const { params } = this.activeRoute.snapshot;
+      this.setQuestions(params['username']);
       this.notificationService.open(`${this.user.firstName} added a new question 🎉🎉`, 'x', 3000);
     });
   }
 
-  getQuestions() {
-    this.profileService.getUserQuestions(this.user).subscribe((response: CustomResponse) => {
+  setProfile() {
+    const cookies: Cookies = this.cookieService.getAll();
+    const routeParams = this.activeRoute.snapshot.params;
+
+    this.user.username = routeParams['username'];
+
+    if (cookies.user) {
+      const currentUser: User = JSON.parse(cookies.user);
+      this.isMyProfile = this.user.username === currentUser.username ? true : false;
+    } else {
+      this.isMyProfile = false;
+    }
+
+    this.profileService.getUserProfile(this.user.username).subscribe((response: CustomResponse) => {
+      this.user = response.user;
+    });
+  }
+
+  setQuestions(username: string) {
+    this.profileService.getUserQuestions(username).subscribe((response: CustomResponse) => {
       // Reversed to get latest first
       let counter = 1;
 
@@ -80,8 +110,8 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  getReplies() {
-    this.profileService.getUserReplies(this.user).subscribe((response: CustomResponse) => {
+  setReplies(username: string) {
+    this.profileService.getUserReplies(username).subscribe((response: CustomResponse) => {
       let counter = 1;
 
       this.replies = response.replies

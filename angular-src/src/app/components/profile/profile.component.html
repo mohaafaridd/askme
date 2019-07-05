@@ -34,8 +34,12 @@
                             <mat-card-content>
                                 <p>{{question.question}}</p>
                                 <p>{{question.createdAt | date: 'medium'}}</p>
-
                             </mat-card-content>
+
+                            <mat-card-actions *ngIf="isMyProfile">
+                                <a mat-button>Edit</a>
+                                <a mat-raised-button color="warn">Delete</a>
+                            </mat-card-actions>
                         </mat-card>
                     </ng-template>
                 </div>

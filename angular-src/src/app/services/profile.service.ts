@@ -11,16 +11,14 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   getUserProfile(username: string) {
-    console.log('here', username);
-
     return this.http.get(`http://localhost:3000/users/${username}`);
   }
 
-  getUserQuestions(user) {
-    return this.http.get(`http://localhost:3000/questions/user/${user.id}`);
+  getUserQuestions(username: string) {
+    return this.http.get(`http://localhost:3000/questions/user/${username}`);
   }
 
-  getUserReplies(user) {
-    return this.http.get(`http://localhost:3000/replies/user/${user.id}`);
+  getUserReplies(username: string) {
+    return this.http.get(`http://localhost:3000/replies/user/${username}`);
   }
 }

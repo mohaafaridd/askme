@@ -16,7 +16,7 @@ const replySchema = mongoose.Schema({
   },
 
   replier: {
-    type: Number,
+    type: String,
     required: true,
   },
 }, {

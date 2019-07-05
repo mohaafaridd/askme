@@ -11,7 +11,8 @@ import {
   MatBadgeModule,
   MatGridListModule,
   MatCardModule,
-  MatTabsModule
+  MatTabsModule,
+  MatPaginatorModule
 } from '@angular/material';
 
 @NgModule({
@@ -26,7 +27,8 @@ import {
     MatBadgeModule,
     MatGridListModule,
     MatCardModule,
-    MatTabsModule
+    MatTabsModule,
+    MatPaginatorModule
   ],
   exports: [
     MatButtonModule,
@@ -39,7 +41,8 @@ import {
     MatBadgeModule,
     MatGridListModule,
     MatCardModule,
-    MatTabsModule
+    MatTabsModule,
+    MatPaginatorModule
   ],
 })
 export class CustomMaterialModule { }

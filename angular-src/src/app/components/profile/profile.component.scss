@@ -1,6 +1,6 @@
 .profile-grid{
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 20% auto;
 }
 
 mat-card{
@@ -21,4 +21,23 @@ mat-card{
 
 .tab-wrapper{
   grid-column: 2;
+}
+
+@media only screen and (max-width: 600px) {
+  .profile-grid{
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: none;
+  }
+
+  .profile-wrapper{
+    grid-row: 1;
+    grid-column: 1;
+  }
+  
+  .tab-wrapper{
+    grid-row: 2;
+    grid-column: 1;
+  }
+  
 }

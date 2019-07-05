@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/:question/create', auth, repliesController.postReply);
 
-router.get('/user/:id', repliesController.getRepliesByUser);
+router.get('/user/:username', repliesController.getRepliesByUser);
 
 router.get('/:question/:id', repliesController.getReply);
 

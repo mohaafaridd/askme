@@ -8,7 +8,7 @@ const postQuestion = async (req, res) => {
 
     const io = req.app.get('io');
 
-    const question = new Question({ question: req.body.question, asker: req.user.id });
+    const question = new Question({ question: req.body.question, asker: req.user.username });
 
     await question.save();
 
@@ -52,7 +52,7 @@ const getQuestionsByUser = async (req, res) => {
 
   try {
 
-    const questions = await Question.find({ asker: req.params.id });
+    const questions = await Question.find({ asker: req.params.username });
 
     if (!questions) {
 
@@ -60,11 +60,11 @@ const getQuestionsByUser = async (req, res) => {
 
     }
 
-    res.send({ success: true, message: `All questions by user ${req.params.id} found`, questions });
+    res.send({ success: true, message: `All questions by user ${req.params.username} found`, questions });
 
   } catch (error) {
 
-    res.send({ success: false, message: `No questions for user ${req.params.id} were found!` });
+    res.send({ success: false, message: `No questions for user ${req.params.username} were found!` });
 
   }
 

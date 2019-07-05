@@ -11,7 +11,7 @@ const questionSchema = mongoose.Schema({
   },
 
   asker: {
-    type: Number,
+    type: String,
     required: true,
   }
 }, {
