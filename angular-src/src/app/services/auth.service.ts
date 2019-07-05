@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { User } from 'src/app/models/models';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +25,14 @@ export class AuthService {
   }
 
   registerUser(input: User) {
-    return this.http.post('http://localhost:3000/users/register', { user: input });
+    return this.http.post(`${environment.LINK}/users/register`, { user: input });
   }
 
   loginUser(input: User) {
-    return this.http.post('http://localhost:3000/users/login', { user: input });
+    return this.http.post(`${environment.LINK}/users/login`, { user: input });
   }
 
   logoutUser(input: User, token: string) {
-    return this.http.post('http://localhost:3000/users/logout', { user: input, token });
+    return this.http.post(`${environment.LINK}/users/logout`, { user: input, token });
   }
 }

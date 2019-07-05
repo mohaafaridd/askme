@@ -6,7 +6,7 @@ import { User, Question, Reply, Cookies, CustomResponse } from 'src/app/models/m
 import { Router, ActivatedRoute } from '@angular/router';
 import * as io from 'socket.io-client';
 import { NotificationService } from 'src/app/services/notification.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -39,16 +39,12 @@ export class ProfileComponent implements OnInit {
     private notificationService: NotificationService,
     private activeRoute: ActivatedRoute,
     private profileService: ProfileService) {
-    this.socket = io('http://localhost:3000');
+    this.socket = io(`${environment.LINK}`);
   }
 
   ngOnInit() {
     // Watch from route changes to reload component
     this.activeRoute.params.subscribe(routeParams => {
-
-      console.log('url slice', this.router.url.slice(1));
-
-      // console.log('routeParams', params);
 
       // Set Profile Information
       this.setProfile();
@@ -70,7 +66,7 @@ export class ProfileComponent implements OnInit {
     this.socket.on('newQuestion', () => {
       const { params } = this.activeRoute.snapshot;
       this.setQuestions(params['username']);
-      this.notificationService.open(`${this.user.firstName} added a new question 🎉🎉`, 'x', 3000);
+      this.notificationService.open(`${this.user.firstName} added a new question 🎉🎉`, 'x', environment.NOTIFICATION_TIME);
     });
   }
 
@@ -78,7 +74,7 @@ export class ProfileComponent implements OnInit {
     this.socket.on('newReply', () => {
       const { params } = this.activeRoute.snapshot;
       this.setReplies(params['username']);
-      this.notificationService.open(`${this.user.firstName} replied to a question 🎉🎉`, 'x', 3000);
+      this.notificationService.open(`${this.user.firstName} replied to a question 🎉🎉`, 'x', environment.NOTIFICATION_TIME);
     });
   }
 

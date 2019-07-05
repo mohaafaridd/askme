@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { User } from '../models/models';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +10,14 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   getUserProfile(username: string) {
-    return this.http.get(`http://localhost:3000/users/${username}`);
+    return this.http.get(`${environment.LINK}/users/${username}`);
   }
 
   getUserQuestions(username: string) {
-    return this.http.get(`http://localhost:3000/questions/user/${username}`);
+    return this.http.get(`${environment.LINK}/questions/user/${username}`);
   }
 
   getUserReplies(username: string) {
-    return this.http.get(`http://localhost:3000/replies/user/${username}`);
+    return this.http.get(`${environment.LINK}/replies/user/${username}`);
   }
 }

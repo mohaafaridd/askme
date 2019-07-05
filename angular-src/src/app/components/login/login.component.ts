@@ -6,6 +6,7 @@ import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { CustomResponse, User, CustomError } from 'src/app/models/models';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -44,17 +45,19 @@ export class LoginComponent implements OnInit {
       const user: User = response.user;
       const stringUser = JSON.stringify(user);
 
-      this.cookieService.set('token', response.token, 30000);
+      console.log(environment.EXP_DATE);
 
-      this.cookieService.set('user', stringUser, 30000);
+      this.cookieService.set('token', response.token, environment.EXP_DATE);
 
-      this.notificationService.open(`Welcome Back ${user.firstName} 🙌🙌`, 'x', 3000);
+      this.cookieService.set('user', stringUser, environment.EXP_DATE);
+
+      this.notificationService.open(`Welcome Back ${user.firstName} 🙌🙌`, 'x', environment.NOTIFICATION_TIME);
 
       this.router.navigate(['/']);
     }, (error) => {
 
       const errorObject: CustomError = error.error;
-      this.notificationService.open(`${errorObject.message}`, 'x', 2000);
+      this.notificationService.open(`${errorObject.message}`, 'x', environment.NOTIFICATION_TIME);
 
     });
   }

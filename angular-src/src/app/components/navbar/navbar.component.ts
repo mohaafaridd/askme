@@ -4,6 +4,7 @@ import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Cookies, CustomResponse, CustomError, User } from 'src/app/models/models';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -20,6 +21,10 @@ export class NavbarComponent implements OnInit {
     private notificationService: NotificationService,
     private router: Router,
     private cookieService: CookieService) {
+  }
+
+  getLoginStatus() {
+    return this.authService.isAuthenticated();
   }
 
   getProfile() {
@@ -40,13 +45,13 @@ export class NavbarComponent implements OnInit {
 
       this.cookieService.delete('user');
 
-      this.notificationService.open(`You've logged out`, 'x', 2000);
+      this.notificationService.open(`You've logged out 😥`, 'x', environment.NOTIFICATION_TIME);
 
       this.router.navigate(['/']);
     }, (error) => {
 
       const errorObject: CustomError = error.error;
-      this.notificationService.open('Error Logging out', 'x', 2000);
+      this.notificationService.open('Error Logging out', 'x', environment.NOTIFICATION_TIME);
 
     });
   }

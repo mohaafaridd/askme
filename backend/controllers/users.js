@@ -25,7 +25,7 @@ const postRegister = async (req, res) => {
 
     const token = await user.generateAuthToken();
 
-    res.cookie('auth', token, { maxAge: process.env.EXP_DATE });
+    res.cookie('token', token, { maxAge: process.env.EXP_DATE });
 
     res.status(201).send({ success: true, message: 'user is created', user, token });
 
@@ -46,7 +46,7 @@ const postLogin = async (req, res) => {
 
     const token = await user.generateAuthToken();
 
-    res.cookie('auth', token, { maxAge: process.env.EXP_DATE });
+    res.cookie('token', token, { maxAge: process.env.EXP_DATE });
 
     res.status(200).send({ success: true, message: 'user has logged in', user, token });
 

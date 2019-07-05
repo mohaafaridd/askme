@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-
+import { environment } from 'src/environments/environment';
 // Services
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
@@ -127,19 +127,18 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.authServices.registerUser(this.profileForm.value).subscribe((response: CustomResponse) => {
 
-      this.cookieService.set('token', response.token, 30000);
+      this.cookieService.set('token', response.token, environment.EXP_DATE);
 
-      this.cookieService.set('user', JSON.stringify(response.user), 30000);
+      this.cookieService.set('user', JSON.stringify(response.user), environment.EXP_DATE);
 
-      this.notificationService.open('User has been registered and logged in', 'x', 2000);
+      this.notificationService.open('User has been registered and logged in', 'x', environment.NOTIFICATION_TIME);
 
       this.router.navigate(['/']);
 
     }, (error) => {
 
       const errorObject: CustomError = error.error;
-      console.log(errorObject);
-      this.notificationService.open(`${errorObject.message} because of ${errorObject.cause}`, 'x', 2000);
+      this.notificationService.open(`${errorObject.message} because of ${errorObject.cause}`, 'x', environment.NOTIFICATION_TIME);
 
     });
   }

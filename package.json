@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
+    "build": "cd angular-src && ng build --prod && cd ..",
     "dev": "env-cmd -f ./config/dev.env nodemon app.js"
   },
   "author": "Mohammed Farid",

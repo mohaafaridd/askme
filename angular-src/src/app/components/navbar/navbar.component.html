@@ -4,7 +4,7 @@
 
     <span class="spacer"></span>
 
-    <div *ngIf="authService.isAuthenticated(); else elseBlock">
+    <div *ngIf="getLoginStatus(); else elseBlock">
         <div>
             <a matBadge="15" matBadgeColor="warn" mat-raised-button color="accent" (click)="getProfile()">
                 <mat-icon>person</mat-icon>
