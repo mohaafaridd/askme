@@ -62,6 +62,8 @@ export class ProfileComponent implements OnInit {
 
     this.asyncQuestionsSocket();
 
+    this.asyncRepliesSocket();
+
   }
 
   asyncQuestionsSocket() {
@@ -69,6 +71,14 @@ export class ProfileComponent implements OnInit {
       const { params } = this.activeRoute.snapshot;
       this.setQuestions(params['username']);
       this.notificationService.open(`${this.user.firstName} added a new question 🎉🎉`, 'x', 3000);
+    });
+  }
+
+  asyncRepliesSocket() {
+    this.socket.on('newReply', () => {
+      const { params } = this.activeRoute.snapshot;
+      this.setReplies(params['username']);
+      this.notificationService.open(`${this.user.firstName} replied to a question 🎉🎉`, 'x', 3000);
     });
   }
 

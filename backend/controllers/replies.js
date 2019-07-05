@@ -3,16 +3,19 @@ const Reply = require('../models/reply');
 const postReply = async (req, res) => {
 
   try {
+    const io = req.app.get('io');
 
     const reply = new Reply(
       {
         reply: req.body.reply,
         question: req.params.question,
-        replier: req.user.id
+        replier: req.user.username
       }
     );
 
     await reply.save();
+
+    io.emit('newReply');
 
     res.send({ success: true, message: 'Reply posted!', reply });
 
@@ -50,7 +53,7 @@ const getRepliesByUser = async (req, res) => {
 
   try {
 
-    const replies = await Reply.find({ replier: req.params.id });
+    const replies = await Reply.find({ replier: req.params.username });
 
     if (!replies) {
 
