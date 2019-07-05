@@ -5,12 +5,14 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "build": "cd angular-src && ng build --prod && cd ..",
+    "postinstall": "cd angular-src && ng build --aot -prod && cd ..",
     "dev": "env-cmd -f ./config/dev.env nodemon app.js"
   },
   "author": "Mohammed Farid",
   "license": "ISC",
   "dependencies": {
+    "@angular/cli": "~8.0.1",
+    "@angular/compiler-cli": "~8.0.0",
     "@types/socket.io": "^2.1.2",
     "axios": "^0.19.0",
     "bcryptjs": "^2.4.3",
