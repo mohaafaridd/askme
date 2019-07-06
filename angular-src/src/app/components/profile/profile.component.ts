@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as io from 'socket.io-client';
 import { NotificationService } from 'src/app/services/notification.service';
 import { environment } from 'src/environments/environment';
+import { QuestionsService } from 'src/app/services/questions.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -16,6 +17,8 @@ export class ProfileComponent implements OnInit {
   socket;
 
   counter = 200;
+
+  question;
 
   isMyProfile;
 
@@ -39,6 +42,7 @@ export class ProfileComponent implements OnInit {
     private cookieService: CookieService,
     private router: Router,
     private notificationService: NotificationService,
+    private questionService: QuestionsService,
     private activeRoute: ActivatedRoute,
     private profileService: ProfileService) {
     this.socket = io(`${environment.LINK}`);
@@ -135,5 +139,20 @@ export class ProfileComponent implements OnInit {
         this.noReplies = false;
       }
     });
+  }
+
+  submitQuestion() {
+    const cookies: Cookies = this.cookieService.getAll();
+
+    const token = cookies.token;
+
+    const asker: User = JSON.parse(cookies.user);
+
+    const asked: User = this.user;
+
+    this.questionService.postQuestion(asker, asked, this.question, token).subscribe((response: CustomResponse) => {
+      console.log(response);
+    });
+
   }
 }

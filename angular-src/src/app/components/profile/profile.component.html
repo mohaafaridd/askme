@@ -14,18 +14,18 @@
 
     <div class="question-wrapper">
         <div *ngIf="!isMyProfile">
-            <form action="">
+            <form (ngSubmit)="submitQuestion()">
                 <mat-card class="user-question">
                     <mat-card-title>Ask {{user.firstName}} a question !</mat-card-title>
 
                     <mat-card-content>
                         <div class="question-poster-container">
                             <mat-form-field class="field" appearance="outline">
-                                <textarea (keyup)="outOfLimit()" rows="5" matInput
+                                <textarea [(ngModel)]="question" name="question" rows="5" matInput
                                     placeholder="Your Question"></textarea>
                             </mat-form-field>
                         </div>
-                        <button mat-icon-button class="sending-btn">
+                        <button mat-icon-button class="sending-btn" type="submit">
                             <mat-icon>send</mat-icon>
                         </button>
                     </mat-card-content>

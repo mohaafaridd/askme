@@ -8,7 +8,9 @@ const postQuestion = async (req, res) => {
 
     const io = req.app.get('io');
 
-    const question = new Question({ question: req.body.question, asker: req.user.username, asked: req.body.asked });
+    console.log(`question: ${req.body.question}, asker: ${req.body.asker}, asked: ${req.body.asked}`);
+
+    const question = new Question({ question: req.body.question, asker: req.body.asker, asked: req.body.asked });
 
     await question.save();
 
