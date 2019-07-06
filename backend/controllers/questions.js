@@ -8,7 +8,7 @@ const postQuestion = async (req, res) => {
 
     const io = req.app.get('io');
 
-    const question = new Question({ question: req.body.question, asker: req.user.username });
+    const question = new Question({ question: req.body.question, asker: req.user.username, asked: req.body.asked });
 
     await question.save();
 
@@ -18,7 +18,7 @@ const postQuestion = async (req, res) => {
 
   } catch (error) {
 
-    res.send({ success: false, message: 'Question not posted!' });
+    res.send({ success: false, message: 'Question not posted!', error });
 
   }
 

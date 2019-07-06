@@ -12,7 +12,8 @@ import {
   MatGridListModule,
   MatCardModule,
   MatTabsModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatDividerModule
 } from '@angular/material';
 
 @NgModule({
@@ -28,7 +29,8 @@ import {
     MatGridListModule,
     MatCardModule,
     MatTabsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDividerModule
   ],
   exports: [
     MatButtonModule,
@@ -42,7 +44,8 @@ import {
     MatGridListModule,
     MatCardModule,
     MatTabsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDividerModule
   ],
 })
 export class CustomMaterialModule { }

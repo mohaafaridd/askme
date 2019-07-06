@@ -15,6 +15,8 @@ import { environment } from 'src/environments/environment';
 export class ProfileComponent implements OnInit {
   socket;
 
+  counter = 200;
+
   isMyProfile;
 
   user: User = {
@@ -134,5 +136,4 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-
 }

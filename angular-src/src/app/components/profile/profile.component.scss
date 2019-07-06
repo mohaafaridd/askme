@@ -3,11 +3,43 @@
   grid-template-columns: 20% auto;
 }
 
-mat-card{
-  margin: 1%;
+.question-poster-container {
+  display: flex;
+  flex-direction: column;
+}
 
-  mat-card-footer{
-    padding-left: 1%;
+.question-poster-container > * {
+  width: 100%;
+}
+
+
+.question-poster-container .field{
+  flex-grow: 100;
+}
+
+.question-wrapper{
+  margin: 0 1%;
+
+  textarea{
+    resize: none;
+  }
+  mat-card-content{
+    display: flex;
+    flex-direction: column;
+  }
+  .sending-btn{
+    align-self: flex-end;
+  }
+}
+.text-danger{
+  color: red;
+}
+
+.tab-wrapper{
+  margin: 1% 0;
+  
+  mat-card{
+    margin: 1% 0;    
   }
 }
 

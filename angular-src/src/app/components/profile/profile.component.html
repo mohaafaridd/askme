@@ -12,61 +12,86 @@
         </mat-card>
     </div>
 
-    <div class="tab-wrapper">
-        <mat-tab-group>
+    <div class="question-wrapper">
+        <div *ngIf="!isMyProfile">
+            <form action="">
+                <mat-card class="user-question">
+                    <mat-card-title>Ask {{user.firstName}} a question !</mat-card-title>
 
-            <mat-tab label="Questions">
-                <div class="questions-wrapper">
-                    <div *ngIf="noQuestions; else questionBlock">
-                        <mat-card class="no-question">
-                            <mat-card-content>
-                                <p class="message">{{user.firstName}} doesn't have any questions!</p>
-                            </mat-card-content>
-                        </mat-card>
+                    <mat-card-content>
+                        <div class="question-poster-container">
+                            <mat-form-field class="field" appearance="outline">
+                                <textarea (keyup)="outOfLimit()" rows="5" matInput
+                                    placeholder="Your Question"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <button mat-icon-button class="sending-btn">
+                            <mat-icon>send</mat-icon>
+                        </button>
+                    </mat-card-content>
+                </mat-card>
+            </form>
+        </div>
+
+        <!-- <mat-divider *ngIf="!isMyProfile"></mat-divider> -->
+
+        <div class="tab-wrapper">
+            <mat-tab-group>
+
+                <mat-tab label="Replies">
+                    <div class="replies-wrapper">
+                        <div *ngIf="noReplies; else repliesBlock">
+                            <mat-card class="no-question">
+                                <mat-card-content>
+                                    <p class="message">{{user.firstName}} didn't reply on any question!</p>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+
+                        <ng-template #repliesBlock>
+                            <mat-card class="question-container" *ngFor="let reply of replies">
+                                <mat-card-header>
+                                    <mat-card-title>{{reply.reply}}</mat-card-title>
+                                    <mat-card-subtitle>{{reply.createdAt | date: 'medium'}}</mat-card-subtitle>
+                                </mat-card-header>
+                            </mat-card>
+                        </ng-template>
                     </div>
+                </mat-tab>
 
-                    <ng-template #questionBlock>
-                        <mat-card class="question-container" *ngFor="let question of questions">
-                            <mat-card-header>
-                                <mat-card-title>#{{question.id}}</mat-card-title>
-                            </mat-card-header>
+                <mat-tab label="Questions">
+                    <div class="questions-wrapper">
+                        <div *ngIf="noQuestions; else questionBlock">
+                            <mat-card class="no-question">
+                                <mat-card-content>
+                                    <p class="message">{{user.firstName}} doesn't have any questions!</p>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
 
-                            <mat-card-content>
-                                <p>{{question.question}}</p>
-                                <p>{{question.createdAt | date: 'medium'}}</p>
-                            </mat-card-content>
+                        <ng-template #questionBlock>
+                            <mat-card class="question-container" *ngFor="let question of questions">
+                                <mat-card-header>
+                                    <mat-card-title>#{{question.id}}</mat-card-title>
+                                </mat-card-header>
 
-                            <mat-card-actions *ngIf="isMyProfile">
-                                <a mat-button>Edit</a>
-                                <a mat-raised-button color="warn">Delete</a>
-                            </mat-card-actions>
-                        </mat-card>
-                    </ng-template>
-                </div>
-            </mat-tab>
+                                <mat-card-content>
+                                    <p>{{question.question}}</p>
+                                    <p>{{question.createdAt | date: 'medium'}}</p>
+                                </mat-card-content>
 
-            <mat-tab label="Replies">
-                <div class="replies-wrapper">
-                    <div *ngIf="noReplies; else repliesBlock">
-                        <mat-card class="no-question">
-                            <mat-card-content>
-                                <p class="message">{{user.firstName}} didn't reply on any question!</p>
-                            </mat-card-content>
-                        </mat-card>
+                                <mat-card-actions *ngIf="isMyProfile">
+                                    <a mat-button>Edit</a>
+                                    <a mat-raised-button color="warn">Delete</a>
+                                </mat-card-actions>
+                            </mat-card>
+                        </ng-template>
                     </div>
+                </mat-tab>
 
-                    <ng-template #repliesBlock>
-                        <mat-card class="question-container" *ngFor="let reply of replies">
-                            <mat-card-header>
-                                <mat-card-title>{{reply.reply}}</mat-card-title>
-                                <mat-card-subtitle>{{reply.createdAt | date: 'medium'}}</mat-card-subtitle>
-                            </mat-card-header>
-                        </mat-card>
-                    </ng-template>
-                </div>
-            </mat-tab>
-        </mat-tab-group>
+            </mat-tab-group>
 
+        </div>
     </div>
 
 </div>

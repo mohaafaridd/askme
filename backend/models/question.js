@@ -13,7 +13,13 @@ const questionSchema = mongoose.Schema({
   asker: {
     type: String,
     required: true,
-  }
+  },
+
+  asked: {
+    type: String,
+    required: true,
+  },
+
 }, {
     timestamps: true
   });
