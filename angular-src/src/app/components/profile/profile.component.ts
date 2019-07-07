@@ -37,6 +37,9 @@ export class ProfileComponent implements OnInit {
   replies: Array<Reply>;
   noReplies: boolean;
 
+  unansweredQuestions: Array<Question>;
+  noUnansweredQuestions: boolean;
+
   constructor(
     private authService: AuthService,
     private cookieService: CookieService,
@@ -60,6 +63,10 @@ export class ProfileComponent implements OnInit {
 
       // Getting Replies
       this.setReplies(routeParams['username']);
+
+      // Getting Unanswered questions
+      this.setUnanswered(routeParams['username']);
+
     });
 
     this.asyncQuestionsSocket();
@@ -72,7 +79,7 @@ export class ProfileComponent implements OnInit {
     this.socket.on('newQuestion', () => {
       const { params } = this.activeRoute.snapshot;
       this.setQuestions(params['username']);
-      this.notificationService.open(`${this.user.firstName} added a new question 🎉🎉`, 'x', environment.NOTIFICATION_TIME);
+      this.setUnanswered(params['username']);
     });
   }
 
@@ -80,7 +87,7 @@ export class ProfileComponent implements OnInit {
     this.socket.on('newReply', () => {
       const { params } = this.activeRoute.snapshot;
       this.setReplies(params['username']);
-      this.notificationService.open(`${this.user.firstName} replied to a question 🎉🎉`, 'x', environment.NOTIFICATION_TIME);
+      this.setUnanswered(params['username']);
     });
   }
 
@@ -141,6 +148,25 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  setUnanswered(username: string) {
+    this.profileService.getUserUnansweredQuestions(username).subscribe((response: CustomResponse) => {
+      let counter = 1;
+
+      this.unansweredQuestions = response.questions.map(question => {
+        question.id = counter++;
+        return question;
+      })
+        .reverse();
+
+      if (this.unansweredQuestions.length === 0) {
+        this.noUnansweredQuestions = true;
+      } else {
+        this.noUnansweredQuestions = false;
+      }
+      console.log('here', this.unansweredQuestions, this.noUnansweredQuestions);
+    });
+  }
+
   submitQuestion() {
     const cookies: Cookies = this.cookieService.getAll();
 
@@ -152,6 +178,8 @@ export class ProfileComponent implements OnInit {
 
     this.questionService.postQuestion(asker, asked, this.question, token).subscribe((response: CustomResponse) => {
       console.log(response);
+      this.notificationService.open(`@${asker.username} asked @${asked.username} a question 🎉🎉`, 'x', environment.NOTIFICATION_TIME);
+
     });
 
   }

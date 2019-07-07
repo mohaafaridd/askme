@@ -72,6 +72,21 @@ const getQuestionsByUser = async (req, res) => {
 
 }
 
+const getUnansweredQuestions = async (req, res) => {
+
+  try {
+    const questions = await Question.find({ asked: req.params.username, replies: [] });
+
+    res.send({ success: true, message: `All unanswered questions to user ${req.params.username} found`, questions });
+
+  } catch (error) {
+
+    res.send({ success: false, message: `Error finding questions`, error });
+    
+  }
+
+}
+
 const updateQuestion = async (req, res) => {
 
   try {
@@ -130,6 +145,7 @@ module.exports = {
   postQuestion,
   getQuestion,
   getQuestionsByUser,
+  getUnansweredQuestions,
   updateQuestion,
   deleteQuestion
 }

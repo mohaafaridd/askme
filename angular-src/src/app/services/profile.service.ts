@@ -17,6 +17,10 @@ export class ProfileService {
     return this.http.get(`${environment.LINK}/questions/user/${username}`);
   }
 
+  getUserUnansweredQuestions(username: string) {
+    return this.http.get(`${environment.LINK}/questions/unanswered/${username}`);
+  }
+
   getUserReplies(username: string) {
     return this.http.get(`${environment.LINK}/replies/user/${username}`);
   }

@@ -89,6 +89,34 @@
                     </div>
                 </mat-tab>
 
+
+                <mat-tab *ngIf="isMyProfile" label="Not Answered Questions">
+                    <div *ngIf="noUnansweredQuestions; else unansweredQuestionBlock">
+                        <mat-card class="no-question">
+                            <mat-card-content>
+                                <p class="message">You don't have any unanswered questions!</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <ng-template #unansweredQuestionBlock>
+                        <mat-card class="question-container" *ngFor="let question of unansweredQuestions">
+                            <mat-card-header>
+                                <mat-card-title>#{{question.id}}</mat-card-title>
+                            </mat-card-header>
+
+                            <mat-card-content>
+                                <p>{{question.question}}</p>
+                                <p>{{question.createdAt | date: 'medium'}}</p>
+                            </mat-card-content>
+
+                            <mat-card-actions *ngIf="isMyProfile">
+                                <a mat-button>Answer</a>
+                                <a mat-button>Ignore</a>
+                            </mat-card-actions>
+                        </mat-card>
+                    </ng-template>
+                </mat-tab>
             </mat-tab-group>
 
         </div>

@@ -20,6 +20,13 @@ const questionSchema = mongoose.Schema({
     required: true,
   },
 
+  replies: [
+    {
+      type: String,
+      replier: String,
+    }
+  ]
+
 }, {
     timestamps: true
   });
