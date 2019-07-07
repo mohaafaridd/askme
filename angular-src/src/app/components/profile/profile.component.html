@@ -1,6 +1,6 @@
-<div class="profile-grid">
+<div class="grid">
 
-    <div class="profile-wrapper">
+    <div class="info-wrapper card-wrappers">
         <mat-card class="profile-card">
             <mat-card-header>
                 <mat-card-title>{{user.firstName}} {{ user.middleName }}</mat-card-title>
@@ -12,20 +12,22 @@
         </mat-card>
     </div>
 
-    <div class="question-wrapper">
-        <div *ngIf="!isMyProfile">
+    <div class="action-wrapper">
+
+        <div class="ask-question" *ngIf="!isMyProfile">
             <form (ngSubmit)="submitQuestion()">
-                <mat-card class="user-question">
+                <mat-card>
                     <mat-card-title>Ask {{user.firstName}} a question !</mat-card-title>
 
                     <mat-card-content>
-                        <div class="question-poster-container">
+                        <div>
                             <mat-form-field class="field" appearance="outline">
                                 <textarea [(ngModel)]="question" name="question" rows="5" matInput
                                     placeholder="Your Question"></textarea>
                             </mat-form-field>
                         </div>
-                        <button mat-icon-button class="sending-btn" type="submit">
+
+                        <button mat-icon-button type="submit">
                             <mat-icon>send</mat-icon>
                         </button>
                     </mat-card-content>
@@ -33,93 +35,45 @@
             </form>
         </div>
 
-        <!-- <mat-divider *ngIf="!isMyProfile"></mat-divider> -->
-
-        <div class="tab-wrapper">
+        <div class="actions">
             <mat-tab-group>
+                <ng-container *ngFor="let action of actions">
+                    <div *ngIf="action.isAuthorized">
+                        <mat-tab label="{{ action.label }}">
 
-                <mat-tab label="Replies">
-                    <div class="replies-wrapper">
-                        <div *ngIf="noReplies; else repliesBlock">
-                            <mat-card class="no-question">
-                                <mat-card-content>
-                                    <p class="message">{{user.firstName}} didn't reply on any question!</p>
-                                </mat-card-content>
-                            </mat-card>
-                        </div>
+                            <div *ngIf="action.found.state; else notFound">
+                                <mat-card class="action-card" *ngFor="let model of action.found.data">
+                                    <mat-card-header>
+                                        <mat-card-title>#{{model.id}} {{model.question}}</mat-card-title>
+                                        <mat-card-subtitle>{{model.createdAt | date: 'medium'}}</mat-card-subtitle>
+                                    </mat-card-header>
 
-                        <ng-template #repliesBlock>
-                            <mat-card class="question-container" *ngFor="let reply of replies">
-                                <mat-card-header>
-                                    <mat-card-title>{{reply.reply}}</mat-card-title>
-                                    <mat-card-subtitle>{{reply.createdAt | date: 'medium'}}</mat-card-subtitle>
-                                </mat-card-header>
-                            </mat-card>
-                        </ng-template>
+                                    <mat-card-content>
+                                        <p>
+                                            <!-- Replies to be added here -->
+                                        </p>
+                                    </mat-card-content>
+
+                                    <mat-card-actions *ngIf="isMyProfile">
+                                        <a mat-button>{{ action.found.options.primary }}</a>
+                                        <a mat-raised-button color="warn">{{ action.found.options.secondary }}</a>
+                                    </mat-card-actions>
+                                </mat-card>
+                            </div>
+
+                            <ng-template #notFound>
+                                <mat-card class="action-card">
+                                    <mat-card-content>
+                                        <p class="message">{{action.found.message}}</p>
+                                    </mat-card-content>
+                                </mat-card>
+                            </ng-template>
+                        </mat-tab>
                     </div>
-                </mat-tab>
-
-                <mat-tab label="Questions">
-                    <div class="questions-wrapper">
-                        <div *ngIf="noQuestions; else questionBlock">
-                            <mat-card class="no-question">
-                                <mat-card-content>
-                                    <p class="message">{{user.firstName}} doesn't have any questions!</p>
-                                </mat-card-content>
-                            </mat-card>
-                        </div>
-
-                        <ng-template #questionBlock>
-                            <mat-card class="question-container" *ngFor="let question of questions">
-                                <mat-card-header>
-                                    <mat-card-title>#{{question.id}}</mat-card-title>
-                                </mat-card-header>
-
-                                <mat-card-content>
-                                    <p>{{question.question}}</p>
-                                    <p>{{question.createdAt | date: 'medium'}}</p>
-                                </mat-card-content>
-
-                                <mat-card-actions *ngIf="isMyProfile">
-                                    <a mat-button>Edit</a>
-                                    <a mat-raised-button color="warn">Delete</a>
-                                </mat-card-actions>
-                            </mat-card>
-                        </ng-template>
-                    </div>
-                </mat-tab>
-
-
-                <mat-tab *ngIf="isMyProfile" label="Not Answered Questions">
-                    <div *ngIf="noUnansweredQuestions; else unansweredQuestionBlock">
-                        <mat-card class="no-question">
-                            <mat-card-content>
-                                <p class="message">You don't have any unanswered questions!</p>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
-
-                    <ng-template #unansweredQuestionBlock>
-                        <mat-card class="question-container" *ngFor="let question of unansweredQuestions">
-                            <mat-card-header>
-                                <mat-card-title>#{{question.id}}</mat-card-title>
-                            </mat-card-header>
-
-                            <mat-card-content>
-                                <p>{{question.question}}</p>
-                                <p>{{question.createdAt | date: 'medium'}}</p>
-                            </mat-card-content>
-
-                            <mat-card-actions *ngIf="isMyProfile">
-                                <a mat-button>Answer</a>
-                                <a mat-button>Ignore</a>
-                            </mat-card-actions>
-                        </mat-card>
-                    </ng-template>
-                </mat-tab>
+                </ng-container>
             </mat-tab-group>
-
         </div>
+
     </div>
 
 </div>

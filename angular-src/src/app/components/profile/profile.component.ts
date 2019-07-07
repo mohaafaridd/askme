@@ -14,11 +14,12 @@ import { QuestionsService } from 'src/app/services/questions.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+
+
   socket;
 
-  counter = 200;
-
-  question;
+  // used to store a question asked by user, bounded to textarea in HTML
+  question: string;
 
   isMyProfile;
 
@@ -29,16 +30,18 @@ export class ProfileComponent implements OnInit {
     middleName: '',
     username: ''
   };
-  noUser: boolean;
 
   questions: Array<Question>;
-  noQuestions: boolean;
+  hasQuestions: boolean;
 
   replies: Array<Reply>;
-  noReplies: boolean;
+  hasReplies: boolean;
 
-  unansweredQuestions: Array<Question>;
-  noUnansweredQuestions: boolean;
+  pendingQuestions: Array<Question>;
+  hasPendingQuestions: boolean;
+
+  actions;
+
 
   constructor(
     private authService: AuthService,
@@ -59,13 +62,15 @@ export class ProfileComponent implements OnInit {
       this.setProfile();
 
       // Getting Questions
-      this.setQuestions(routeParams['username']);
+      this.setQuestions(routeParams.username);
 
       // Getting Replies
-      this.setReplies(routeParams['username']);
+      this.setReplies(routeParams.username);
 
-      // Getting Unanswered questions
-      this.setUnanswered(routeParams['username']);
+      // Getting pending questions
+      this.setPending(routeParams.username);
+
+      this.setActions(routeParams.username);
 
     });
 
@@ -78,16 +83,16 @@ export class ProfileComponent implements OnInit {
   asyncQuestionsSocket() {
     this.socket.on('newQuestion', () => {
       const { params } = this.activeRoute.snapshot;
-      this.setQuestions(params['username']);
-      this.setUnanswered(params['username']);
+      this.setQuestions(params.username);
+      this.setPending(params.username);
     });
   }
 
   asyncRepliesSocket() {
     this.socket.on('newReply', () => {
       const { params } = this.activeRoute.snapshot;
-      this.setReplies(params['username']);
-      this.setUnanswered(params['username']);
+      this.setReplies(params.username);
+      this.setPending(params.username);
     });
   }
 
@@ -95,7 +100,7 @@ export class ProfileComponent implements OnInit {
     const cookies: Cookies = this.cookieService.getAll();
     const routeParams = this.activeRoute.snapshot.params;
 
-    this.user.username = routeParams['username'];
+    this.user.username = routeParams.username;
 
     if (cookies.user) {
       const currentUser: User = JSON.parse(cookies.user);
@@ -121,11 +126,11 @@ export class ProfileComponent implements OnInit {
         })
         .reverse();
 
-      if (this.questions.length === 0) {
-        this.noQuestions = true;
-      } else {
-        this.noQuestions = false;
-      }
+      this.hasQuestions = this.questions.length > 0;
+
+      console.log(this.questions);
+
+      this.setActions(username);
     });
   }
 
@@ -140,31 +145,68 @@ export class ProfileComponent implements OnInit {
         })
         .reverse();
 
-      if (this.replies.length === 0) {
-        this.noReplies = true;
-      } else {
-        this.noReplies = false;
-      }
+      this.hasReplies = this.replies.length > 0;
+
+      this.setActions(username);
     });
   }
 
-  setUnanswered(username: string) {
+  setPending(username: string) {
     this.profileService.getUserUnansweredQuestions(username).subscribe((response: CustomResponse) => {
       let counter = 1;
 
-      this.unansweredQuestions = response.questions.map(question => {
+      this.pendingQuestions = response.questions.map(question => {
         question.id = counter++;
         return question;
       })
         .reverse();
 
-      if (this.unansweredQuestions.length === 0) {
-        this.noUnansweredQuestions = true;
-      } else {
-        this.noUnansweredQuestions = false;
-      }
-      console.log('here', this.unansweredQuestions, this.noUnansweredQuestions);
+      this.hasPendingQuestions = this.pendingQuestions.length > 0;
+
+      this.setActions(username);
     });
+  }
+
+  setActions(username: string) {
+    this.actions = [
+      {
+        label: 'Replies',
+        isAuthorized: true,
+        found: {
+          state: this.hasReplies,
+          message: `${this.user.firstName} didn\'t reply to any questions!`,
+          data: this.replies,
+          options: {
+            primary: 'Edit',
+            secondary: 'Delete'
+          }
+        },
+      }, {
+        label: 'Questions',
+        isAuthorized: true,
+        found: {
+          state: this.hasQuestions,
+          message: `${this.user.firstName} doesn\'t have any questions!`,
+          data: this.questions,
+          options: {
+            primary: 'Edit',
+            secondary: 'Delete'
+          }
+        },
+      }, {
+        label: 'Pending Questions',
+        isAuthorized: this.checkUser(username),
+        found: {
+          state: this.hasPendingQuestions,
+          message: 'You don\'t have any pending questions!',
+          data: this.pendingQuestions,
+          options: {
+            primary: 'Answer',
+            secondary: 'Ignore'
+          }
+        },
+      },
+    ];
   }
 
   submitQuestion() {
@@ -182,5 +224,14 @@ export class ProfileComponent implements OnInit {
 
     });
 
+  }
+
+
+  checkUser(username: string) {
+    const cookies: Cookies = this.cookieService.getAll();
+
+    const user: User = JSON.parse(cookies.user);
+
+    return username === user.username;
   }
 }

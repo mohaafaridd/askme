@@ -20,12 +20,9 @@ const questionSchema = mongoose.Schema({
     required: true,
   },
 
-  replies: [
-    {
-      type: String,
-      replier: String,
-    }
-  ]
+  reply: {
+    type: String,
+  }
 
 }, {
     timestamps: true

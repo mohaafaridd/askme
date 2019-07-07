@@ -1,75 +1,58 @@
-.profile-grid{
+// Main Grid
+.grid{
   display: grid;
   grid-template-columns: 20% auto;
+  grid-gap: 10px 15px;
 }
 
-.question-poster-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.question-poster-container > * {
-  width: 100%;
-}
-
-
-.question-poster-container .field{
-  flex-grow: 100;
-}
-
-.question-wrapper{
-  margin: 0 1%;
-
-  textarea{
-    resize: none;
-  }
-  mat-card-content{
-    display: flex;
-    flex-direction: column;
-  }
-  .sending-btn{
-    align-self: flex-end;
-  }
-}
-.text-danger{
-  color: red;
-}
-
-.tab-wrapper{
-  margin: 1% 0;
-  
-  mat-card{
-    margin: 1% 0;    
-  }
-}
-
-.no-question .message {
-  text-align: center;
-}
-
-.profile-wrapper{
+.info-wrapper{
   grid-column: 1;
 }
 
-.tab-wrapper{
+.action-wrapper{
   grid-column: 2;
+
+  // Asking a question form
+  .ask-question{
+    form mat-card mat-card-content {
+
+      // Flex mat content
+      display: flex;
+      flex-direction: column;
+
+      // Textarea
+      mat-form-field {
+        width: 100%;
+      }
+
+      // Button to right
+      button {
+        align-self: flex-end;
+      }
+    }
+  }
+
+  .actions {
+    .action-card{
+      margin-top: 1%;
+    }
+  }
 }
 
 @media only screen and (max-width: 600px) {
-  .profile-grid{
-    display: grid;
+  .grid{
+    grid-template-columns: 100%;
     grid-template-rows: auto auto;
-    grid-template-columns: none;
   }
 
-  .profile-wrapper{
+  .info-wrapper{
+    grid-column: 1;
     grid-row: 1;
-    grid-column: 1;
   }
-  
-  .tab-wrapper{
-    grid-row: 2;
+
+  .action-wrapper{
     grid-column: 1;
+    grid-row: 2;
   }
   
 }
