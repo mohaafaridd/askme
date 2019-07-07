@@ -62,10 +62,8 @@ const getUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ username: req.params.id });
-    await user.populate('questions').execPopulate();
-    await user.populate('replies').execPopulate();
 
-    const picked = _.pick(user, ['_id', 'id', 'firstName', 'middleName', 'username', 'createdAt', 'questions', 'replies']);
+    const picked = _.pick(user, ['_id', 'id', 'firstName', 'middleName', 'username', 'createdAt']);
 
     res.send({
       success: true,

@@ -36,9 +36,12 @@ const getQuestion = async (req, res) => {
   try {
 
     const { id } = req.params;
-    const question = await Question.findOne({ id });
+    let question = await Question.findOne({ id });
     await question.populate('questioner').execPopulate();
     await question.populate('asked').execPopulate();
+    await question.populate('replies').execPopulate();
+
+    question = _.pick(question, ['_id', 'id', 'question', 'questioner', 'asked', 'replies', 'createdAt'])
 
     if (!question) {
 
@@ -60,19 +63,21 @@ const getQuestionsByUser = async (req, res) => {
 
   try {
 
-    const questions = await Question.find({ asker: req.params.username });
+    const { username } = req.params;
+
+    const user = await User.findOne({ username });
+
+    const questions = await Question.find({ questioner: user._id });
 
     if (!questions) {
-
       throw new Error();
-
     }
 
-    res.send({ success: true, message: `All questions by user ${req.params.username} found`, questions });
+    res.send({ success: true, message: `All questions by user ${username} found`, questions });
 
   } catch (error) {
 
-    res.send({ success: false, message: `No questions for user ${req.params.username} were found!` });
+    res.send({ success: false, message: `No questions for user ${username} were found!` });
 
   }
 
@@ -86,6 +91,7 @@ const getUnansweredQuestions = async (req, res) => {
 
     const user = await User.findOne({ username });
 
+    /* we are using asked to search for the questions that were sent TO this user */
     let questions = await Question.find({ asked: user._id });
 
     await Promise.all(questions.map(question => question.populate('replies').execPopulate()));
