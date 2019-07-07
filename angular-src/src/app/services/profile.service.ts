@@ -18,7 +18,7 @@ export class ProfileService {
   }
 
   getUserUnansweredQuestions(username: string) {
-    return this.http.get(`${environment.LINK}/questions/unanswered/${username}`);
+    return this.http.get(`${environment.LINK}/questions/pinding/${username}`);
   }
 
   getUserReplies(username: string) {

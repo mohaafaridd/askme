@@ -154,6 +154,7 @@ export class ProfileComponent implements OnInit {
   setPending(username: string) {
     this.profileService.getUserUnansweredQuestions(username).subscribe((response: CustomResponse) => {
       let counter = 1;
+      console.log('here in question pending', response.question);
 
       this.pendingQuestions = response.questions.map(question => {
         question.id = counter++;
