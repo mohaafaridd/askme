@@ -1,4 +1,5 @@
 const _ = require('lodash')
+const User = require('../models/user');
 const Question = require('../models/question');
 const Reply = require('../models/reply');
 
@@ -8,9 +9,13 @@ const postQuestion = async (req, res) => {
 
     const io = req.app.get('io');
 
-    console.log(`question: ${req.body.question}, asker: ${req.body.asker}, asked: ${req.body.asked}`);
+    const { questioner, asked } = req.body;
 
-    const question = new Question({ question: req.body.question, asker: req.body.asker, asked: req.body.asked });
+    const question = new Question({
+      question: req.body.question,
+      questioner,
+      asked
+    });
 
     await question.save();
 
@@ -30,7 +35,10 @@ const getQuestion = async (req, res) => {
 
   try {
 
-    const question = await Question.findOne({ id: req.params.id });
+    const { id } = req.params;
+    const question = await Question.findOne({ id });
+    await question.populate('questioner').execPopulate();
+    await question.populate('asked').execPopulate();
 
     if (!question) {
 
@@ -38,13 +46,11 @@ const getQuestion = async (req, res) => {
 
     }
 
-    const reply = await Reply.find({ question: req.params.id });
-
-    res.send({ success: true, message: 'Question found!', question, reply });
+    res.send({ success: true, message: 'Question found!', question });
 
   } catch (error) {
 
-    res.send({ success: false, message: 'Question not found!' });
+    res.send({ success: false, message: 'Question not found!', error });
 
   }
 
@@ -75,14 +81,25 @@ const getQuestionsByUser = async (req, res) => {
 const getUnansweredQuestions = async (req, res) => {
 
   try {
-    const questions = await Question.find({ asked: req.params.username, replies: [] });
 
-    res.send({ success: true, message: `All unanswered questions to user ${req.params.username} found`, questions });
+    const { username } = req.params;
+
+    const user = await User.findOne({ username });
+
+    let questions = await Question.find({ asked: user._id });
+
+    await Promise.all(questions.map(question => question.populate('replies').execPopulate()));
+
+    questions = questions.map((question) => _.pick(question, ['_id', 'id', 'question', 'questioner', 'asked', 'createdAt', 'replies']));
+
+    questions = questions.filter((question) => question.replies.length === 0)
+
+    res.send({ success: true, message: `All unanswered questions to user ${username} found`, questions });
 
   } catch (error) {
 
     res.send({ success: false, message: `Error finding questions`, error });
-    
+
   }
 
 }

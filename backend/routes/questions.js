@@ -10,7 +10,7 @@ router.post('/create', auth, questionsController.postQuestion);
 
 router.get('/:id', questionsController.getQuestion);
 
-router.get('/unanswered/:username', questionsController.getUnansweredQuestions);
+router.get('/pinding/:username', questionsController.getUnansweredQuestions);
 
 router.get('/user/:username', questionsController.getQuestionsByUser);
 

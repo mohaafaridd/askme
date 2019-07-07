@@ -11,13 +11,15 @@ const replySchema = mongoose.Schema({
   },
 
   question: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: 'Question'
   },
 
   replier: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: 'User'
   },
 }, {
     timestamps: true

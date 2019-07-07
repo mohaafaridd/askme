@@ -61,17 +61,21 @@ const postLogin = async (req, res) => {
 const getUser = async (req, res) => {
 
   try {
-    const { id } = req.params;
+    const user = await User.findOne({ username: req.params.id });
+    await user.populate('questions').execPopulate();
+    await user.populate('replies').execPopulate();
 
-    const user = await User.findOne({ username: id });
+    const picked = _.pick(user, ['_id', 'id', 'firstName', 'middleName', 'username', 'createdAt', 'questions', 'replies']);
 
-    const picked = _.pick(user, ['id', 'firstName', 'middleName', 'username', 'createdAt']);
+    res.send({
+      success: true,
+      message: 'user found',
+      user: picked
+    });
 
-    res.send({ success: true, message: 'user found', user: picked });
+  } catch (error) {
 
-  } catch {
-
-    res.send({ success: false, message: 'user not found' });
+    res.send({ success: false, message: 'user not found', error });
 
   }
 

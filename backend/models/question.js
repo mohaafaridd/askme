@@ -10,23 +10,29 @@ const questionSchema = mongoose.Schema({
     trim: true,
   },
 
-  asker: {
-    type: String,
+  // The one who asked the question
+  questioner: {
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: 'User'
   },
 
+  // the one who get asked
   asked: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: 'User'
   },
-
-  reply: {
-    type: String,
-  }
 
 }, {
     timestamps: true
   });
+
+questionSchema.virtual('replies', {
+  ref: 'Reply',
+  localField: '_id',
+  foreignField: 'question'
+});
 
 questionSchema.plugin(AutoIncrement, { id: 'question_counter', inc_field: 'id' });
 

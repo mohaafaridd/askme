@@ -1,15 +1,21 @@
 const Reply = require('../models/reply');
+const Question = require('../models/question');
+const User = require('../models/user');
 
 const postReply = async (req, res) => {
 
   try {
     const io = req.app.get('io');
 
+    const question = await Question.findOne({ id: req.body.question });
+
+    const user = await User.findOne({ username: req.body.user });
+
     const reply = new Reply(
       {
         reply: req.body.reply,
-        question: req.params.question,
-        replier: req.user.username
+        question: question._id,
+        replier: user._id
       }
     );
 

@@ -63,6 +63,18 @@ const userSchema = mongoose.Schema({
     timestamps: true
   });
 
+userSchema.virtual('questions', {
+  ref: 'Question',
+  localField: '_id',
+  foreignField: 'questioner'
+});
+
+userSchema.virtual('replies', {
+  ref: 'Reply',
+  localField: '_id',
+  foreignField: 'replier'
+});
+
 userSchema.plugin(AutoIncrement, { id: 'user_counter', inc_field: 'id' });
 
 userSchema.pre('save', async function preSaveOperation(next) {
