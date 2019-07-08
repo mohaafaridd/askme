@@ -61,13 +61,17 @@ const getQuestion = async (req, res) => {
 
 const getQuestionsByUser = async (req, res) => {
 
+  const { username } = req.params;
   try {
 
-    const { username } = req.params;
 
     const user = await User.findOne({ username });
 
-    const questions = await Question.find({ questioner: user._id });
+    let questions = await Question.find({ questioner: user._id });
+
+    await Promise.all(questions.map(question => question.populate('replies').execPopulate()));
+
+    questions = questions.map((question) => _.pick(question, ['_id', 'id', 'question', 'questioner', 'asked', 'replies', 'createdAt']));
 
     if (!questions) {
       throw new Error();
@@ -77,7 +81,7 @@ const getQuestionsByUser = async (req, res) => {
 
   } catch (error) {
 
-    res.send({ success: false, message: `No questions for user ${username} were found!` });
+    res.send({ success: false, message: `No questions for user ${username} were found!`, error });
 
   }
 
@@ -96,7 +100,7 @@ const getUnansweredQuestions = async (req, res) => {
 
     await Promise.all(questions.map(question => question.populate('replies').execPopulate()));
 
-    questions = questions.map((question) => _.pick(question, ['_id', 'id', 'question', 'questioner', 'asked', 'createdAt', 'replies']));
+    questions = questions.map((question) => _.pick(question, ['_id', 'id', 'question', 'questioner', 'asked', 'replies', 'createdAt']));
 
     questions = questions.filter((question) => question.replies.length === 0)
 

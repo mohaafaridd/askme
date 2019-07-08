@@ -49,8 +49,11 @@
                                     </mat-card-header>
 
                                     <mat-card-content>
-                                        <p>
+                                        <p *ngFor="let reply of model.replies">
                                             <!-- Replies to be added here -->
+
+                                            @{{reply.reply.questioner}}:
+                                            {{reply.reply.reply}}
                                         </p>
                                     </mat-card-content>
 

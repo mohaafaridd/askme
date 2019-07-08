@@ -128,8 +128,6 @@ export class ProfileComponent implements OnInit {
 
       this.hasQuestions = this.questions.length > 0;
 
-      console.log(this.questions);
-
       this.setActions(username);
     });
   }
@@ -145,6 +143,8 @@ export class ProfileComponent implements OnInit {
         })
         .reverse();
 
+      console.log('jere', response.replies);
+
       this.hasReplies = this.replies.length > 0;
 
       this.setActions(username);
@@ -154,7 +154,6 @@ export class ProfileComponent implements OnInit {
   setPending(username: string) {
     this.profileService.getUserUnansweredQuestions(username).subscribe((response: CustomResponse) => {
       let counter = 1;
-      console.log('here in question pending', response.question);
 
       this.pendingQuestions = response.questions.map(question => {
         question.id = counter++;
@@ -220,7 +219,6 @@ export class ProfileComponent implements OnInit {
     const asked: User = this.user;
 
     this.questionService.postQuestion(asker, asked, this.question, token).subscribe((response: CustomResponse) => {
-      console.log(response);
       this.notificationService.open(`@${asker.username} asked @${asked.username} a question 🎉🎉`, 'x', environment.NOTIFICATION_TIME);
 
     });

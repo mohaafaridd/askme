@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const Reply = require('../models/reply');
 const Question = require('../models/question');
 const User = require('../models/user');
@@ -7,15 +8,15 @@ const postReply = async (req, res) => {
   try {
     const io = req.app.get('io');
 
-    const question = await Question.findOne({ id: req.body.question });
 
-    const user = await User.findOne({ username: req.body.user });
+    const question = await Question.findOne({ id: req.body.question });
 
     const reply = new Reply(
       {
         reply: req.body.reply,
         question: question._id,
-        replier: user._id
+        questioner: question.questioner,
+        replier: question.asked
       }
     );
 
@@ -59,19 +60,43 @@ const getRepliesByUser = async (req, res) => {
 
   try {
 
-    const replies = await Reply.find({ replier: req.params.username });
+    const { username } = req.params;
+
+    const user = await User.findOne({ username });
+
+    let replies = await Reply.find({ replier: user._id });
+
+    await Promise.all(replies.map(reply => reply.populate('question').execPopulate()));
+
+    replies = replies.map((reply) => _.pick(reply, ['_id', 'id', 'question', 'reply', 'questioner', 'replier', 'createdAt']));
+
+    replies = replies.map((reply) => {
+      reply.question = reply.question.question;
+      return reply;
+    });
+
+    const x = _.groupBy(replies, 'question');
+    const output = [];
+    Object.keys(x).forEach(key => {
+      const object = {
+        question: key,
+        replies: x[key].map(reply => ({ reply: reply }))
+      }
+
+      output.push(object);
+    });
+
+    // replies = _.groupBy(replies, 'question');
 
     if (!replies) {
-
-      throw new Error();
-
+      throw new Error('empty');
     }
 
-    res.send({ success: true, message: 'Replies found!', replies });
+    res.send({ success: true, message: 'Replies found!', replies: output });
 
   } catch (error) {
 
-    res.send({ success: false, message: 'Replies not found!' });
+    res.send({ success: false, message: 'Replies not found!', error });
 
   }
 
