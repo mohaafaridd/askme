@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
-import { User, Question, Reply, Cookies, CustomResponse } from 'src/app/models/models';
+import { User, Question, Reply, Cookies, CustomResponse, CustomError } from 'src/app/models/models';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as io from 'socket.io-client';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -28,7 +28,8 @@ export class ProfileComponent implements OnInit {
     firstName: '',
     id: 1,
     middleName: '',
-    username: ''
+    username: '',
+    _id: '',
   };
 
   questions: Array<Question>;
@@ -119,6 +120,11 @@ export class ProfileComponent implements OnInit {
       // Reversed to get latest first
       let counter = 1;
 
+      if (!response.questions) {
+
+        return;
+      }
+
       this.questions = response.questions
         .map(question => {
           question.id = counter++;
@@ -142,8 +148,6 @@ export class ProfileComponent implements OnInit {
           return reply;
         })
         .reverse();
-
-      console.log('jere', response.replies);
 
       this.hasReplies = this.replies.length > 0;
 
@@ -210,16 +214,17 @@ export class ProfileComponent implements OnInit {
   }
 
   submitQuestion() {
+
     const cookies: Cookies = this.cookieService.getAll();
 
     const token = cookies.token;
 
-    const asker: User = JSON.parse(cookies.user);
+    const questioner: User = JSON.parse(cookies.user);
 
     const asked: User = this.user;
 
-    this.questionService.postQuestion(asker, asked, this.question, token).subscribe((response: CustomResponse) => {
-      this.notificationService.open(`@${asker.username} asked @${asked.username} a question 🎉🎉`, 'x', environment.NOTIFICATION_TIME);
+    this.questionService.postQuestion(questioner, asked, this.question, token).subscribe((response: CustomResponse) => {
+      this.notificationService.open(`@${questioner.username} asked @${asked.username} a question 🎉🎉`, 'x', environment.NOTIFICATION_TIME);
 
     });
 
@@ -227,10 +232,19 @@ export class ProfileComponent implements OnInit {
 
 
   checkUser(username: string) {
-    const cookies: Cookies = this.cookieService.getAll();
+    try {
 
-    const user: User = JSON.parse(cookies.user);
+      const cookies: Cookies = this.cookieService.getAll();
 
-    return username === user.username;
+      if (!cookies.user) {
+        return false;
+      }
+
+      const user: User = JSON.parse(cookies.user);
+
+      return username === user.username;
+    } catch (error) {
+
+    }
   }
 }

@@ -45,8 +45,6 @@ export class LoginComponent implements OnInit {
       const user: User = response.user;
       const stringUser = JSON.stringify(user);
 
-      console.log(environment.EXP_DATE);
-
       this.cookieService.set('token', response.token, environment.EXP_DATE);
 
       this.cookieService.set('user', stringUser, environment.EXP_DATE);

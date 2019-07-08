@@ -17,10 +17,12 @@ const postQuestion = async (req, res) => {
       asked
     });
 
+
     await question.save();
 
     io.emit('newQuestion');
 
+    console.log(questioner, asked);
     res.send({ success: true, message: 'Question posted!', question });
 
   } catch (error) {
@@ -64,7 +66,6 @@ const getQuestionsByUser = async (req, res) => {
   const { username } = req.params;
   try {
 
-
     const user = await User.findOne({ username });
 
     let questions = await Question.find({ questioner: user._id });
@@ -72,6 +73,21 @@ const getQuestionsByUser = async (req, res) => {
     await Promise.all(questions.map(question => question.populate('replies').execPopulate()));
 
     questions = questions.map((question) => _.pick(question, ['_id', 'id', 'question', 'questioner', 'asked', 'replies', 'createdAt']));
+
+
+    // const group = _.groupBy(questions, 'question');
+    // const output = [];
+    // Object.keys(group).forEach(key => {
+    //   const object = {
+    //     question: key,
+    //     replies: group[key].map(reply => ({ reply: reply }))
+    //   }
+
+    //   output.push(object);
+    // });
+
+    // console.log(output);
+
 
     if (!questions) {
       throw new Error();

@@ -16,14 +16,7 @@ const replySchema = mongoose.Schema({
     ref: 'Question'
   },
 
-  // The one who asked the question
-  questioner: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'User'
-  },
-
-  replier: {
+  by: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'User'

@@ -8,15 +8,13 @@ const postReply = async (req, res) => {
   try {
     const io = req.app.get('io');
 
-
     const question = await Question.findOne({ id: req.body.question });
 
     const reply = new Reply(
       {
         reply: req.body.reply,
         question: question._id,
-        questioner: question.questioner,
-        replier: question.asked
+        by: req.body.by
       }
     );
 
@@ -64,23 +62,23 @@ const getRepliesByUser = async (req, res) => {
 
     const user = await User.findOne({ username });
 
-    let replies = await Reply.find({ replier: user._id });
+    let replies = await Reply.find({ by: user._id });
 
     await Promise.all(replies.map(reply => reply.populate('question').execPopulate()));
 
-    replies = replies.map((reply) => _.pick(reply, ['_id', 'id', 'question', 'reply', 'questioner', 'replier', 'createdAt']));
+    replies = replies.map((reply) => _.pick(reply, ['_id', 'id', 'question', 'reply', 'by', 'createdAt']));
 
     replies = replies.map((reply) => {
       reply.question = reply.question.question;
       return reply;
     });
 
-    const x = _.groupBy(replies, 'question');
+    const group = _.groupBy(replies, 'question');
     const output = [];
-    Object.keys(x).forEach(key => {
+    Object.keys(group).forEach(key => {
       const object = {
         question: key,
-        replies: x[key].map(reply => ({ reply: reply }))
+        replies: group[key].map(reply => reply)
       }
 
       output.push(object);

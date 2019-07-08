@@ -72,7 +72,7 @@ userSchema.virtual('questions', {
 userSchema.virtual('replies', {
   ref: 'Reply',
   localField: '_id',
-  foreignField: 'replier'
+  foreignField: 'by'
 });
 
 userSchema.plugin(AutoIncrement, { id: 'user_counter', inc_field: 'id' });
