@@ -21,6 +21,10 @@ const replySchema = mongoose.Schema({
     required: true,
     ref: 'User'
   },
+
+  byUsername: {
+    type: String,
+  }
 }, {
     timestamps: true
   });

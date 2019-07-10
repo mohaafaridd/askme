@@ -51,7 +51,8 @@
                                     <mat-card-content>
                                         <mat-form-field class="reply-field" appearance="outline"
                                             *ngFor="let reply of model.replies">
-                                            <input matInput type="text" readonly value=" @{{reply.by}}:{{reply.reply}}">
+                                            <textarea matInput type="text" readonly
+                                                value=" @{{reply.byUsername}}:{{reply.reply}}"></textarea>
                                         </mat-form-field>
                                     </mat-card-content>
 

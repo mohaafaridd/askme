@@ -9,12 +9,14 @@ const postReply = async (req, res) => {
     const io = req.app.get('io');
 
     const question = await Question.findOne({ id: req.body.question });
+    const by = await User.findOne({ _id: req.body.by });
 
     const reply = new Reply(
       {
         reply: req.body.reply,
         question: question._id,
-        by: req.body.by
+        by: req.body.by,
+        byUsername: by.username
       }
     );
 

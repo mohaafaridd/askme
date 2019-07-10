@@ -74,21 +74,6 @@ const getQuestionsByUser = async (req, res) => {
 
     questions = questions.map((question) => _.pick(question, ['_id', 'id', 'question', 'questioner', 'asked', 'replies', 'createdAt']));
 
-
-    // const group = _.groupBy(questions, 'question');
-    // const output = [];
-    // Object.keys(group).forEach(key => {
-    //   const object = {
-    //     question: key,
-    //     replies: group[key].map(reply => ({ reply: reply }))
-    //   }
-
-    //   output.push(object);
-    // });
-
-    // console.log(output);
-
-
     if (!questions) {
       throw new Error();
     }

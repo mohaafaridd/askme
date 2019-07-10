@@ -1,5 +1,3 @@
-import { BlockScrollStrategy } from '@angular/cdk/overlay';
-
 export interface User {
   _id;
   id: number;
