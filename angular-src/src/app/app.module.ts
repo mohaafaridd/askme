@@ -17,6 +17,7 @@ import { AuthService } from './services/auth.service';
 import { NotificationService } from './services/notification.service';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { DialogComponent } from './components/profile/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,9 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
+  ],
+  entryComponents: [
+    DialogComponent
   ],
   providers: [
     Title,

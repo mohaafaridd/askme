@@ -8,6 +8,8 @@ import * as io from 'socket.io-client';
 import { NotificationService } from 'src/app/services/notification.service';
 import { environment } from 'src/environments/environment';
 import { QuestionsService } from 'src/app/services/questions.service';
+import { MatDialog } from '@angular/material';
+import { DialogComponent } from './dialog/dialog.component';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -51,6 +53,7 @@ export class ProfileComponent implements OnInit {
     private notificationService: NotificationService,
     private questionService: QuestionsService,
     private activeRoute: ActivatedRoute,
+    public dialog: MatDialog,
     private profileService: ProfileService) {
     this.socket = io(`${environment.LINK}`);
   }
@@ -230,7 +233,6 @@ export class ProfileComponent implements OnInit {
 
   }
 
-
   checkUser(username: string) {
     try {
 
@@ -246,5 +248,14 @@ export class ProfileComponent implements OnInit {
     } catch (error) {
 
     }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }
