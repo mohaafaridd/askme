@@ -76,10 +76,13 @@ const getQuestionsByUser = async (req, res) => {
       throw new Error();
     }
 
+    // Creating requests to promise all of them later
     const populateRequests = questions.map(question => question.populate('replies').execPopulate());
 
+    // Populate all requests that we initialized the line before
     const populated = await Promise.all(populateRequests);
 
+    // Picking the questions to fit the model
     const picked = populated.map(question => questionHelpers.pickQuestion(question));
 
     res.send({ success: true, message: `All questions by user ${username} found`, questions: picked });
@@ -92,7 +95,7 @@ const getQuestionsByUser = async (req, res) => {
 
 }
 
-const getUnansweredQuestions = async (req, res) => {
+const getPindingQuestions = async (req, res) => {
 
   try {
 
@@ -101,15 +104,20 @@ const getUnansweredQuestions = async (req, res) => {
     const user = await User.findOne({ username });
 
     /* we are using asked to search for the questions that were sent TO this user */
-    let questions = await Question.find({ asked: user._id });
+    const questions = await Question.find({ asked: user._id });
 
-    await Promise.all(questions.map(question => question.populate('replies').execPopulate()));
+    // Creating requests to promise all of them later
+    const populateRequests = questions.map(question => question.populate('replies').execPopulate());
 
-    questions = questions.map((question) => _.pick(question, ['_id', 'id', 'question', 'questioner', 'asked', 'replies', 'createdAt']));
+    // Populate all requests that we initialized the line before
+    const populated = await Promise.all(populateRequests);
 
-    questions = questions.filter((question) => question.replies.length === 0)
+    const picked = populated.map(question => questionHelpers.pickQuestion(question));
 
-    res.send({ success: true, message: `All unanswered questions to user ${username} found`, questions });
+    // Remove any question with replies
+    const filtered = picked.filter(question => question.replies.length === 0);
+
+    res.send({ success: true, message: `All unanswered questions to user ${username} found`, questions: filtered });
 
   } catch (error) {
 
@@ -177,7 +185,7 @@ module.exports = {
   postQuestion,
   getQuestion,
   getQuestionsByUser,
-  getUnansweredQuestions,
+  getPindingQuestions,
   updateQuestion,
   deleteQuestion
 }
