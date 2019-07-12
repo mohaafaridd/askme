@@ -54,7 +54,8 @@ export class ProfileComponent implements OnInit {
     private questionService: QuestionsService,
     private activeRoute: ActivatedRoute,
     public dialog: MatDialog,
-    private profileService: ProfileService) {
+    private profileService: ProfileService,
+  ) {
     this.socket = io(`${environment.LINK}`);
   }
 
@@ -150,7 +151,7 @@ export class ProfileComponent implements OnInit {
       this.answeredQuestions = questions.map(question => {
         question.id = counter++;
         return question;
-      });
+      }).reverse();
 
       this.hasAnsweredQuestions = this.answeredQuestions.length > 0;
 
@@ -160,13 +161,7 @@ export class ProfileComponent implements OnInit {
 
   setPending(username: string) {
     this.profileService.getUserPindingQuestions(username).subscribe((response: CustomResponse) => {
-      let counter = 1;
-
-      this.pendingQuestions = response.questions.map(question => {
-        question.id = counter++;
-        return question;
-      })
-        .reverse();
+      this.pendingQuestions = response.questions;
 
       this.hasPendingQuestions = this.pendingQuestions.length > 0;
 
@@ -257,8 +252,6 @@ export class ProfileComponent implements OnInit {
         question: x
       }
     });
-
-    console.log(x);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

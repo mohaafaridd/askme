@@ -9,17 +9,18 @@ export interface User {
 
 export interface Question {
   id: number;
-  question: string;
-  asker: number;
+  content: string;
+  questioner: number;
+  asked: string;
   createdAt: string;
 }
 
 export interface Reply {
-  id: number;
-  reply: string;
+  id?: number;
+  content: string;
   question: number;
-  replier: number;
-  createdAt: string;
+  by: string;
+  createdAt?: string;
 }
 
 export interface CustomResponse {

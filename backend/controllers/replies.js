@@ -10,15 +10,18 @@ const postReply = async (req, res) => {
   try {
     const io = req.app.get('io');
 
-    const question = await Question.findOne({ id: req.body.question });
+    const { reply: passedReply } = req.body;
+
+    const question = await Question.findOne({ id: passedReply.question });
 
     const reply = new Reply(
       {
-        content: req.body.content,
+        content: passedReply.content,
         question: question._id,
-        by: req.body.by
+        by: passedReply.by
       }
     );
+    console.log('here', question);
 
     await reply.save();
 
