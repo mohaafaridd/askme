@@ -9,7 +9,7 @@ export class ProfileService {
 
   constructor(private http: HttpClient) { }
 
-  getUserProfile(username: string) {
+  getUserProfile(username: string, term: string) {
     return this.http.get(`${environment.LINK}/users/${username}`);
   }
 
@@ -17,11 +17,12 @@ export class ProfileService {
     return this.http.get(`${environment.LINK}/questions/user/${username}`);
   }
 
-  getUserUnansweredQuestions(username: string) {
-    return this.http.get(`${environment.LINK}/questions/pinding/${username}`);
+  getUserPindingQuestions(username: string) {
+    return this.http.get(`${environment.LINK}/questions/incoming/${username}?state=pinding`);
   }
 
-  getUserReplies(username: string) {
-    return this.http.get(`${environment.LINK}/replies/user/${username}`);
+  getUserAnsweredQuestions(username: string) {
+    return this.http.get(`${environment.LINK}/questions/incoming/${username}?state=answered`);
   }
+
 }

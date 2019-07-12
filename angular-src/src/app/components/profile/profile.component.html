@@ -27,7 +27,7 @@
                             </mat-form-field>
                         </div>
 
-                        <button mat-icon-button type="submit">
+                        <button mat-button color="accent" type="submit">
                             <mat-icon>send</mat-icon>
                         </button>
                     </mat-card-content>
@@ -43,24 +43,50 @@
 
                             <div *ngIf="action.found.state; else notFound">
                                 <mat-card class="action-card" *ngFor="let model of action.found.data">
-                                    <mat-card-header>
-                                        <mat-card-title>#{{model.id}} {{model.question}}</mat-card-title>
+                                    <mat-card-header class="quesiton-header">
+                                        <mat-card-title>#{{model.id}} {{model.content}}</mat-card-title>
                                         <mat-card-subtitle>{{model.createdAt | date: 'medium'}}</mat-card-subtitle>
                                     </mat-card-header>
 
-                                    <mat-card-content>
-                                        <mat-form-field class="reply-field" appearance="outline"
-                                            *ngFor="let reply of model.replies">
-                                            <pre>{{reply | json}}</pre>
-                                            <textarea matInput type="text" readonly
-                                                value=" @{{reply.byUsername}}:{{reply.reply}}"></textarea>
-                                        </mat-form-field>
+                                    <mat-card-content *ngIf="!action.pending">
+                                        <mat-card class="reply-card" *ngFor="let reply of model.replies">
+                                            <mat-card-content>
+                                                <p>{{reply.content}}</p>
+                                                <small>{{reply.createdAt | date: 'medium'}}</small>
+                                            </mat-card-content>
+
+                                            <mat-card-actions *ngIf="isMyProfile">
+
+                                                <a mat-raised-button color="warn" (click)="openDialog()">
+                                                    <mat-icon>
+                                                        {{ action.found.options.primary }}
+                                                    </mat-icon>
+                                                </a>
+
+                                                <a mat-button>
+                                                    <mat-icon>
+                                                        {{ action.found.options.secondary }}
+                                                    </mat-icon>
+                                                </a>
+                                            </mat-card-actions>
+                                        </mat-card>
                                     </mat-card-content>
 
-                                    <mat-card-actions *ngIf="isMyProfile">
-                                        <a mat-button (click)="openDialog()">{{ action.found.options.primary }}</a>
-                                        <a mat-raised-button color="warn">{{ action.found.options.secondary }}</a>
+                                    <mat-card-actions *ngIf="action.pending">
+                                        <a mat-raised-button color="warn" (click)="openDialog()">
+                                            <mat-icon>
+                                                {{ action.found.options.primary }}
+                                            </mat-icon>
+                                        </a>
+
+                                        <a mat-button>
+                                            <mat-icon>
+                                                {{ action.found.options.secondary }}
+                                            </mat-icon>
+                                        </a>
                                     </mat-card-actions>
+
+
                                 </mat-card>
                             </div>
 

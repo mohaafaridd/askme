@@ -27,7 +27,7 @@ import { DialogComponent } from './components/profile/dialog/dialog.component';
     RegisterComponent,
     HomeComponent,
     ProfileComponent,
-    DialogComponent
+    DialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -37,8 +37,8 @@ export class ProfileComponent implements OnInit {
   questions: Array<Question>;
   hasQuestions: boolean;
 
-  replies: Array<Reply>;
-  hasReplies: boolean;
+  answeredQuestions: Array<Question>;
+  hasAnsweredQuestions: boolean;
 
   pendingQuestions: Array<Question>;
   hasPendingQuestions: boolean;
@@ -69,7 +69,7 @@ export class ProfileComponent implements OnInit {
       this.setQuestions(routeParams.username);
 
       // Getting Replies
-      this.setReplies(routeParams.username);
+      this.setAnsweredQuestions(routeParams.username);
 
       // Getting pending questions
       this.setPending(routeParams.username);
@@ -95,7 +95,7 @@ export class ProfileComponent implements OnInit {
   asyncRepliesSocket() {
     this.socket.on('newReply', () => {
       const { params } = this.activeRoute.snapshot;
-      this.setReplies(params.username);
+      this.setAnsweredQuestions(params.username);
       this.setPending(params.username);
     });
   }
@@ -113,7 +113,7 @@ export class ProfileComponent implements OnInit {
       this.isMyProfile = false;
     }
 
-    this.profileService.getUserProfile(this.user.username).subscribe((response: CustomResponse) => {
+    this.profileService.getUserProfile(this.user.username, 'username').subscribe((response: CustomResponse) => {
       this.user = response.user;
     });
   }
@@ -141,25 +141,25 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  setReplies(username: string) {
-    this.profileService.getUserReplies(username).subscribe((response: CustomResponse) => {
+  setAnsweredQuestions(username: string) {
+    this.profileService.getUserAnsweredQuestions(username).subscribe((response: CustomResponse) => {
       let counter = 1;
 
-      this.replies = response.replies
-        .map(reply => {
-          reply.id = counter++;
-          return reply;
-        })
-        .reverse();
+      const { questions } = response;
 
-      this.hasReplies = this.replies.length > 0;
+      this.answeredQuestions = questions.map(question => {
+        question.id = counter++;
+        return question;
+      });
+
+      this.hasAnsweredQuestions = this.answeredQuestions.length > 0;
 
       this.setActions(username);
     });
   }
 
   setPending(username: string) {
-    this.profileService.getUserUnansweredQuestions(username).subscribe((response: CustomResponse) => {
+    this.profileService.getUserPindingQuestions(username).subscribe((response: CustomResponse) => {
       let counter = 1;
 
       this.pendingQuestions = response.questions.map(question => {
@@ -180,12 +180,12 @@ export class ProfileComponent implements OnInit {
         label: 'Replies',
         isAuthorized: true,
         found: {
-          state: this.hasReplies,
+          state: this.hasAnsweredQuestions,
           message: `${this.user.firstName} didn\'t reply to any questions!`,
-          data: this.replies,
+          data: this.answeredQuestions,
           options: {
-            primary: 'Edit',
-            secondary: 'Delete'
+            primary: 'edit',
+            secondary: 'delete'
           }
         },
       }, {
@@ -196,20 +196,21 @@ export class ProfileComponent implements OnInit {
           message: `${this.user.firstName} doesn\'t have any questions!`,
           data: this.questions,
           options: {
-            primary: 'Edit',
-            secondary: 'Delete'
+            primary: 'edit',
+            secondary: 'delete'
           }
         },
       }, {
         label: 'Pending Questions',
+        pending: true,
         isAuthorized: this.checkUser(username),
         found: {
           state: this.hasPendingQuestions,
           message: 'You don\'t have any pending questions!',
           data: this.pendingQuestions,
           options: {
-            primary: 'Answer',
-            secondary: 'Ignore'
+            primary: 'question_answer',
+            secondary: 'cancel'
           }
         },
       },

@@ -61,7 +61,9 @@ const postLogin = async (req, res) => {
 const getUser = async (req, res) => {
 
   try {
-    const user = await User.findOne({ username: req.params.id });
+    const { id } = req.params;
+
+    const user = await User.findOne({ username: req.params.id })
 
     const picked = _.pick(user, ['_id', 'id', 'firstName', 'middleName', 'username', 'createdAt']);
 

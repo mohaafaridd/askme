@@ -11,11 +11,9 @@
 
 .action-wrapper{
   grid-column: 2;
-
   // Asking a question form
   .ask-question{
     form mat-card mat-card-content {
-
       // Flex mat content
       display: flex;
       flex-direction: column;
@@ -33,12 +31,14 @@
   }
 
   .actions {
-    padding-left: 1%;
-    padding-right: 1%;
     .action-card{
-      margin-top: 1%;
-      margin-bottom: 1%;
+      margin: 1%;
+      // margin-top: 1%;
+      // margin-bottom: 1%;
 
+      .reply-card{
+        margin-bottom: 1%;
+      }
       // Reply width
       mat-form-field {
         width: 100%;
