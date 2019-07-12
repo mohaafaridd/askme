@@ -3,6 +3,8 @@ const Reply = require('../models/reply');
 const Question = require('../models/question');
 const User = require('../models/user');
 
+const replyHelpers = require('./helpers/replies');
+
 const postReply = async (req, res) => {
 
   try {
@@ -39,12 +41,18 @@ const getReply = async (req, res) => {
     const reply = await Reply.findOne({ id: req.params.id });
 
     if (!reply) {
-
       throw new Error();
-
     }
 
-    res.send({ success: true, message: 'Reply found!', reply });
+    const question = await Question.findOne({ _id: reply.question });
+
+    if (!question) {
+      throw new Error();
+    }
+
+    const picked = replyHelpers.pickReply(reply, question);
+
+    res.send({ success: true, message: 'Reply found!', picked });
 
   } catch (error) {
 
