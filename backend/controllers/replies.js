@@ -21,7 +21,6 @@ const postReply = async (req, res) => {
         by: passedReply.by
       }
     );
-    console.log('here', question);
 
     await reply.save();
 
@@ -69,25 +68,23 @@ const updateReply = async (req, res) => {
 
   try {
 
-    if ((req.body.reply.trim()).length < 2) {
-      throw new Error();
-    }
+    // if ((req.body.reply.trim()).length < 2) {
+    //   throw new Error();
+    // }
 
     const reply = await Reply.findOneAndUpdate(
-      {
-        id: req.params.id,
-        replier: req.user.id,
-        question: req.params.question
-      },
-      { reply: req.body.reply },
+      { id: req.body.reply.id },
+      { content: req.body.reply.content },
       { new: true }
     );
 
     if (!reply) {
-
       throw new Error();
-
     }
+
+    await reply.save();
+
+    io.emit('newReply');
 
     res.send({ success: true, message: 'Reply edited!', reply });
 

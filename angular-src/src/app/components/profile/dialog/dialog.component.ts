@@ -35,13 +35,9 @@ export class DialogComponent implements OnInit {
     }
   }
 
-  // For Repl
-
-
-
   onSubmit() {
     const question: Question = this.data.question;
-    const userReply: Reply = {
+    const reply: Reply = {
       question: question.id,
       by: question.asked,
       content: this.input.value,
@@ -51,13 +47,30 @@ export class DialogComponent implements OnInit {
 
     const token = cookies.token;
 
-    this.repliesService.postReply(userReply, token).subscribe(() => {
+    this.repliesService.postReply(reply, token).subscribe(() => {
       this.dialogRef.close();
     });
   }
 
   onEditSubmit() {
-    console.log(this.input.value);
+    const { type, data } = this.data;
+    const cookies: Cookies = this.cookieService.getAll();
+
+    const token = cookies.token;
+
+    if (type === 'reply') {
+      const reply: Reply = {
+        id: data.id,
+        content: this.input.value,
+        question: data.question,
+        by: ''
+      };
+      this.repliesService.patchReply(reply, token).subscribe(() => {
+        this.dialogRef.close();
+      });
+    } else {
+      console.log('question', type);
+    }
   }
 
   ngOnInit() {

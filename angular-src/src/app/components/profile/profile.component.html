@@ -61,7 +61,7 @@
                                             <mat-card-actions *ngIf="isMyProfile">
 
                                                 <a mat-raised-button color="accent"
-                                                    (click)="openDialog(reply, action.found.options.primary.functionality)">
+                                                    (click)="openDialog(reply, action.found.options.primary.functionality, 'reply')">
                                                     <mat-icon>
                                                         {{ action.found.options.primary.ico }}
                                                     </mat-icon>
@@ -80,7 +80,7 @@
                                     <mat-card-actions>
 
                                         <a *ngIf="action.found.options.primary.access" mat-raised-button color="accent"
-                                            (click)="openDialog(action.found.data[i], action.found.options.primary.functionality)">
+                                            (click)="openDialog(action.found.data[i], action.found.options.primary.functionality, 'question')">
                                             <mat-icon>
                                                 {{ action.found.options.primary.ico }}
                                             </mat-icon>

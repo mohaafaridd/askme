@@ -95,8 +95,10 @@ export class ProfileComponent implements OnInit {
 
   asyncRepliesSocket() {
     this.socket.on('newReply', () => {
+      console.log('updated');
       const { params } = this.activeRoute.snapshot;
       this.setAnsweredQuestions(params.username);
+      this.setQuestions(params.username);
       this.setPending(params.username);
     });
   }
@@ -248,7 +250,6 @@ export class ProfileComponent implements OnInit {
 
     this.questionService.postQuestion(questioner, asked, this.question, token).subscribe((response: CustomResponse) => {
       this.notificationService.open(`@${questioner.username} asked @${asked.username} a question 🎉🎉`, 'x', environment.NOTIFICATION_TIME);
-
     });
 
   }
@@ -270,7 +271,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  openDialog(data, functionality): void {
+  openDialog(data, functionality, type): void {
     switch (functionality) {
       case 'reply': {
         const dialogRef = this.dialog.open(DialogComponent, {
@@ -290,7 +291,8 @@ export class ProfileComponent implements OnInit {
         const dialogRef = this.dialog.open(DialogComponent, {
           data: {
             mode: functionality,
-            data
+            data,
+            type
           }
         });
 
