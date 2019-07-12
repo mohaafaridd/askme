@@ -1,1 +1,11 @@
-<p>dialog works!</p>
+<h1 mat-dialog-title>Reply to question "{{data.question.content}}"</h1>
+
+<form (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+        <mat-label>Reply</mat-label>
+        <input matInput type="text" [formControl]="reply">
+        <mat-error *ngIf="reply.invalid">this field is required</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="reply.invalid">Submit</button>
+</form>

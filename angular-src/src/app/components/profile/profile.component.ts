@@ -251,9 +251,14 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  openDialog(): void {
+  openDialog(x): void {
     const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        question: x
+      }
     });
+
+    console.log(x);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

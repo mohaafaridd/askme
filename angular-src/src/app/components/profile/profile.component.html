@@ -42,7 +42,8 @@
                         <mat-tab label="{{ action.label }}">
 
                             <div *ngIf="action.found.state; else notFound">
-                                <mat-card class="action-card" *ngFor="let model of action.found.data">
+                                <mat-card class="action-card" *ngFor="let model of action.found.data ; let i = index"
+                                    [attr.data-index]="i">
                                     <mat-card-header class="quesiton-header">
                                         <mat-card-title>#{{model.id}} {{model.content}}</mat-card-title>
                                         <mat-card-subtitle>{{model.createdAt | date: 'medium'}}</mat-card-subtitle>
@@ -57,7 +58,7 @@
 
                                             <mat-card-actions *ngIf="isMyProfile">
 
-                                                <a mat-raised-button color="warn" (click)="openDialog()">
+                                                <a mat-raised-button color="accent" (click)="openDialog()">
                                                     <mat-icon>
                                                         {{ action.found.options.primary }}
                                                     </mat-icon>
@@ -73,7 +74,8 @@
                                     </mat-card-content>
 
                                     <mat-card-actions *ngIf="action.pending">
-                                        <a mat-raised-button color="warn" (click)="openDialog()">
+
+                                        <a mat-raised-button color="accent" (click)="openDialog(action.found.data[i])">
                                             <mat-icon>
                                                 {{ action.found.options.primary }}
                                             </mat-icon>
