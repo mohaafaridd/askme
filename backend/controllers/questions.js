@@ -3,26 +3,24 @@ const User = require('../models/user');
 const Question = require('../models/question');
 const Reply = require('../models/reply');
 
+const questionHelpers = require('./helpers/questions');
+
 const postQuestion = async (req, res) => {
 
   try {
 
     const io = req.app.get('io');
 
-    const { questioner, asked } = req.body;
-
     const question = new Question({
-      question: req.body.question,
-      questioner,
-      asked
+      content: req.body.content,
+      questioner: req.body.questioner,
+      asked: req.body.asked,
     });
-
 
     await question.save();
 
     io.emit('newQuestion');
 
-    console.log(questioner, asked);
     res.send({ success: true, message: 'Question posted!', question });
 
   } catch (error) {
@@ -38,20 +36,20 @@ const getQuestion = async (req, res) => {
   try {
 
     const { id } = req.params;
-    let question = await Question.findOne({ id });
-    await question.populate('questioner').execPopulate();
-    await question.populate('asked').execPopulate();
-    await question.populate('replies').execPopulate();
+    const rawQuestion = await Question.findOne({ id });
 
-    question = _.pick(question, ['_id', 'id', 'question', 'questioner', 'asked', 'replies', 'createdAt'])
-
-    if (!question) {
-
+    if (!rawQuestion) {
       throw new Error();
-
     }
 
-    res.send({ success: true, message: 'Question found!', question });
+    await rawQuestion.populate('questioner').execPopulate();
+    await rawQuestion.populate('asked').execPopulate();
+    await rawQuestion.populate('replies').execPopulate();
+
+    /* Question Picking */
+    const pickedQuestion = questionHelpers.pickQuestion(rawQuestion);
+
+    res.send({ success: true, message: 'Question found!', question: pickedQuestion });
 
   } catch (error) {
 
@@ -68,21 +66,27 @@ const getQuestionsByUser = async (req, res) => {
 
     const user = await User.findOne({ username });
 
-    let questions = await Question.find({ questioner: user._id });
+    if (!user) {
+      throw new Error();
+    }
 
-    await Promise.all(questions.map(question => question.populate('replies').execPopulate()));
-
-    questions = questions.map((question) => _.pick(question, ['_id', 'id', 'question', 'questioner', 'asked', 'replies', 'createdAt']));
+    const questions = await Question.find({ questioner: user._id });
 
     if (!questions) {
       throw new Error();
     }
 
-    res.send({ success: true, message: `All questions by user ${username} found`, questions });
+    const populateRequests = questions.map(question => question.populate('replies').execPopulate());
+
+    const populated = await Promise.all(populateRequests);
+
+    const picked = populated.map(question => questionHelpers.pickQuestion(question));
+
+    res.send({ success: true, message: `All questions by user ${username} found`, questions: picked });
 
   } catch (error) {
 
-    res.send({ success: false, message: `No questions for user ${username} were found!`, error });
+    res.send({ success: false, message: `No questions for user ${username} were found!` });
 
   }
 

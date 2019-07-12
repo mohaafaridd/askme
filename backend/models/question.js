@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const questionSchema = mongoose.Schema({
-  question: {
+  content: {
     type: String,
     required: true,
     minlength: 2,

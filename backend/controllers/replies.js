@@ -9,14 +9,12 @@ const postReply = async (req, res) => {
     const io = req.app.get('io');
 
     const question = await Question.findOne({ id: req.body.question });
-    const by = await User.findOne({ _id: req.body.by });
 
     const reply = new Reply(
       {
-        reply: req.body.reply,
+        content: req.body.content,
         question: question._id,
-        by: req.body.by,
-        byUsername: by.username
+        by: req.body.by
       }
     );
 
@@ -68,7 +66,7 @@ const getRepliesByUser = async (req, res) => {
 
     await Promise.all(replies.map(reply => reply.populate('question').execPopulate()));
 
-    replies = replies.map((reply) => _.pick(reply, ['_id', 'id', 'question', 'reply', 'by', 'createdAt']));
+    replies = replies.map((reply) => _.pick(reply, ['_id', 'id', 'question', 'reply', 'by', 'byUsername', 'createdAt']));
 
     replies = replies.map((reply) => {
       reply.question = reply.question.question;

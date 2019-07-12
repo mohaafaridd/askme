@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const replySchema = mongoose.Schema({
-  reply: {
+  content: {
     type: String,
     required: true,
     minlength: 2,
@@ -21,10 +21,6 @@ const replySchema = mongoose.Schema({
     required: true,
     ref: 'User'
   },
-
-  byUsername: {
-    type: String,
-  }
 }, {
     timestamps: true
   });
