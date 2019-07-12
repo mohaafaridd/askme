@@ -51,7 +51,8 @@
                                     </mat-card-header>
 
                                     <mat-card-content *ngIf="!action.pending">
-                                        <mat-card class="reply-card" *ngFor="let reply of model.replies">
+                                        <mat-card class="reply-card"
+                                            *ngFor="let reply of model.replies; let replyIndex = index">
                                             <mat-card-content>
                                                 <p>{{reply.content}}</p>
                                                 <small>{{reply.createdAt | date: 'medium'}}</small>
@@ -59,10 +60,12 @@
 
                                             <mat-card-actions *ngIf="isMyProfile">
 
-                                                <a mat-raised-button color="accent" (click)="openDialog()">
+                                                <a mat-raised-button color="accent"
+                                                    (click)="openDialog(reply, action.found.options.primary.functionality)">
                                                     <mat-icon>
                                                         {{ action.found.options.primary.ico }}
                                                     </mat-icon>
+                                                    {{action.found.options.primary.functionality}}
                                                 </a>
 
                                                 <a mat-button>
@@ -77,10 +80,11 @@
                                     <mat-card-actions>
 
                                         <a *ngIf="action.found.options.primary.access" mat-raised-button color="accent"
-                                            (click)="openDialog(action.found.data[i])">
+                                            (click)="openDialog(action.found.data[i], action.found.options.primary.functionality)">
                                             <mat-icon>
                                                 {{ action.found.options.primary.ico }}
                                             </mat-icon>
+                                            {{action.found.options.primary.functionality}}
                                         </a>
 
                                         <a *ngIf="action.found.options.secondary.access" mat-button>

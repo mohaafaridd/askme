@@ -181,11 +181,13 @@ export class ProfileComponent implements OnInit {
           options: {
             primary: {
               access: false,
-              ico: 'edit'
+              ico: 'edit',
+              functionality: 'edit'
             },
             secondary: {
               access: true,
-              ico: 'delete'
+              ico: 'delete',
+              functionality: 'delete'
             },
           }
         },
@@ -199,11 +201,13 @@ export class ProfileComponent implements OnInit {
           options: {
             primary: {
               access: true,
-              ico: 'edit'
+              ico: 'edit',
+              functionality: 'edit'
             },
             secondary: {
               access: true,
-              ico: 'delete'
+              ico: 'delete',
+              functionality: 'delete'
             },
           }
         },
@@ -218,11 +222,13 @@ export class ProfileComponent implements OnInit {
           options: {
             primary: {
               access: true,
-              ico: 'question_answer'
+              ico: 'reply',
+              functionality: 'reply'
             },
             secondary: {
               access: true,
-              ico: 'delete'
+              ico: 'delete',
+              functionality: 'delete'
             },
           }
         },
@@ -264,16 +270,39 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  openDialog(x): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      data: {
-        question: x
-      }
-    });
+  openDialog(data, functionality): void {
+    switch (functionality) {
+      case 'reply': {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          data: {
+            mode: functionality,
+            question: data
+          }
+        });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+        break;
+      }
+
+      case 'edit': {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          data: {
+            mode: functionality,
+            data
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+        break;
+      }
+    }
+
+
+
   }
 }
 
