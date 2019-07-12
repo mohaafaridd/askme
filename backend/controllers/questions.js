@@ -95,11 +95,11 @@ const getQuestionsByUser = async (req, res) => {
 
 }
 
-const getPindingQuestions = async (req, res) => {
-
+const getIncomingQuestions = async (req, res) => {
   try {
 
     const { username } = req.params;
+    const { state } = req.query;
 
     const user = await User.findOne({ username });
 
@@ -114,17 +114,16 @@ const getPindingQuestions = async (req, res) => {
 
     const picked = populated.map(question => questionHelpers.pickQuestion(question));
 
-    // Remove any question with replies
-    const filtered = picked.filter(question => question.replies.length === 0);
+    // Return filtered array with whether all answered questions or pinding ones
+    const filtered = questionHelpers.filterOnState(state, picked);
 
-    res.send({ success: true, message: `All unanswered questions to user ${username} found`, questions: filtered });
+    res.send({ success: true, message: `All questions answered by user ${username}`, questions: filtered });
 
   } catch (error) {
 
     res.send({ success: false, message: `Error finding questions`, error });
 
   }
-
 }
 
 const updateQuestion = async (req, res) => {
@@ -185,7 +184,7 @@ module.exports = {
   postQuestion,
   getQuestion,
   getQuestionsByUser,
-  getPindingQuestions,
+  getIncomingQuestions,
   updateQuestion,
   deleteQuestion
 }

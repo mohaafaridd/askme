@@ -54,52 +54,6 @@ const getReply = async (req, res) => {
 
 }
 
-const getRepliesByUser = async (req, res) => {
-
-  try {
-
-    const { username } = req.params;
-
-    const user = await User.findOne({ username });
-
-    let replies = await Reply.find({ by: user._id });
-
-    await Promise.all(replies.map(reply => reply.populate('question').execPopulate()));
-
-    replies = replies.map((reply) => _.pick(reply, ['_id', 'id', 'question', 'reply', 'by', 'byUsername', 'createdAt']));
-
-    replies = replies.map((reply) => {
-      reply.question = reply.question.question;
-      return reply;
-    });
-
-    const group = _.groupBy(replies, 'question');
-    const output = [];
-    Object.keys(group).forEach(key => {
-      const object = {
-        question: key,
-        replies: group[key].map(reply => reply)
-      }
-
-      output.push(object);
-    });
-
-    // replies = _.groupBy(replies, 'question');
-
-    if (!replies) {
-      throw new Error('empty');
-    }
-
-    res.send({ success: true, message: 'Replies found!', replies: output });
-
-  } catch (error) {
-
-    res.send({ success: false, message: 'Replies not found!', error });
-
-  }
-
-}
-
 const updateReply = async (req, res) => {
 
   try {
@@ -163,7 +117,6 @@ const deleteReply = async (req, res) => {
 module.exports = {
   postReply,
   getReply,
-  getRepliesByUser,
   updateReply,
   deleteReply
 }

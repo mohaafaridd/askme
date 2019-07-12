@@ -8,8 +8,6 @@ const router = express.Router();
 
 router.post('/create', auth, repliesController.postReply);
 
-router.get('/user/:username', repliesController.getRepliesByUser);
-
 router.get('/:id', repliesController.getReply);
 
 router.patch('/:id', auth, repliesController.updateReply);

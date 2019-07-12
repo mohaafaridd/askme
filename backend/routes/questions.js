@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/create', auth, questionsController.postQuestion);
 
-router.get('/pinding/:username', questionsController.getPindingQuestions);
+router.get('/incoming/:username', questionsController.getIncomingQuestions);
 
 router.get('/user/:username', questionsController.getQuestionsByUser);
 

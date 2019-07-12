@@ -13,6 +13,23 @@ const pickQuestion = (question) => {
   );
 };
 
+const filterOnState = (state, questions) => {
+  switch (state) {
+    case 'answered': {
+      return questions.filter(question => question.replies.length !== 0);
+    }
+
+    case 'pinding': {
+      return questions.filter(question => question.replies.length === 0);
+    }
+
+    default: {
+      return questions;
+    }
+  }
+}
+
 module.exports = {
   pickQuestion,
+  filterOnState
 }
