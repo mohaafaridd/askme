@@ -179,8 +179,14 @@ export class ProfileComponent implements OnInit {
           message: `${this.user.firstName} didn\'t reply to any questions!`,
           data: this.answeredQuestions,
           options: {
-            primary: 'edit',
-            secondary: 'delete'
+            primary: {
+              access: false,
+              ico: 'edit'
+            },
+            secondary: {
+              access: true,
+              ico: 'delete'
+            },
           }
         },
       }, {
@@ -191,8 +197,14 @@ export class ProfileComponent implements OnInit {
           message: `${this.user.firstName} doesn\'t have any questions!`,
           data: this.questions,
           options: {
-            primary: 'edit',
-            secondary: 'delete'
+            primary: {
+              access: true,
+              ico: 'edit'
+            },
+            secondary: {
+              access: true,
+              ico: 'delete'
+            },
           }
         },
       }, {
@@ -204,8 +216,14 @@ export class ProfileComponent implements OnInit {
           message: 'You don\'t have any pending questions!',
           data: this.pendingQuestions,
           options: {
-            primary: 'question_answer',
-            secondary: 'cancel'
+            primary: {
+              access: true,
+              ico: 'question_answer'
+            },
+            secondary: {
+              access: true,
+              ico: 'delete'
+            },
           }
         },
       },

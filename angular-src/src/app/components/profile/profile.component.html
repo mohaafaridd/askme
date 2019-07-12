@@ -44,6 +44,7 @@
                             <div *ngIf="action.found.state; else notFound">
                                 <mat-card class="action-card" *ngFor="let model of action.found.data ; let i = index"
                                     [attr.data-index]="i">
+
                                     <mat-card-header class="quesiton-header">
                                         <mat-card-title>#{{model.id}} {{model.content}}</mat-card-title>
                                         <mat-card-subtitle>{{model.createdAt | date: 'medium'}}</mat-card-subtitle>
@@ -60,34 +61,35 @@
 
                                                 <a mat-raised-button color="accent" (click)="openDialog()">
                                                     <mat-icon>
-                                                        {{ action.found.options.primary }}
+                                                        {{ action.found.options.primary.ico }}
                                                     </mat-icon>
                                                 </a>
 
                                                 <a mat-button>
                                                     <mat-icon>
-                                                        {{ action.found.options.secondary }}
+                                                        {{ action.found.options.secondary.ico }}
                                                     </mat-icon>
                                                 </a>
                                             </mat-card-actions>
                                         </mat-card>
                                     </mat-card-content>
 
-                                    <mat-card-actions *ngIf="action.pending">
+                                    <mat-card-actions>
 
-                                        <a mat-raised-button color="accent" (click)="openDialog(action.found.data[i])">
+                                        <a *ngIf="action.found.options.primary.access" mat-raised-button color="accent"
+                                            (click)="openDialog(action.found.data[i])">
                                             <mat-icon>
-                                                {{ action.found.options.primary }}
+                                                {{ action.found.options.primary.ico }}
                                             </mat-icon>
                                         </a>
 
-                                        <a mat-button>
+                                        <a *ngIf="action.found.options.secondary.access" mat-button>
                                             <mat-icon>
-                                                {{ action.found.options.secondary }}
+                                                {{ action.found.options.secondary.ico }}
                                             </mat-icon>
                                         </a>
+
                                     </mat-card-actions>
-
 
                                 </mat-card>
                             </div>
