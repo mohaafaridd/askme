@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models/models';
+import { User, Question } from '../models/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,6 +16,13 @@ export class QuestionsService {
       asked: asked._id,
       question,
       token
+    });
+  }
+
+  patchQuestion(question: Question, token: string) {
+    return this.http.patch(`${environment.LINK}/questions/${question.id}`, {
+      question,
+      token,
     });
   }
 }

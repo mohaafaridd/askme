@@ -124,19 +124,12 @@ export class ProfileComponent implements OnInit {
   setQuestions(username: string) {
     this.profileService.getUserQuestions(username).subscribe((response: CustomResponse) => {
       // Reversed to get latest first
-      let counter = 1;
-
       if (!response.questions) {
 
         return;
       }
 
-      this.questions = response.questions
-        .map(question => {
-          question.id = counter++;
-          return question;
-        })
-        .reverse();
+      this.questions = response.questions;
 
       this.hasQuestions = this.questions.length > 0;
 
@@ -288,21 +281,6 @@ export class ProfileComponent implements OnInit {
       }
 
       case 'edit': {
-        const dialogRef = this.dialog.open(DialogComponent, {
-          data: {
-            mode: functionality,
-            data,
-            type
-          }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-        });
-        break;
-      }
-
-      case 'delete': {
         const dialogRef = this.dialog.open(DialogComponent, {
           data: {
             mode: functionality,

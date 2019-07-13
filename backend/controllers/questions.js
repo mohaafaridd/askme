@@ -130,21 +130,22 @@ const updateQuestion = async (req, res) => {
 
   try {
 
-    if ((req.body.question.trim()).length < 2) {
+
+    if ((req.body.question.content.trim()).length < 2) {
       throw new Error();
     }
 
     const question = await Question.findOneAndUpdate(
-      { id: req.params.id, asker: req.user.id },
-      { question: req.body.question },
+      { id: req.body.question.id },
+      { content: req.body.question.content },
       { new: true }
     );
 
     if (!question) {
-
       throw new Error();
-
     }
+
+    await question.save();
 
     res.send({ success: true, message: 'Question edited!', question });
 
