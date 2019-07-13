@@ -23,7 +23,6 @@ export class DialogComponent implements OnInit {
     private cookieService: CookieService,
     private dialogRef: MatDialogRef<DialogComponent>
   ) {
-    console.log(data);
     this.modes = {
       edit: this.data.mode === 'edit',
       reply: this.data.mode === 'reply',
@@ -90,7 +89,6 @@ export class DialogComponent implements OnInit {
     const cookies: Cookies = this.cookieService.getAll();
 
     const token = cookies.token;
-    console.log(type, data, token);
 
     if (type === 'reply') {
       const reply: Reply = {
@@ -102,6 +100,17 @@ export class DialogComponent implements OnInit {
 
       this.repliesService.deleteReply(reply, token).subscribe(() => {
 
+      });
+    } else {
+      const question: Question = {
+        id: data.id,
+        asked: data.asked,
+        content: data.content,
+        questioner: data.questioner,
+      };
+
+      this.questionsService.deleteQuestion(question, token).subscribe(() => {
+        // this.dialogRef.close();
       });
     }
   }

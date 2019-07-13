@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
-
+const Reply = require('./reply');
 const questionSchema = mongoose.Schema({
   content: {
     type: String,
@@ -33,6 +33,12 @@ questionSchema.virtual('replies', {
   localField: '_id',
   foreignField: 'question'
 });
+
+questionSchema.pre('remove', async function (next) {
+  const question = this
+  await Reply.deleteMany({ question: question._id })
+  next()
+})
 
 questionSchema.plugin(AutoIncrement, { id: 'question_counter', inc_field: 'id' });
 

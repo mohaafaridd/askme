@@ -123,7 +123,7 @@ export class ProfileComponent implements OnInit {
 
   setQuestions(username: string) {
     this.profileService.getUserQuestions(username).subscribe((response: CustomResponse) => {
-      this.questions = response.questions;
+      this.questions = response.questions.reverse();
 
       this.hasQuestions = this.questions.length > 0;
 

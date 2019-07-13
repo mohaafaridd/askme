@@ -25,4 +25,13 @@ export class QuestionsService {
       token,
     });
   }
+
+  deleteQuestion(question: Question, token: string) {
+    return this.http.request('delete', `${environment.LINK}/questions/${question.id}`, {
+      body: {
+        question,
+        token
+      }
+    });
+  }
 }

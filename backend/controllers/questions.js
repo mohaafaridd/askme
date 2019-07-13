@@ -162,14 +162,14 @@ const deleteQuestion = async (req, res) => {
   try {
 
     const question = await Question.findOneAndDelete(
-      { id: req.params.id, asker: req.user.id }
+      { id: req.params.id }
     );
 
     if (!question) {
-
       throw new Error();
-
     }
+
+    await question.remove();
 
     res.send({ success: true, message: 'Question deleted!', question });
 
