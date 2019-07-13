@@ -102,15 +102,13 @@ const deleteReply = async (req, res) => {
 
     const reply = await Reply.findOneAndDelete({
       id: req.params.id,
-      replier: req.user.id,
-      question: req.params.question
     });
 
     if (!reply) {
-
       throw new Error();
-
     }
+
+    await reply.remove();
 
     res.send({ success: true, message: 'Reply deleted!', reply });
 
