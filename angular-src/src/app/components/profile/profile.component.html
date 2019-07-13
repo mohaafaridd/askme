@@ -68,7 +68,8 @@
                                                     {{action.found.options.primary.functionality}}
                                                 </a>
 
-                                                <a mat-button>
+                                                <a mat-button
+                                                    (click)="openDialog(reply, action.found.options.secondary.functionality, 'reply')">
                                                     <mat-icon>
                                                         {{ action.found.options.secondary.ico }}
                                                     </mat-icon>
@@ -87,7 +88,8 @@
                                             {{action.found.options.primary.functionality}}
                                         </a>
 
-                                        <a *ngIf="action.found.options.secondary.access" mat-button>
+                                        <a *ngIf="action.found.options.secondary.access" mat-button
+                                            (click)="openDialog(action.found.data[i], action.found.options.secondary.functionality, 'question')">
                                             <mat-icon>
                                                 {{ action.found.options.secondary.ico }}
                                             </mat-icon>

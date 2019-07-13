@@ -73,6 +73,14 @@ export class DialogComponent implements OnInit {
     }
   }
 
+  onDeleteSubmit() {
+    console.log('deleted');
+  }
+
+  cancel() {
+    this.dialogRef.close();
+  }
+
   ngOnInit() {
   }
 

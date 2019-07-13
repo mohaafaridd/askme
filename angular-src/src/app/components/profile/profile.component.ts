@@ -301,6 +301,21 @@ export class ProfileComponent implements OnInit {
         });
         break;
       }
+
+      case 'delete': {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          data: {
+            mode: functionality,
+            data,
+            type
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+        break;
+      }
     }
 
 
