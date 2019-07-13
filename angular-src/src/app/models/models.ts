@@ -12,7 +12,7 @@ export interface Question {
   content: string;
   questioner: number;
   asked: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 export interface Reply {
