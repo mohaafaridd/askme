@@ -74,11 +74,24 @@ export class DialogComponent implements OnInit {
   }
 
   onDeleteSubmit() {
-    console.log('deleted');
-  }
+    const { type, data } = this.data;
+    const cookies: Cookies = this.cookieService.getAll();
 
-  cancel() {
-    this.dialogRef.close();
+    const token = cookies.token;
+    console.log(type, data, token);
+
+    if (type === 'reply') {
+      const reply: Reply = {
+        id: data.id,
+        content: this.input.value,
+        question: data.question,
+        by: ''
+      };
+
+      this.repliesService.deleteReply(reply, token).subscribe(() => {
+
+      });
+    }
   }
 
   ngOnInit() {

@@ -15,10 +15,18 @@ export class RepliesService {
   }
 
   patchReply(reply: Reply, token: string) {
-    console.log('patch', reply);
     return this.http.patch(`${environment.LINK}/replies/${reply.id}`, {
       reply,
       token
+    });
+  }
+
+  deleteReply(reply: Reply, token: string) {
+    return this.http.request('delete', `${environment.LINK}/replies/${reply.id}`, {
+      body: {
+        reply,
+        token,
+      }
     });
   }
 }
