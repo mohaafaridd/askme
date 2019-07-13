@@ -84,26 +84,6 @@ export class DialogComponent implements OnInit {
     }
   }
 
-  onDeleteSubmit() {
-    const { type, data } = this.data;
-    const cookies: Cookies = this.cookieService.getAll();
-
-    const token = cookies.token;
-    console.log(type, data, token);
-
-    if (type === 'reply') {
-      const reply: Reply = {
-        id: data.id,
-        content: this.input.value,
-        question: data.question,
-        by: ''
-      };
-
-      this.repliesService.deleteReply(reply, token).subscribe(() => {
-
-      });
-    }
-  }
 
   onDeleteSubmit() {
     const { type, data } = this.data;

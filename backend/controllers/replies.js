@@ -68,9 +68,9 @@ const updateReply = async (req, res) => {
 
   try {
 
-    // if ((req.body.reply.trim()).length < 2) {
-    //   throw new Error();
-    // }
+    if ((req.body.reply.content.trim()).length < 2) {
+      throw new Error();
+    }
 
     const reply = await Reply.findOneAndUpdate(
       { id: req.body.reply.id },

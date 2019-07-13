@@ -123,12 +123,6 @@ export class ProfileComponent implements OnInit {
 
   setQuestions(username: string) {
     this.profileService.getUserQuestions(username).subscribe((response: CustomResponse) => {
-      // Reversed to get latest first
-      if (!response.questions) {
-
-        return;
-      }
-
       this.questions = response.questions;
 
       this.hasQuestions = this.questions.length > 0;
@@ -139,14 +133,10 @@ export class ProfileComponent implements OnInit {
 
   setAnsweredQuestions(username: string) {
     this.profileService.getUserAnsweredQuestions(username).subscribe((response: CustomResponse) => {
-      let counter = 1;
 
       const { questions } = response;
 
-      this.answeredQuestions = questions.map(question => {
-        question.id = counter++;
-        return question;
-      }).reverse();
+      this.answeredQuestions = questions.reverse();
 
       this.hasAnsweredQuestions = this.answeredQuestions.length > 0;
 
