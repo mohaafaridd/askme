@@ -10,9 +10,9 @@ const postQuestion = async (req, res) => {
   try {
 
     const question = new Question({
-      content: req.body.content,
-      questioner: req.body.questioner,
-      asked: req.body.asked,
+      content: req.body.question.content,
+      questioner: req.body.question.questioner,
+      asked: req.body.question.asked,
     });
 
     await question.save();

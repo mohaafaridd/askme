@@ -10,10 +10,8 @@ export class QuestionsService {
 
   constructor(private http: HttpClient) { }
 
-  postQuestion(questioner: User, asked: User, question: string, token: string) {
+  postQuestion(question: Question, token: string) {
     return this.http.post(`${environment.LINK}/questions/create`, {
-      questioner: questioner._id,
-      asked: asked._id,
       question,
       token
     });

@@ -1,19 +1,18 @@
-<!-- <h1>{{ isCurrentUser }}</h1> -->
-<!-- <pre>{{user$ | async | json}}</pre> -->
 <div class="ask-question" *ngIf="(user$ | async) && !isCurrentUser">
     <form (ngSubmit)="submitQuestion()">
         <mat-card>
-            <mat-card-title>Ask {{ (user$ | async)?.firstName }} a question !</mat-card-title>
+            <mat-card-header>
+                <mat-card-title>Ask {{ (user$ | async)?.firstName }} a question !</mat-card-title>
+            </mat-card-header>
 
             <mat-card-content>
-                <div>
-                    <mat-form-field class="field" appearance="outline">
-                        <textarea [(ngModel)]="question" name="question" rows="5" matInput
-                            placeholder="Your Question"></textarea>
-                    </mat-form-field>
-                </div>
+                <mat-form-field class="field" appearance="outline">
+                    <textarea name="questionContent" rows="5" matInput [formControl]="question"
+                        placeholder="Your Question"></textarea>
+                    <mat-error *ngIf="question.invalid">{{ getErrorMessage() }}</mat-error>
+                </mat-form-field>
 
-                <button mat-button color="accent" type="submit">
+                <button mat-button class="buttonPrimary" type="submit">
                     <mat-icon>send</mat-icon>
                 </button>
             </mat-card-content>

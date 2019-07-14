@@ -8,7 +8,7 @@ export interface User {
 }
 
 export interface Question {
-  id: number;
+  id?: number;
   content: string;
   questioner: number;
   asked: string;
