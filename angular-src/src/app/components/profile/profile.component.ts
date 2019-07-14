@@ -7,8 +7,9 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { QuestionsService } from 'src/app/services/questions.service';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from './dialog/dialog.component';
-
 import { map } from 'rxjs/operators';
+import { Action } from 'src/app/models/action.interface';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -19,7 +20,7 @@ export class ProfileComponent implements OnInit {
   // used to store a question asked by user, bounded to textarea in HTML
   question: string;
 
-  user: User;
+  user: User = { _id: '', firstName: '', id: 1, createdAt: '', middleName: '', username: '' };
 
   questions: Array<Question>;
   hasQuestions: boolean;
@@ -30,7 +31,7 @@ export class ProfileComponent implements OnInit {
   pendingQuestions: Array<Question>;
   hasPendingQuestions: boolean;
 
-  actions;
+  actions: Array<Action>;
 
 
   constructor(
@@ -73,6 +74,35 @@ export class ProfileComponent implements OnInit {
   get questions$() {
     return this.profileService.questions$.pipe(map((questions: Array<Question>) => {
       this.questions = questions;
+
+      const action: Action = {
+        // Tab name
+        label: 'Questions',
+        // action visiblity in HTML
+        authorized: true,
+        // State of having questions
+        state: questions.length > 0,
+        // Displayed message
+        message: questions.length > 0 ? 'Questions Found' : 'Not questions were found',
+        // Available data, reversed to show latest first
+        data: questions.reverse(),
+        // Available buttons
+        options: {
+          primary: {
+            // main button access
+            access: true,
+            icon: 'edit',
+            functionality: 'edit'
+          },
+          seconadry: {
+            // sub button access
+            access: true,
+            icon: 'delete',
+            functionality: 'delete'
+          }
+        }
+      };
+
       return questions;
     }));
   }
@@ -93,7 +123,6 @@ export class ProfileComponent implements OnInit {
 
   get isCurrentUser() {
     const cookies: Cookies = this.cookieService.getAll();
-    const { username } = this.activeRoute.snapshot.params;
 
     try {
       const currentUser: User = JSON.parse(cookies.user);
@@ -103,151 +132,85 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  // setProfile() {
-  //   const cookies: Cookies = this.cookieService.getAll();
-  //   const routeParams = this.activeRoute.snapshot.params;
-
-  //   this.user.username = routeParams.username;
-
-  //   if (cookies.user) {
-  //     const currentUser: User = JSON.parse(cookies.user);
-  //     this.isMyProfile = this.user.username === currentUser.username ? true : false;
-  //   } else {
-  //     this.isMyProfile = false;
-  //   }
-
-  //   this.profileService.getUserProfile(this.user.username, 'username').subscribe((response: CustomResponse) => {
-  //     this.user = response.user;
-  //   });
+  // setActions() {
+  //   this.actions = [
+  //     {
+  //       label: 'Replies',
+  //       isAuthorized: true,
+  //       found: {
+  //         state: this.hasAnsweredQuestions,
+  //         message: `${this.user$} didn\'t reply to any questions!`,
+  //         data: this.answeredQuestions,
+  //         options: {
+  //           primary: {
+  //             access: false,
+  //             ico: 'edit',
+  //             functionality: 'edit'
+  //           },
+  //           secondary: {
+  //             access: true,
+  //             ico: 'delete',
+  //             functionality: 'delete'
+  //           },
+  //         }
+  //       },
+  //     }, {
+  //       label: 'Questions',
+  //       isAuthorized: true,
+  //       found: {
+  //         state: this.hasQuestions,
+  //         message: `${this.user$} doesn\'t have any questions!`,
+  //         data: this.questions,
+  //         options: {
+  //           primary: {
+  //             access: true,
+  //             ico: 'edit',
+  //             functionality: 'edit'
+  //           },
+  //           secondary: {
+  //             access: true,
+  //             ico: 'delete',
+  //             functionality: 'delete'
+  //           },
+  //         }
+  //       },
+  //     }, {
+  //       label: 'Pending Questions',
+  //       pending: true,
+  //       isAuthorized: this.isCurrentUser,
+  //       found: {
+  //         state: this.hasPendingQuestions,
+  //         message: 'You don\'t have any pending questions!',
+  //         data: this.pendingQuestions,
+  //         options: {
+  //           primary: {
+  //             access: true,
+  //             ico: 'reply',
+  //             functionality: 'reply'
+  //           },
+  //           secondary: {
+  //             access: true,
+  //             ico: 'delete',
+  //             functionality: 'delete'
+  //           },
+  //         }
+  //       },
+  //     },
+  //   ];
   // }
-
-  // setQuestions(username: string) {
-  //   this.profileService.getUserQuestions(username).subscribe((response: CustomResponse) => {
-  //     this.questions = response.questions.reverse();
-
-  //     this.hasQuestions = this.questions.length > 0;
-
-  //     this.setActions(username);
-  //   });
-  // }
-
-  // setAnsweredQuestions(username: string) {
-  //   this.profileService.getUserAnsweredQuestions(username).subscribe((response: CustomResponse) => {
-
-  //     const { questions } = response;
-
-  //     this.answeredQuestions = questions.reverse();
-
-  //     this.hasAnsweredQuestions = this.answeredQuestions.length > 0;
-
-  //     this.setActions(username);
-  //   });
-  // }
-
-  // setPending(username: string) {
-  //   this.profileService.getUserPindingQuestions(username).subscribe((response: CustomResponse) => {
-  //     this.pendingQuestions = response.questions;
-
-  //     this.hasPendingQuestions = this.pendingQuestions.length > 0;
-
-  //     this.setActions(username);
-  //   });
-  // }
-
-  setActions(username: string) {
-    this.actions = [
-      {
-        label: 'Replies',
-        isAuthorized: true,
-        found: {
-          state: this.hasAnsweredQuestions,
-          message: `${this.user.firstName} didn\'t reply to any questions!`,
-          data: this.answeredQuestions,
-          options: {
-            primary: {
-              access: false,
-              ico: 'edit',
-              functionality: 'edit'
-            },
-            secondary: {
-              access: true,
-              ico: 'delete',
-              functionality: 'delete'
-            },
-          }
-        },
-      }, {
-        label: 'Questions',
-        isAuthorized: true,
-        found: {
-          state: this.hasQuestions,
-          message: `${this.user.firstName} doesn\'t have any questions!`,
-          data: this.questions,
-          options: {
-            primary: {
-              access: true,
-              ico: 'edit',
-              functionality: 'edit'
-            },
-            secondary: {
-              access: true,
-              ico: 'delete',
-              functionality: 'delete'
-            },
-          }
-        },
-      }, {
-        label: 'Pending Questions',
-        pending: true,
-        isAuthorized: this.checkUser(username),
-        found: {
-          state: this.hasPendingQuestions,
-          message: 'You don\'t have any pending questions!',
-          data: this.pendingQuestions,
-          options: {
-            primary: {
-              access: true,
-              ico: 'reply',
-              functionality: 'reply'
-            },
-            secondary: {
-              access: true,
-              ico: 'delete',
-              functionality: 'delete'
-            },
-          }
-        },
-      },
-    ];
-  }
 
   submitQuestion() {
 
-    const cookies: Cookies = this.cookieService.getAll();
+    console.log('here');
 
-    const token = cookies.token;
+    // const cookies: Cookies = this.cookieService.getAll();
 
-    const questioner: User = JSON.parse(cookies.user);
+    // const token = cookies.token;
 
-    const asked: User = this.user;
+    // const questioner: User = JSON.parse(cookies.user);
 
-  }
+    // const asked: User = this.user;
 
-  checkUser(username: string) {
-    try {
-
-      const cookies: Cookies = this.cookieService.getAll();
-
-      if (!cookies.user) {
-        return false;
-      }
-
-      const user: User = JSON.parse(cookies.user);
-
-      return username === user.username;
-    } catch (error) {
-
-    }
   }
 
   openDialog(data, functionality, type): void {

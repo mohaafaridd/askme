@@ -1,8 +1,10 @@
-<!-- <h1>asked</h1>
+<h1>asked</h1>
 <h1 *ngFor="let question of questions$ | async">{{question.id}}</h1>
-<h1>replies</h1>
-<h1 *ngFor="let question of replies$ | async">{{question.content}}</h1>
-<h1>pinding</h1>
+
+<!-- <h1>replies</h1>
+<h1 *ngFor="let question of replies$ | async">{{question.content}}</h1> -->
+
+<!-- <h1>pinding</h1>
 <h1 *ngFor="let question of pinding$ | async">{{question.content}}</h1> -->
 
 <div class="grid">
@@ -110,7 +112,7 @@
                             <ng-template #notFound>
                                 <mat-card class="action-card">
                                     <mat-card-content>
-                                        <p class="message">{{action.found.message}}</p>
+                                        <p class="message">{{action.found.message | json}}</p>
                                     </mat-card-content>
                                 </mat-card>
                             </ng-template>
