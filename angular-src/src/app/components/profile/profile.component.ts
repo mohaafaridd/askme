@@ -55,24 +55,6 @@ export class ProfileComponent implements OnInit {
         this.bootstrap();
       }
     });
-
-    // Watch from route changes to reload component
-    // this.activeRoute.params.subscribe(routeParams => {
-    //   // Set Profile Information
-
-    //   // Getting Questions
-    //   this.setQuestions(routeParams.username);
-
-    //   // Getting Replies
-    //   this.setAnsweredQuestions(routeParams.username);
-
-    //   // Getting pending questions
-    //   this.setPending(routeParams.username);
-
-    //   this.setActions(routeParams.username);
-
-    //   this.loading = false;
-    // });
   }
 
   bootstrap() {
@@ -80,6 +62,7 @@ export class ProfileComponent implements OnInit {
     this.profileService.getUserProfile(username);
     this.profileService.getUserQuestions(username);
     this.profileService.getUserReplies(username);
+    this.profileService.getUserPindingQuestions(username);
   }
 
   get user$() {
@@ -98,6 +81,13 @@ export class ProfileComponent implements OnInit {
 
   get replies$() {
     return this.profileService.replies$.pipe(map((questions: Array<Question>) => {
+      this.answeredQuestions = questions;
+      return questions;
+    }));
+  }
+
+  get pinding$() {
+    return this.profileService.pinding$.pipe(map((questions: Array<Question>) => {
       this.answeredQuestions = questions;
       return questions;
     }));

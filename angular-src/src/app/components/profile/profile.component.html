@@ -1,5 +1,9 @@
+<h1>asked</h1>
 <h1 *ngFor="let question of questions$ | async">{{question.id}}</h1>
+<h1>replies</h1>
 <h1 *ngFor="let question of replies$ | async">{{question.content}}</h1>
+<h1>pinding</h1>
+<h1 *ngFor="let question of pinding$ | async">{{question.content}}</h1>
 <div class="grid">
 
     <div class="info-wrapper card-wrappers">
