@@ -3,7 +3,6 @@ const http = require('http');
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const socketio = require('socket.io');
 
 const { connectDB } = require('./backend/database/mongoose');
 
@@ -13,13 +12,9 @@ const app = express();
 
 const server = http.createServer(app);
 
-const io = socketio(server);
-
 const port = process.env.PORT;
 
 connectDB();
-
-app.set('io', io);
 
 app.use(cookieParser());
 

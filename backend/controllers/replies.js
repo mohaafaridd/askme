@@ -8,7 +8,6 @@ const replyHelpers = require('./helpers/replies');
 const postReply = async (req, res) => {
 
   try {
-    const io = req.app.get('io');
 
     const { reply: passedReply } = req.body;
 
@@ -23,8 +22,6 @@ const postReply = async (req, res) => {
     );
 
     await reply.save();
-
-    io.emit('newReply');
 
     res.send({ success: true, message: 'Reply posted!', reply });
 
@@ -83,8 +80,6 @@ const updateReply = async (req, res) => {
     }
 
     await reply.save();
-
-    io.emit('newReply');
 
     res.send({ success: true, message: 'Reply edited!', reply });
 

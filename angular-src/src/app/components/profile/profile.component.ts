@@ -4,9 +4,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { User, Question, Reply, Cookies, CustomResponse, CustomError } from 'src/app/models/models';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as io from 'socket.io-client';
-import { NotificationService } from 'src/app/services/notification.service';
-import { environment } from 'src/environments/environment';
 import { QuestionsService } from 'src/app/services/questions.service';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from './dialog/dialog.component';
@@ -50,13 +47,11 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private cookieService: CookieService,
     private router: Router,
-    private notificationService: NotificationService,
     private questionService: QuestionsService,
     private activeRoute: ActivatedRoute,
     public dialog: MatDialog,
     private profileService: ProfileService,
   ) {
-    this.socket = io(`${environment.LINK}`);
   }
 
   ngOnInit() {
@@ -77,29 +72,6 @@ export class ProfileComponent implements OnInit {
 
       this.setActions(routeParams.username);
 
-    });
-
-    this.asyncQuestionsSocket();
-
-    this.asyncRepliesSocket();
-
-  }
-
-  asyncQuestionsSocket() {
-    this.socket.on('newQuestion', () => {
-      const { params } = this.activeRoute.snapshot;
-      this.setQuestions(params.username);
-      this.setPending(params.username);
-    });
-  }
-
-  asyncRepliesSocket() {
-    this.socket.on('newReply', () => {
-      console.log('updated');
-      const { params } = this.activeRoute.snapshot;
-      this.setAnsweredQuestions(params.username);
-      this.setQuestions(params.username);
-      this.setPending(params.username);
     });
   }
 
@@ -230,10 +202,6 @@ export class ProfileComponent implements OnInit {
     const questioner: User = JSON.parse(cookies.user);
 
     const asked: User = this.user;
-
-    this.questionService.postQuestion(questioner, asked, this.question, token).subscribe((response: CustomResponse) => {
-      this.notificationService.open(`@${questioner.username} asked @${asked.username} a question 🎉🎉`, 'x', environment.NOTIFICATION_TIME);
-    });
 
   }
 

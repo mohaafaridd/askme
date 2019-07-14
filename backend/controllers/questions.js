@@ -9,8 +9,6 @@ const postQuestion = async (req, res) => {
 
   try {
 
-    const io = req.app.get('io');
-
     const question = new Question({
       content: req.body.content,
       questioner: req.body.questioner,
@@ -18,8 +16,6 @@ const postQuestion = async (req, res) => {
     });
 
     await question.save();
-
-    io.emit('newQuestion');
 
     res.send({ success: true, message: 'Question posted!', question });
 

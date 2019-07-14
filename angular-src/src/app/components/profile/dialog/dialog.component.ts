@@ -110,7 +110,7 @@ export class DialogComponent implements OnInit {
       };
 
       this.questionsService.deleteQuestion(question, token).subscribe(() => {
-        // this.dialogRef.close();
+        this.dialogRef.close();
       });
     }
   }
