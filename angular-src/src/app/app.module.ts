@@ -19,6 +19,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { DialogComponent } from './components/profile/dialog/dialog.component';
 import { InformationComponent } from './components/profile/information/information.component';
+import { AskQuestionComponent } from './components/profile/ask-question/ask-question.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { InformationComponent } from './components/profile/information/informati
     ProfileComponent,
     DialogComponent,
     InformationComponent,
+    AskQuestionComponent,
   ],
   imports: [
     BrowserModule,

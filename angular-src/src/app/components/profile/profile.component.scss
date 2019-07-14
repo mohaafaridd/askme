@@ -12,24 +12,7 @@
 .action-wrapper{
   grid-column: 2;
   // Asking a question form
-  .ask-question{
-    form mat-card mat-card-content {
-      // Flex mat content
-      display: flex;
-      flex-direction: column;
-
-      // Textarea
-      mat-form-field {
-        width: 100%;
-      }
-
-      // Button to right
-      button {
-        align-self: flex-end;
-      }
-    }
-  }
-
+  
   .actions {
     .action-card{
       margin: 1%;
