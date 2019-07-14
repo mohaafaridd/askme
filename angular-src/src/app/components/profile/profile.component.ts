@@ -31,8 +31,7 @@ export class ProfileComponent implements OnInit {
   pendingQuestions: Array<Question>;
   hasPendingQuestions: boolean;
 
-  actions: Array<Action>;
-
+  actions: Array<Action> = [];
 
   constructor(
     private authService: AuthService,
@@ -103,6 +102,8 @@ export class ProfileComponent implements OnInit {
         }
       };
 
+      this.actions.push(action);
+      console.log(this.actions.length);
       return questions;
     }));
   }

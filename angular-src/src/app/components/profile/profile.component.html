@@ -1,5 +1,5 @@
-<h1>asked</h1>
-<h1 *ngFor="let question of questions$ | async">{{question.id}}</h1>
+<!-- <h1>asked</h1>
+<h1 *ngFor="let question of questions$ | async">{{question.id}}</h1> -->
 
 <!-- <h1>replies</h1>
 <h1 *ngFor="let question of replies$ | async">{{question.content}}</h1> -->
@@ -10,15 +10,7 @@
 <div class="grid">
 
     <div class="info-wrapper">
-        <mat-card class="profile-card">
-            <mat-card-header>
-                <mat-card-title>{{ (user$ | async)?.firstName }} {{ (user$ | async)?.middleName }}</mat-card-title>
-                <mat-card-subtitle>@{{ (user$ | async)?.username }}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <p>Joined at {{(user$ | async)?.createdAt | date}}</p>
-            </mat-card-content>
-        </mat-card>
+        <app-information></app-information>
     </div>
 
     <div class="action-wrapper">
@@ -43,6 +35,8 @@
                 </mat-card>
             </form>
         </div>
+
+
 
         <!-- <div class="actions">
             <mat-tab-group>
