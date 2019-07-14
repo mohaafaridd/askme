@@ -3,19 +3,18 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { User, Question, Reply, Cookies, CustomResponse, CustomError } from 'src/app/models/models';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { QuestionsService } from 'src/app/services/questions.service';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from './dialog/dialog.component';
+
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-
-
-  socket;
 
   // used to store a question asked by user, bounded to textarea in HTML
   question: string;
@@ -52,46 +51,63 @@ export class ProfileComponent implements OnInit {
     public dialog: MatDialog,
     private profileService: ProfileService,
   ) {
+    this.bootstrap();
   }
 
   ngOnInit() {
+
+    this.router.events.subscribe((e: any) => {
+      const lastEvent = e instanceof NavigationEnd;
+      if (lastEvent) {
+        this.bootstrap();
+      }
+    });
+
     // Watch from route changes to reload component
-    this.activeRoute.params.subscribe(routeParams => {
+    // this.activeRoute.params.subscribe(routeParams => {
+    //   // Set Profile Information
 
-      // Set Profile Information
-      this.setProfile();
+    //   // Getting Questions
+    //   this.setQuestions(routeParams.username);
 
-      // Getting Questions
-      this.setQuestions(routeParams.username);
+    //   // Getting Replies
+    //   this.setAnsweredQuestions(routeParams.username);
 
-      // Getting Replies
-      this.setAnsweredQuestions(routeParams.username);
+    //   // Getting pending questions
+    //   this.setPending(routeParams.username);
 
-      // Getting pending questions
-      this.setPending(routeParams.username);
+    //   this.setActions(routeParams.username);
 
-      this.setActions(routeParams.username);
-
-    });
+    //   this.loading = false;
+    // });
   }
 
-  setProfile() {
-    const cookies: Cookies = this.cookieService.getAll();
-    const routeParams = this.activeRoute.snapshot.params;
-
-    this.user.username = routeParams.username;
-
-    if (cookies.user) {
-      const currentUser: User = JSON.parse(cookies.user);
-      this.isMyProfile = this.user.username === currentUser.username ? true : false;
-    } else {
-      this.isMyProfile = false;
-    }
-
-    this.profileService.getUserProfile(this.user.username, 'username').subscribe((response: CustomResponse) => {
-      this.user = response.user;
-    });
+  bootstrap() {
+    const { username } = this.activeRoute.snapshot.params;
+    this.profileService.getUserProfile(username);
   }
+
+  get user$() {
+    return this.profileService.user$.pipe(map((user: User) => user));
+  }
+
+  // setProfile() {
+  //   const cookies: Cookies = this.cookieService.getAll();
+  //   const routeParams = this.activeRoute.snapshot.params;
+
+  //   this.user.username = routeParams.username;
+
+  //   if (cookies.user) {
+  //     const currentUser: User = JSON.parse(cookies.user);
+  //     this.isMyProfile = this.user.username === currentUser.username ? true : false;
+  //   } else {
+  //     this.isMyProfile = false;
+  //   }
+
+  //   this.profileService.getUserProfile(this.user.username, 'username').subscribe((response: CustomResponse) => {
+  //     this.user = response.user;
+  //   });
+  // }
 
   setQuestions(username: string) {
     this.profileService.getUserQuestions(username).subscribe((response: CustomResponse) => {

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { ReplaySubject } from 'rxjs';
+import { CustomResponse } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +11,14 @@ export class ProfileService {
 
   constructor(private http: HttpClient) { }
 
-  getUserProfile(username: string, term: string) {
-    return this.http.get(`${environment.LINK}/users/${username}`);
+  private userSubject = new ReplaySubject();
+
+  user$ = this.userSubject.asObservable();
+
+  getUserProfile(username: string) {
+    return this.http.get(`${environment.LINK}/users/${username}`).subscribe(
+      (response: CustomResponse) => this.userSubject.next(response.user)
+    );
   }
 
   getUserQuestions(username: string) {
