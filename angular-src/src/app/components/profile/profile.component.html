@@ -1,12 +1,13 @@
-<h1>asked</h1>
+<!-- <h1>asked</h1>
 <h1 *ngFor="let question of questions$ | async">{{question.id}}</h1>
 <h1>replies</h1>
 <h1 *ngFor="let question of replies$ | async">{{question.content}}</h1>
 <h1>pinding</h1>
-<h1 *ngFor="let question of pinding$ | async">{{question.content}}</h1>
+<h1 *ngFor="let question of pinding$ | async">{{question.content}}</h1> -->
+
 <div class="grid">
 
-    <div class="info-wrapper card-wrappers">
+    <div class="info-wrapper">
         <mat-card class="profile-card">
             <mat-card-header>
                 <mat-card-title>{{ (user$ | async)?.firstName }} {{ (user$ | async)?.middleName }}</mat-card-title>
@@ -18,12 +19,12 @@
         </mat-card>
     </div>
 
-    <!-- <div class="action-wrapper">
+    <div class="action-wrapper">
 
-        <div class="ask-question" *ngIf="!isMyProfile">
+        <div class="ask-question" *ngIf="!isCurrentUser">
             <form (ngSubmit)="submitQuestion()">
                 <mat-card>
-                    <mat-card-title>Ask {{user.firstName}} a question !</mat-card-title>
+                    <mat-card-title>Ask {{ (user$ | async)?.firstName }} a question !</mat-card-title>
 
                     <mat-card-content>
                         <div>
@@ -41,7 +42,7 @@
             </form>
         </div>
 
-        <div class="actions">
+        <!-- <div class="actions">
             <mat-tab-group>
                 <ng-container *ngFor="let action of actions">
                     <div *ngIf="action.isAuthorized">
@@ -117,8 +118,8 @@
                     </div>
                 </ng-container>
             </mat-tab-group>
-        </div>
+        </div> -->
 
-    </div> -->
+    </div>
 
 </div>

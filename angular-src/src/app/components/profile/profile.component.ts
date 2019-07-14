@@ -19,8 +19,6 @@ export class ProfileComponent implements OnInit {
   // used to store a question asked by user, bounded to textarea in HTML
   question: string;
 
-  isMyProfile;
-
   user: User;
 
   questions: Array<Question>;
@@ -91,6 +89,18 @@ export class ProfileComponent implements OnInit {
       this.answeredQuestions = questions;
       return questions;
     }));
+  }
+
+  get isCurrentUser() {
+    const cookies: Cookies = this.cookieService.getAll();
+    const { username } = this.activeRoute.snapshot.params;
+
+    try {
+      const currentUser: User = JSON.parse(cookies.user);
+      return this.user.username === currentUser.username;
+    } catch (error) {
+      return false;
+    }
   }
 
   // setProfile() {
