@@ -13,9 +13,11 @@ export class ProfileService {
 
   private userSubject = new ReplaySubject();
   private questionsSubject = new ReplaySubject();
+  private repliesSubject = new ReplaySubject();
 
   user$ = this.userSubject.asObservable();
   questions$ = this.questionsSubject.asObservable();
+  replies$ = this.repliesSubject.asObservable();
 
   getUserProfile(username: string) {
     return this.http.get(`${environment.LINK}/users/${username}`).subscribe(
@@ -29,12 +31,15 @@ export class ProfileService {
     );
   }
 
+  getUserReplies(username: string) {
+    return this.http.get(`${environment.LINK}/questions/incoming/${username}?state=answered`).subscribe(
+      (response: CustomResponse) => this.repliesSubject.next(response.questions)
+    );
+  }
+
   getUserPindingQuestions(username: string) {
     return this.http.get(`${environment.LINK}/questions/incoming/${username}?state=pinding`);
   }
 
-  getUserAnsweredQuestions(username: string) {
-    return this.http.get(`${environment.LINK}/questions/incoming/${username}?state=answered`);
-  }
 
 }

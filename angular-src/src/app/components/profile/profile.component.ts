@@ -79,6 +79,7 @@ export class ProfileComponent implements OnInit {
     const { username } = this.activeRoute.snapshot.params;
     this.profileService.getUserProfile(username);
     this.profileService.getUserQuestions(username);
+    this.profileService.getUserReplies(username);
   }
 
   get user$() {
@@ -91,6 +92,13 @@ export class ProfileComponent implements OnInit {
   get questions$() {
     return this.profileService.questions$.pipe(map((questions: Array<Question>) => {
       this.questions = questions;
+      return questions;
+    }));
+  }
+
+  get replies$() {
+    return this.profileService.replies$.pipe(map((questions: Array<Question>) => {
+      this.answeredQuestions = questions;
       return questions;
     }));
   }
@@ -123,28 +131,28 @@ export class ProfileComponent implements OnInit {
   //   });
   // }
 
-  setAnsweredQuestions(username: string) {
-    this.profileService.getUserAnsweredQuestions(username).subscribe((response: CustomResponse) => {
+  // setAnsweredQuestions(username: string) {
+  //   this.profileService.getUserAnsweredQuestions(username).subscribe((response: CustomResponse) => {
 
-      const { questions } = response;
+  //     const { questions } = response;
 
-      this.answeredQuestions = questions.reverse();
+  //     this.answeredQuestions = questions.reverse();
 
-      this.hasAnsweredQuestions = this.answeredQuestions.length > 0;
+  //     this.hasAnsweredQuestions = this.answeredQuestions.length > 0;
 
-      this.setActions(username);
-    });
-  }
+  //     this.setActions(username);
+  //   });
+  // }
 
-  setPending(username: string) {
-    this.profileService.getUserPindingQuestions(username).subscribe((response: CustomResponse) => {
-      this.pendingQuestions = response.questions;
+  // setPending(username: string) {
+  //   this.profileService.getUserPindingQuestions(username).subscribe((response: CustomResponse) => {
+  //     this.pendingQuestions = response.questions;
 
-      this.hasPendingQuestions = this.pendingQuestions.length > 0;
+  //     this.hasPendingQuestions = this.pendingQuestions.length > 0;
 
-      this.setActions(username);
-    });
-  }
+  //     this.setActions(username);
+  //   });
+  // }
 
   setActions(username: string) {
     this.actions = [
