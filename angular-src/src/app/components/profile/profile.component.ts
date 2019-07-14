@@ -21,14 +21,7 @@ export class ProfileComponent implements OnInit {
 
   isMyProfile;
 
-  user: User = {
-    createdAt: '',
-    firstName: '',
-    id: 1,
-    middleName: '',
-    username: '',
-    _id: '',
-  };
+  user: User;
 
   questions: Array<Question>;
   hasQuestions: boolean;
@@ -85,10 +78,21 @@ export class ProfileComponent implements OnInit {
   bootstrap() {
     const { username } = this.activeRoute.snapshot.params;
     this.profileService.getUserProfile(username);
+    this.profileService.getUserQuestions(username);
   }
 
   get user$() {
-    return this.profileService.user$.pipe(map((user: User) => user));
+    return this.profileService.user$.pipe(map((user: User) => {
+      this.user = user;
+      return user;
+    }));
+  }
+
+  get questions$() {
+    return this.profileService.questions$.pipe(map((questions: Array<Question>) => {
+      this.questions = questions;
+      return questions;
+    }));
   }
 
   // setProfile() {
@@ -109,15 +113,15 @@ export class ProfileComponent implements OnInit {
   //   });
   // }
 
-  setQuestions(username: string) {
-    this.profileService.getUserQuestions(username).subscribe((response: CustomResponse) => {
-      this.questions = response.questions.reverse();
+  // setQuestions(username: string) {
+  //   this.profileService.getUserQuestions(username).subscribe((response: CustomResponse) => {
+  //     this.questions = response.questions.reverse();
 
-      this.hasQuestions = this.questions.length > 0;
+  //     this.hasQuestions = this.questions.length > 0;
 
-      this.setActions(username);
-    });
-  }
+  //     this.setActions(username);
+  //   });
+  // }
 
   setAnsweredQuestions(username: string) {
     this.profileService.getUserAnsweredQuestions(username).subscribe((response: CustomResponse) => {

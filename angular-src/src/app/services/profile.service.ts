@@ -12,8 +12,10 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   private userSubject = new ReplaySubject();
+  private questionsSubject = new ReplaySubject();
 
   user$ = this.userSubject.asObservable();
+  questions$ = this.questionsSubject.asObservable();
 
   getUserProfile(username: string) {
     return this.http.get(`${environment.LINK}/users/${username}`).subscribe(
@@ -22,7 +24,9 @@ export class ProfileService {
   }
 
   getUserQuestions(username: string) {
-    return this.http.get(`${environment.LINK}/questions/user/${username}`);
+    return this.http.get(`${environment.LINK}/questions/user/${username}`).subscribe(
+      (response: CustomResponse) => this.questionsSubject.next(response.questions)
+    );
   }
 
   getUserPindingQuestions(username: string) {
