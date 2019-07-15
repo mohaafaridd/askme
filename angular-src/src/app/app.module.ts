@@ -20,6 +20,8 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { DialogComponent } from './components/profile/dialog/dialog.component';
 import { InformationComponent } from './components/profile/information/information.component';
 import { AskQuestionComponent } from './components/profile/ask-question/ask-question.component';
+import { TabsComponent } from './components/profile/tabs/tabs.component';
+import { QuestionCardComponent } from './components/profile/tabs/question-card/question-card.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { AskQuestionComponent } from './components/profile/ask-question/ask-ques
     DialogComponent,
     InformationComponent,
     AskQuestionComponent,
+    TabsComponent,
+    QuestionCardComponent,
   ],
   imports: [
     BrowserModule,

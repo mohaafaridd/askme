@@ -1,11 +1,8 @@
-import { Question } from './models';
+import { Observable } from 'rxjs';
 
 export interface Action {
   label: string;
   authorized: boolean;
-  state: boolean;
-  message: string;
-  data: Array<Question>;
   options: {
     primary: SubAction;
     seconadry: SubAction;

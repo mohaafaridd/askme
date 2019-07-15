@@ -74,36 +74,30 @@ export class ProfileComponent implements OnInit {
     return this.profileService.questions$.pipe(map((questions: Array<Question>) => {
       this.questions = questions;
 
-      const action: Action = {
-        // Tab name
-        label: 'Questions',
-        // action visiblity in HTML
-        authorized: true,
-        // State of having questions
-        state: questions.length > 0,
-        // Displayed message
-        message: questions.length > 0 ? 'Questions Found' : 'Not questions were found',
-        // Available data, reversed to show latest first
-        data: questions.reverse(),
-        // Available buttons
-        options: {
-          primary: {
-            // main button access
-            access: true,
-            icon: 'edit',
-            functionality: 'edit'
-          },
-          seconadry: {
-            // sub button access
-            access: true,
-            icon: 'delete',
-            functionality: 'delete'
-          }
-        }
-      };
+      // const action: Action = {
+      //   // Tab name
+      //   label: 'Questions',
+      //   // action visiblity in HTML
+      //   authorized: true,
+      //   // Available buttons
+      //   options: {
+      //     primary: {
+      //       // main button access
+      //       access: true,
+      //       icon: 'edit',
+      //       functionality: 'edit'
+      //     },
+      //     seconadry: {
+      //       // sub button access
+      //       access: true,
+      //       icon: 'delete',
+      //       functionality: 'delete'
+      //     }
+      //   }
+      // };
 
-      this.actions.push(action);
-      console.log(this.actions.length);
+      // this.actions.push(action);
+      // console.log(this.actions.length);
       return questions;
     }));
   }
