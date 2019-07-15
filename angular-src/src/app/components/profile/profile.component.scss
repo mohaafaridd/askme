@@ -1,4 +1,3 @@
-// Main Grid
 .grid{
   display: grid;
   grid-template-columns: 20% auto;
@@ -11,27 +10,6 @@
 
 .action-wrapper{
   grid-column: 2;
-  // Asking a question form
-  
-  .actions {
-    .action-card{
-      margin: 1%;
-      // margin-top: 1%;
-      // margin-bottom: 1%;
-      
-      mat-card-actions{
-        display: flex;
-        justify-content: flex-end;
-      }
-      .reply-card{
-        margin-bottom: 1%;
-      }
-      // Reply width
-      mat-form-field {
-        width: 100%;
-      }
-    }
-  }
 }
 
 @media only screen and (max-width: 600px) {

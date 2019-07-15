@@ -1,4 +1,4 @@
-<mat-tab-group>
+<mat-tab-group animationDuration="0ms">
     <ng-container *ngFor="let action of tabOptions">
         <div *ngIf="action.authorized">
             <mat-tab label="{{ action.label }}">
@@ -9,5 +9,3 @@
         </div>
     </ng-container>
 </mat-tab-group>
-
-<!-- <h1 *ngFor="let question of replies$ | async">{{question | json }}</h1> -->

@@ -16,7 +16,7 @@ export class QuestionCardComponent implements OnInit {
 
   constructor(
     private cookieService: CookieService,
-    private activatedRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute
 
   ) { }
   user: User;
@@ -26,9 +26,10 @@ export class QuestionCardComponent implements OnInit {
 
   get isCurrentUser() {
     const cookies: Cookies = this.cookieService.getAll();
+    const { username } = this.activeRoute.snapshot.params;
     try {
       const currentUser: User = JSON.parse(cookies.user);
-      return this.user.username === currentUser.username;
+      return username === currentUser.username;
     } catch (error) {
       return false;
     }

@@ -11,7 +11,7 @@
                 <small>{{reply.createdAt | date: 'medium'}}</small>
             </mat-card-content>
 
-            <mat-card-actions>
+            <mat-card-actions *ngIf="isCurrentUser">
                 <a mat-mini-fab color="primary">
                     <mat-icon>
                         {{ action.primary.icon }}
@@ -28,8 +28,7 @@
         </mat-card>
     </mat-card-content>
 
-    <mat-card-actions>
-
+    <mat-card-actions *ngIf="isCurrentUser">
         <a mat-mini-fab color="primary">
             <mat-icon>
                 {{ action.primary.icon }}
@@ -41,6 +40,5 @@
                 {{ action.secondary.icon }}
             </mat-icon>
         </a>
-
     </mat-card-actions>
 </mat-card>

@@ -1,12 +1,3 @@
-<!-- <h1>asked</h1>
-<h1 *ngFor="let question of questions$ | async">{{question.id}}</h1> -->
-
-<!-- <h1>replies</h1>
-<h1 *ngFor="let question of replies$ | async">{{question.content}}</h1> -->
-
-<!-- <h1>pinding</h1>
-<h1 *ngFor="let question of pinding$ | async">{{question.content}}</h1> -->
-
 <div class="grid">
 
     <div class="info-wrapper">
@@ -14,88 +5,8 @@
     </div>
 
     <div class="action-wrapper">
-
         <app-ask-question></app-ask-question>
-
         <app-tabs></app-tabs>
-        <!-- <div class="actions">
-            <mat-tab-group>
-                <ng-container *ngFor="let action of actions">
-                    <div *ngIf="action.isAuthorized">
-                        <mat-tab label="{{ action.label }}">
-
-                            <div *ngIf="action.found.state; else notFound">
-                                <mat-card class="action-card" *ngFor="let model of action.found.data ; let i = index"
-                                    [attr.data-index]="i">
-
-                                    <mat-card-header class="quesiton-header">
-                                        <mat-card-title>{{model.content}}</mat-card-title>
-                                        <mat-card-subtitle>{{model.createdAt | date: 'medium'}}</mat-card-subtitle>
-                                    </mat-card-header>
-
-                                    <mat-card-content *ngIf="!action.pending">
-                                        <mat-card class="reply-card"
-                                            *ngFor="let reply of model.replies; let replyIndex = index">
-                                            <mat-card-content>
-                                                <p>{{reply.content}}</p>
-                                                <small>{{reply.createdAt | date: 'medium'}}</small>
-                                            </mat-card-content>
-
-                                            <mat-card-actions *ngIf="isMyProfile">
-
-                                                <a mat-raised-button color="accent"
-                                                    (click)="openDialog(reply, action.found.options.primary.functionality, 'reply')">
-                                                    <mat-icon>
-                                                        {{ action.found.options.primary.ico }}
-                                                    </mat-icon>
-                                                    {{action.found.options.primary.functionality}}
-                                                </a>
-
-                                                <a mat-button
-                                                    (click)="openDialog(reply, action.found.options.secondary.functionality, 'reply')">
-                                                    <mat-icon>
-                                                        {{ action.found.options.secondary.ico }}
-                                                    </mat-icon>
-                                                </a>
-                                            </mat-card-actions>
-                                        </mat-card>
-                                    </mat-card-content>
-
-                                    <mat-card-actions>
-
-                                        <a *ngIf="action.found.options.primary.access" mat-raised-button color="accent"
-                                            (click)="openDialog(action.found.data[i], action.found.options.primary.functionality, 'question')">
-                                            <mat-icon>
-                                                {{ action.found.options.primary.ico }}
-                                            </mat-icon>
-                                            {{action.found.options.primary.functionality}}
-                                        </a>
-
-                                        <a *ngIf="action.found.options.secondary.access" mat-button
-                                            (click)="openDialog(action.found.data[i], action.found.options.secondary.functionality, 'question')">
-                                            <mat-icon>
-                                                {{ action.found.options.secondary.ico }}
-                                            </mat-icon>
-                                        </a>
-
-                                    </mat-card-actions>
-
-                                </mat-card>
-                            </div>
-
-                            <ng-template #notFound>
-                                <mat-card class="action-card">
-                                    <mat-card-content>
-                                        <p class="message">{{action.found.message | json}}</p>
-                                    </mat-card-content>
-                                </mat-card>
-                            </ng-template>
-                        </mat-tab>
-                    </div>
-                </ng-container>
-            </mat-tab-group>
-        </div> -->
-
     </div>
 
 </div>
