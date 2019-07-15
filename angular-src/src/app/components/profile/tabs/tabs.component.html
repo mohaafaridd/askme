@@ -2,11 +2,9 @@
     <ng-container *ngFor="let action of tabOptions">
         <div *ngIf="action.authorized">
             <mat-tab label="{{ action.label }}">
-                <ul>
-                    <li *ngFor="let reply of (replies$ | async)">
-                        {{reply|json}}
-                    </li>
-                </ul>
+                <app-question-card *ngFor="let question of (action.data | async)" [question]="question"
+                    [action]="action.options">
+                </app-question-card>
             </mat-tab>
         </div>
     </ng-container>

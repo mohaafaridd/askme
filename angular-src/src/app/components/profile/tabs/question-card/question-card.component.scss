@@ -1,0 +1,22 @@
+
+mat-card{
+  margin: 1%;
+  
+  mat-card-actions{
+    display: flex;
+    justify-content: flex-end;
+
+    a{
+      margin: 2%;
+    }
+  }
+
+  .reply-card{
+    margin-bottom: 1%;
+  }
+
+  // Reply width
+  mat-form-field {
+    width: 100%;
+  }
+}

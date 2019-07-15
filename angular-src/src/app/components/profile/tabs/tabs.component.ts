@@ -37,18 +37,19 @@ export class TabsComponent implements OnInit {
     const replies: Action = {
       label: 'Replies',
       authorized: true,
+      data: this.replies$,
       options: {
         primary: {
           // User can't edit someone's question
           access: false,
           icon: 'edit',
-          functionality: 'edit'
+          functionality: 'edit',
         },
-        seconadry: {
+        secondary: {
           // User can delete someone's question
           access: true,
           icon: 'delete',
-          functionality: 'delete'
+          functionality: 'delete',
         }
       }
     };
@@ -56,18 +57,19 @@ export class TabsComponent implements OnInit {
     const questions: Action = {
       label: 'Questions',
       authorized: true,
+      data: this.questions$,
       options: {
         primary: {
           // User can edit his question
           access: true,
           icon: 'edit',
-          functionality: 'edit'
+          functionality: 'edit',
         },
-        seconadry: {
+        secondary: {
           // User can delete his question
           access: true,
           icon: 'delete',
-          functionality: 'delete'
+          functionality: 'delete',
         }
       }
     };
@@ -75,18 +77,19 @@ export class TabsComponent implements OnInit {
     const pinding: Action = {
       label: 'Pinding Questions',
       authorized: true,
+      data: this.pinding$,
       options: {
         primary: {
           // User can reply to someone's pinding question
           access: true,
           icon: 'reply',
-          functionality: 'reply'
+          functionality: 'reply',
         },
-        seconadry: {
+        secondary: {
           // User can delete someone's pinding question
           access: true,
           icon: 'delete',
-          functionality: 'delete'
+          functionality: 'delete',
         }
       }
     };

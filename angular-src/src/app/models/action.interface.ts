@@ -1,11 +1,10 @@
-import { Observable } from 'rxjs';
-
 export interface Action {
   label: string;
   authorized: boolean;
+  data: any;
   options: {
     primary: SubAction;
-    seconadry: SubAction;
+    secondary: SubAction;
   };
 }
 
