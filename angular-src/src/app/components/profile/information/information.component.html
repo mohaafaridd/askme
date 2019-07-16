@@ -3,12 +3,18 @@
         <mat-card-title>{{ (user$ | async)?.firstName }} {{ (user$ | async)?.middleName }}</mat-card-title>
         <mat-card-subtitle>@{{ (user$ | async)?.username }}</mat-card-subtitle>
     </mat-card-header>
+    <img mat-card-image src="https://via.placeholder.com/400">
+
     <mat-card-content>
         <p>Joined at {{(user$ | async)?.createdAt | date}}</p>
+
+        <small>0 questions asked</small>
+        <small>0 questions answered</small>
+
     </mat-card-content>
 
     <mat-card-actions *ngIf="!isCurrentUser">
-        <a mat-stroked-button>
+        <a mat-stroked-button color="accent">
             <mat-icon>
                 add
             </mat-icon>
