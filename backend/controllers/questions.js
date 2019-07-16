@@ -3,7 +3,8 @@ const User = require('../models/user');
 const Question = require('../models/question');
 const Reply = require('../models/reply');
 
-const questionHelpers = require('./helpers/questions');
+const questionsHelpers = require('./helpers/questions');
+const usersHelpers = require('./helpers/users');
 
 const postQuestion = async (req, res) => {
 
@@ -43,7 +44,7 @@ const getQuestion = async (req, res) => {
     await rawQuestion.populate('replies').execPopulate();
 
     /* Question Picking */
-    const pickedQuestion = questionHelpers.pickQuestion(rawQuestion);
+    const pickedQuestion = questionsHelpers.pickQuestion(rawQuestion);
 
     res.send({ success: true, message: 'Question found!', question: pickedQuestion });
 
@@ -79,7 +80,7 @@ const getQuestionsByUser = async (req, res) => {
     const populated = await Promise.all(populateRequests);
 
     // Picking the questions to fit the model
-    const picked = populated.map(question => questionHelpers.pickQuestion(question));
+    const picked = populated.map(question => questionsHelpers.pickQuestion(question));
 
     res.send({ success: true, message: `All questions by user ${username} found`, questions: picked });
 
@@ -103,15 +104,24 @@ const getIncomingQuestions = async (req, res) => {
     const questions = await Question.find({ asked: user._id });
 
     // Creating requests to promise all of them later
-    const populateRequests = questions.map(question => question.populate('replies').execPopulate());
+    const repliesRequests = questions.map(question => question.populate('replies').execPopulate());
 
     // Populate all requests that we initialized the line before
-    const populated = await Promise.all(populateRequests);
+    const populated = await Promise.all(repliesRequests);
 
-    const picked = populated.map(question => questionHelpers.pickQuestion(question));
+    const pickedReplies = populated.map(question => questionsHelpers.pickQuestion(question));
 
     // Return filtered array with whether all answered questions or pinding ones
-    const filtered = questionHelpers.filterOnState(state, picked);
+    const filtered = questionsHelpers.filterOnState(state, pickedReplies);
+
+    const questionersRequests = filtered.map(question => User.findById(question.questioner));
+
+    const populatedQuestioners = await Promise.all(questionersRequests);
+
+    filtered.map((question, index) => {
+      question.questioner = usersHelpers.pickedUserForQuestion(populatedQuestioners[index]);
+      return question;
+    });
 
     res.send({ success: true, message: `All questions answered by user ${username}`, questions: filtered });
 

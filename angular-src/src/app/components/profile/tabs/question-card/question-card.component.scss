@@ -1,7 +1,14 @@
 
 mat-card{
   margin: 1%;
-  
+
+  mat-card-header{
+    a{
+      text-decoration: none;
+      // background-color: green;
+    }
+  }
+
   mat-card-actions{
     display: flex;
     justify-content: flex-end;

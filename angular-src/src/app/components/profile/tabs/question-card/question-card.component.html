@@ -1,7 +1,14 @@
 <mat-card>
     <mat-card-header>
+        <mat-card-title>
+            <a class="accent-color" [routerLink]="['/' + question.questioner.username]">
+                {{question.questioner.firstName}} {{question.questioner.middleName}}
+            </a>
+        </mat-card-title>
+        <mat-card-subtitle>
+            {{question.createdAt | date: 'medium'}}
+        </mat-card-subtitle>
         <mat-card-title>{{question.content}}</mat-card-title>
-        <mat-card-subtitle>{{question.createdAt | date: 'medium'}}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content *ngIf="question.replies.length > 0">

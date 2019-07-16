@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
 
-    <a class="title" [routerLink]="['/']">Questionary</a>
+    <a mat-stroked-button class="title" [routerLink]="['/']">Questionary</a>
 
     <span class="spacer"></span>
 
@@ -9,14 +9,14 @@
             <a matBadge="15" matBadgeColor="warn" mat-raised-button color="accent" (click)="getProfile()">
                 <mat-icon>person</mat-icon>
             </a>
-            <a mat-button color="accent" (click)="logout()">Logout</a>
+            <a mat-stroked-button color="accent" (click)="logout()">Logout</a>
         </div>
     </div>
 
     <ng-template #elseBlock>
         <div>
             <a [routerLink]="['register']" mat-raised-button color="accent">Register</a>
-            <a [routerLink]="['login']" mat-button color="accent">Login</a>
+            <a [routerLink]="['login']" mat-stroked-button color="accent">Login</a>
         </div>
     </ng-template>
 
