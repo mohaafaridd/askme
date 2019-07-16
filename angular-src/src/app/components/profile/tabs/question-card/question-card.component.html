@@ -1,17 +1,19 @@
 <mat-card>
     <mat-card-header>
+        <div mat-card-avatar class="header-image"></div>
         <mat-card-title>
-            <a class="accent-color" [routerLink]="['/' + question.questioner.username]">
+            <a mat-stroked-button color="accent" [routerLink]="['/' + question.questioner.username]">
                 {{question.questioner.firstName}} {{question.questioner.middleName}}
             </a>
         </mat-card-title>
         <mat-card-subtitle>
             {{question.createdAt | date: 'medium'}}
         </mat-card-subtitle>
-        <mat-card-title>{{question.content}}</mat-card-title>
     </mat-card-header>
 
-    <mat-card-content *ngIf="question.replies.length > 0">
+    <mat-card-content>
+        <p>{{question.content}}</p>
+
         <mat-card class="reply-card" *ngFor="let reply of question.replies">
             <mat-card-content>
                 <p>{{reply.content}}</p>
