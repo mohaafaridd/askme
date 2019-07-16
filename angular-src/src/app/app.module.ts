@@ -22,6 +22,7 @@ import { InformationComponent } from './components/profile/information/informati
 import { AskQuestionComponent } from './components/profile/ask-question/ask-question.component';
 import { TabsComponent } from './components/profile/tabs/tabs.component';
 import { QuestionCardComponent } from './components/profile/tabs/question-card/question-card.component';
+import { ReplyComponent } from './components/profile/tabs/question-card/reply/reply.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { QuestionCardComponent } from './components/profile/tabs/question-card/q
     AskQuestionComponent,
     TabsComponent,
     QuestionCardComponent,
+    ReplyComponent,
   ],
   imports: [
     BrowserModule,

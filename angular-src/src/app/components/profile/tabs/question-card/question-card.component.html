@@ -14,27 +14,7 @@
     <mat-card-content>
         <p>{{question.content}}</p>
 
-        <mat-card class="reply-card" *ngFor="let reply of question.replies">
-            <mat-card-content>
-                <p>{{reply.content}}</p>
-                <small>{{reply.createdAt | date: 'medium'}}</small>
-            </mat-card-content>
-
-            <mat-card-actions *ngIf="isCurrentUser">
-                <a mat-mini-fab color="primary">
-                    <mat-icon>
-                        {{ action.primary.icon }}
-                    </mat-icon>
-                </a>
-
-                <a mat-mini-fab color="accent">
-                    <mat-icon>
-                        {{ action.secondary.icon }}
-                    </mat-icon>
-                </a>
-
-            </mat-card-actions>
-        </mat-card>
+        <app-reply *ngFor="let reply of question.replies" [reply]="reply" [action]="action"></app-reply>
     </mat-card-content>
 
     <mat-card-actions *ngIf="isCurrentUser">

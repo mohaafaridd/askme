@@ -1,0 +1,62 @@
+<h1>here</h1>
+
+<pre>{{reply | json}}</pre>
+
+<mat-card>
+    <mat-card-header>
+        <div mat-card-avatar class="header-image"></div>
+        <mat-card-subtitle>
+            {{reply.createdAt | date: 'medium'}}
+        </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <p>{{reply.content}}</p>
+    </mat-card-content>
+
+    <mat-card-actions *ngIf="isCurrentUser">
+        <a mat-mini-fab color="primary">
+            <mat-icon>
+                {{ action.primary.icon }}
+            </mat-icon>
+        </a>
+
+        <a mat-mini-fab color="accent">
+            <mat-icon>
+                {{ action.secondary.icon }}
+            </mat-icon>
+        </a>
+    </mat-card-actions>
+</mat-card>
+
+<!-- <mat-card class="reply-card">
+    <mat-card-header>
+        <div mat-card-avatar class="header-image"></div>
+        <mat-card-title>
+            <a mat-stroked-button color="accent" [routerLink]="['/' + reply.replier.username]">
+                {{reply.replier.firstName}} {{reply.replier.middleName}}
+            </a>
+        </mat-card-title>
+        <mat-card-subtitle>
+            {{reply.createdAt | date: 'medium'}}
+        </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <p>{{reply.content}}</p>
+    </mat-card-content>
+
+    <mat-card-actions *ngIf="isCurrentUser">
+        <a mat-mini-fab color="primary">
+            <mat-icon>
+                {{ action.primary.icon }}
+            </mat-icon>
+        </a>
+
+        <a mat-mini-fab color="accent">
+            <mat-icon>
+                {{ action.secondary.icon }}
+            </mat-icon>
+        </a>
+    </mat-card-actions>
+</mat-card> -->
