@@ -75,12 +75,13 @@ const getQuestionsByUser = async (req, res) => {
 
     // Creating requests to promise all of them later
     const populateRequests = questions.map(question => question.populate('replies').execPopulate());
+    await Promise.all(populateRequests);
 
-    // Populate all requests that we initialized the line before
-    const populated = await Promise.all(populateRequests);
+    const questionerRequests = questions.map(question => question.populate('questioner').execPopulate());
+    await Promise.all(questionerRequests);
 
     // Picking the questions to fit the model
-    const picked = populated.map(question => questionsHelpers.pickQuestion(question));
+    const picked = questions.map(question => questionsHelpers.pickQuestion(question));
 
     res.send({ success: true, message: `All questions by user ${username} found`, questions: picked });
 
