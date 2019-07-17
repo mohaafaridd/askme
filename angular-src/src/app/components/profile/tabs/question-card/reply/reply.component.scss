@@ -1,0 +1,18 @@
+mat-card{
+  margin: 1%;
+
+  .header-image {
+    background-image: url('https://via.placeholder.com/150');
+    background-size: cover;
+  }
+
+  mat-card-actions{
+    display: flex;
+    justify-content: flex-end;
+
+    a{
+      margin: 2%;
+      margin-top: 0;
+    }
+  }
+}

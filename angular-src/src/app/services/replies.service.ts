@@ -14,6 +14,10 @@ export class RepliesService {
     return this.http.post(`${environment.LINK}/replies/create`, { reply, token });
   }
 
+  getReply(id: number) {
+    return this.http.get(`${environment.LINK}/replies/${id}`);
+  }
+
   patchReply(reply: Reply, token: string) {
     return this.http.patch(`${environment.LINK}/replies/${reply.id}`, {
       reply,

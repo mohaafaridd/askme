@@ -19,7 +19,11 @@ export interface Reply {
   id?: number;
   content: string;
   question: number;
-  by: string;
+  by: {
+    firstName: string,
+    middleName: string,
+    username: string,
+  };
   createdAt?: string;
 }
 

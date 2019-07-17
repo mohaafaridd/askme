@@ -14,7 +14,7 @@
     <mat-card-content>
         <p>{{question.content}}</p>
 
-        <app-reply *ngFor="let reply of question.replies" [reply]="reply" [action]="action"></app-reply>
+        <app-reply *ngFor="let reply of question.replies" [replyId]="reply.id" [action]="action"></app-reply>
     </mat-card-content>
 
     <mat-card-actions *ngIf="isCurrentUser">

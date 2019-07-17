@@ -1,17 +1,15 @@
 const _ = require('lodash')
 
-const pickReply = (reply, question) => {
-  return {
-    'questionId': question._id,
-    'question': question.content,
-    'questionDate': question.createdAt,
-    'questioner': question.questioner,
+const pickReply = (reply) => {
 
-    'replyId': reply._id,
-    'reply': reply.content,
-    'replyDate': reply.createdAt,
-    'by': reply.by
-  }
+  reply.by = _.pick(reply.by, [
+    'firstName',
+    'middleName',
+    'username'
+  ]);
+
+  return reply;
+
 };
 
 module.exports = {

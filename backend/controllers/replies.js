@@ -43,15 +43,11 @@ const getReply = async (req, res) => {
       throw new Error();
     }
 
-    const question = await Question.findOne({ _id: reply.question });
+    await reply.populate('by').execPopulate();
 
-    if (!question) {
-      throw new Error();
-    }
+    const picked = replyHelpers.pickReply(reply);
 
-    const picked = replyHelpers.pickReply(reply, question);
-
-    res.send({ success: true, message: 'Reply found!', picked });
+    res.send({ success: true, message: 'Reply found!', reply: picked });
 
   } catch (error) {
 
