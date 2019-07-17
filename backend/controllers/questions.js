@@ -73,10 +73,11 @@ const getQuestionsByUser = async (req, res) => {
       throw new Error();
     }
 
-    // Creating requests to promise all of them later
+    // Call connected replies
     const populateRequests = questions.map(question => question.populate('replies').execPopulate());
     await Promise.all(populateRequests);
 
+    // Call connected user
     const questionerRequests = questions.map(question => question.populate('questioner').execPopulate());
     await Promise.all(questionerRequests);
 
@@ -104,32 +105,24 @@ const getIncomingQuestions = async (req, res) => {
     /* we are using asked to search for the questions that were sent TO this user */
     const questions = await Question.find({ asked: user._id });
 
-    // Creating requests to promise all of them later
-    const repliesRequests = questions.map(question => question.populate('replies').execPopulate());
+    // Call connected replies
+    const populateRequests = questions.map(question => question.populate('replies').execPopulate());
+    await Promise.all(populateRequests);
 
-    // Populate all requests that we initialized the line before
-    const populated = await Promise.all(repliesRequests);
+    // Call connected user
+    const questionerRequests = questions.map(question => question.populate('questioner').execPopulate());
+    await Promise.all(questionerRequests);
 
-    const pickedReplies = populated.map(question => questionsHelpers.pickQuestion(question));
+    // Picking the questions to fit the model
+    const picked = questions.map(question => questionsHelpers.pickQuestion(question));
 
     // Return filtered array with whether all answered questions or pinding ones
-    const filtered = questionsHelpers.filterOnState(state, pickedReplies);
-
-    const questionersRequests = filtered.map(question => User.findById(question.questioner));
-
-    const populatedQuestioners = await Promise.all(questionersRequests);
-
-    filtered.map((question, index) => {
-      question.questioner = usersHelpers.pickedUserForQuestion(populatedQuestioners[index]);
-      return question;
-    });
+    const filtered = questionsHelpers.filterOnState(state, picked);
 
     res.send({ success: true, message: `All questions answered by user ${username}`, questions: filtered });
 
   } catch (error) {
-
     res.send({ success: false, message: `Error finding questions`, error });
-
   }
 }
 
