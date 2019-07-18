@@ -2,10 +2,11 @@ export interface Action {
   label: string;
   authorized: boolean;
   data: any;
-  options: {
-    primary: SubAction;
-    secondary: SubAction;
-  };
+}
+
+export interface Options {
+  primary: SubAction;
+  secondary: SubAction;
 }
 
 interface SubAction {

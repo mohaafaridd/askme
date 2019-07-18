@@ -1,11 +1,10 @@
 <mat-tab-group animationDuration="0ms">
-    <ng-container *ngFor="let action of tabOptions">
+    <ng-container *ngFor="let action of tabs">
 
         <div *ngIf="action.authorized">
 
             <mat-tab label="{{ action.label }}">
-                <app-question-card *ngFor="let question of (action.data | async)?.reverse()" [question]="question"
-                    [action]="action.options">
+                <app-question-card *ngFor="let question of (action.data | async)?.reverse()" [question]="question">
                 </app-question-card>
             </mat-tab>
 

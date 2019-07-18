@@ -14,19 +14,19 @@
     <mat-card-content>
         <p>{{question.content}}</p>
 
-        <app-reply *ngFor="let reply of question.replies" [replyId]="reply.id" [action]="action"></app-reply>
+        <app-reply *ngFor="let reply of question.replies" [replyId]="reply.id"></app-reply>
     </mat-card-content>
 
-    <mat-card-actions *ngIf="isCurrentUser">
-        <a mat-mini-fab color="primary">
+    <mat-card-actions>
+        <a *ngIf="options.primary.access" mat-mini-fab color="primary">
             <mat-icon>
-                {{ action.primary.icon }}
+                {{ options.primary.icon }}
             </mat-icon>
         </a>
 
-        <a mat-mini-fab color="accent">
+        <a *ngIf="options.secondary.access" mat-mini-fab color="accent">
             <mat-icon>
-                {{ action.secondary.icon }}
+                {{ options.secondary.icon }}
             </mat-icon>
         </a>
     </mat-card-actions>

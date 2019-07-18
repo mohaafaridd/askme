@@ -14,7 +14,7 @@ export class TabsComponent implements OnInit {
 
   ) { }
 
-  tabOptions: Array<Action> = this.setTabOptions();
+  tabs: Array<Action> = this.setTabOptions();
 
   ngOnInit() {
   }
@@ -38,60 +38,18 @@ export class TabsComponent implements OnInit {
       label: 'Replies',
       authorized: true,
       data: this.replies$,
-      options: {
-        primary: {
-          // User can't edit someone's question
-          access: false,
-          icon: 'edit',
-          functionality: 'edit',
-        },
-        secondary: {
-          // User can delete someone's question
-          access: true,
-          icon: 'delete',
-          functionality: 'delete',
-        }
-      }
     };
 
     const questions: Action = {
       label: 'Questions',
       authorized: true,
       data: this.questions$,
-      options: {
-        primary: {
-          // User can edit his question
-          access: true,
-          icon: 'edit',
-          functionality: 'edit',
-        },
-        secondary: {
-          // User can delete his question
-          access: true,
-          icon: 'delete',
-          functionality: 'delete',
-        }
-      }
     };
 
     const pinding: Action = {
       label: 'Pinding Questions',
       authorized: true,
       data: this.pinding$,
-      options: {
-        primary: {
-          // User can reply to someone's pinding question
-          access: true,
-          icon: 'reply',
-          functionality: 'reply',
-        },
-        secondary: {
-          // User can delete someone's pinding question
-          access: true,
-          icon: 'delete',
-          functionality: 'delete',
-        }
-      }
     };
 
     output.push(replies, questions, pinding);

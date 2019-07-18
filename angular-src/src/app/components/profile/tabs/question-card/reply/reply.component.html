@@ -1,30 +1,31 @@
+{{reply | json}}
 <mat-card>
     <mat-card-header>
         <div mat-card-avatar class="header-image"></div>
         <mat-card-title>
-            <a mat-stroked-button color="accent" [routerLink]="['/' + reply.by.username]">
-                {{reply.by.firstName}} {{reply.by.middleName}}
+            <a mat-stroked-button color="accent" [routerLink]="['/' + reply?.by.username]">
+                {{reply?.by.firstName}} {{reply?.by.middleName}}
             </a>
         </mat-card-title>
         <mat-card-subtitle>
-            {{reply.createdAt | date: 'medium'}}
+            {{reply?.createdAt | date: 'medium'}}
         </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
-        <p>{{reply.content}}</p>
+        <p>{{reply?.content}}</p>
     </mat-card-content>
 
-    <mat-card-actions *ngIf="isCurrentUser">
-        <a mat-mini-fab color="primary">
+    <mat-card-actions>
+        <a *ngIf="options?.primary.access" mat-mini-fab color="primary">
             <mat-icon>
-                {{ action.primary.icon }}
+                {{ options.primary.icon }}
             </mat-icon>
         </a>
 
-        <a mat-mini-fab color="accent">
+        <a *ngIf="options?.secondary.access" mat-mini-fab color="accent">
             <mat-icon>
-                {{ action.secondary.icon }}
+                {{ options.secondary.icon }}
             </mat-icon>
         </a>
     </mat-card-actions>
