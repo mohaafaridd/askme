@@ -1,10 +1,8 @@
 const _ = require('lodash')
 const User = require('../models/user');
 const Question = require('../models/question');
-const Reply = require('../models/reply');
 
 const questionsHelpers = require('./helpers/questions');
-const usersHelpers = require('./helpers/users');
 
 const postQuestion = async (req, res) => {
 

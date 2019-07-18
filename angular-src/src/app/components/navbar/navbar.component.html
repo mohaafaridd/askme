@@ -1,11 +1,12 @@
 <mat-toolbar color="primary">
 
-    <a mat-stroked-button class="title" [routerLink]="['/']">Questionary</a>
+    <a mat-stroked-button color="warn" class="title" [routerLink]="['/']">Questionary</a>
 
     <span class="spacer"></span>
 
     <div *ngIf="getLoginStatus(); else elseBlock">
         <div>
+            <span>Welcome</span>
             <a matBadge="15" matBadgeColor="warn" mat-raised-button color="accent" (click)="getProfile()">
                 <mat-icon>person</mat-icon>
             </a>

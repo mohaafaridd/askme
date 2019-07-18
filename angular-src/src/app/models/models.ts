@@ -19,10 +19,11 @@ export interface Reply {
   id?: number;
   content: string;
   question: number;
-  by: {
-    firstName: string,
-    middleName: string,
-    username: string,
+  by?: {
+    _id?: string,
+    firstName?: string,
+    middleName?: string,
+    username?: string,
   };
   createdAt?: string;
 }

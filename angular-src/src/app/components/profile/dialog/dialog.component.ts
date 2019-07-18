@@ -40,7 +40,6 @@ export class DialogComponent implements OnInit {
     const question: Question = this.data.question;
     const reply: Reply = {
       question: question.id,
-      by: question.asked,
       content: this.input.value,
     };
 
@@ -64,7 +63,6 @@ export class DialogComponent implements OnInit {
         id: data.id,
         content: this.input.value,
         question: data.question,
-        by: ''
       };
       this.repliesService.patchReply(reply, token).subscribe(() => {
         this.dialogRef.close();
@@ -95,7 +93,6 @@ export class DialogComponent implements OnInit {
         id: data.id,
         content: this.input.value,
         question: data.question,
-        by: ''
       };
 
       this.repliesService.deleteReply(reply, token).subscribe(() => {
