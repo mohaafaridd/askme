@@ -24,26 +24,28 @@ export class ReplyComponent implements OnInit {
     private activeRoute: ActivatedRoute,
 
   ) {
-    this.options = {
 
-      primary: {
-        access: this.isOwner(),
-        icon: 'edit',
-        functionality: 'edit'
-      },
-      secondary: {
-        access: this.isOwner() || this.isCurrentUserProfile(),
-        icon: 'delete',
-        functionality: 'delete'
-      }
-
-    };
   }
 
   ngOnInit() {
 
     this.repliesService.getReply(this.replyId).subscribe((response: CustomResponse) => {
       this.reply = response.reply;
+
+      this.options = {
+
+        primary: {
+          access: this.isOwner(),
+          icon: 'edit',
+          functionality: 'edit'
+        },
+        secondary: {
+          access: this.isOwner() || this.isCurrentUserProfile(),
+          icon: 'delete',
+          functionality: 'delete'
+        }
+
+      };
     });
   }
 

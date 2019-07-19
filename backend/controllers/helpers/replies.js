@@ -5,7 +5,8 @@ const pickReply = (reply) => {
   reply.by = _.pick(reply.by, [
     'firstName',
     'middleName',
-    'username'
+    'username',
+    '_id'
   ]);
 
   return reply;

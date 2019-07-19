@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from 'src/app/services/profile.service';
 import { Action } from 'src/app/models/action.interface';
+import { Cookies, User } from 'src/app/models/models';
+import { CookieService } from 'ngx-cookie-service';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-tabs',
@@ -9,14 +12,25 @@ import { Action } from 'src/app/models/action.interface';
 })
 export class TabsComponent implements OnInit {
 
+  tabs: Array<Action>;
+
   constructor(
     private profileService: ProfileService,
+    private cookieService: CookieService,
+    private activeRoute: ActivatedRoute,
+    private router: Router,
 
-  ) { }
-
-  tabs: Array<Action> = this.setTabOptions();
+  ) {
+    this.tabs = this.setTabOptions();
+  }
 
   ngOnInit() {
+    this.router.events.subscribe((e: any) => {
+      const lastEvent = e instanceof NavigationEnd;
+      if (lastEvent) {
+        this.tabs = this.setTabOptions();
+      }
+    });
   }
 
   get replies$() {
@@ -48,12 +62,23 @@ export class TabsComponent implements OnInit {
 
     const pinding: Action = {
       label: 'Pinding Questions',
-      authorized: true,
+      authorized: this.isCurrentUserProfile(),
       data: this.pinding$,
     };
 
     output.push(replies, questions, pinding);
 
     return output;
+  }
+
+  isCurrentUserProfile() {
+    const cookies: Cookies = this.cookieService.getAll();
+    const { username } = this.activeRoute.snapshot.params;
+    try {
+      const currentUser: User = JSON.parse(cookies.user);
+      return username === currentUser.username;
+    } catch (error) {
+      return false;
+    }
   }
 }
