@@ -1,7 +1,7 @@
 const _ = require('lodash')
 
 const pickQuestion = (question) => {
-  question.questioner = _.pick(question.questioner, ['firstName', 'middleName', 'username']);
+  question.questioner = _.pick(question.questioner, ['firstName', 'middleName', 'username', '_id']);
   return _.pick(question,
     ['_id',
       'id',

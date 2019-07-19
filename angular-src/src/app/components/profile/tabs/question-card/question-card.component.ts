@@ -14,6 +14,7 @@ import { Options } from 'src/app/models/action.interface';
 export class QuestionCardComponent implements OnInit {
 
   @Input() question;
+  @Input() label;
 
   constructor(
     private cookieService: CookieService,
@@ -29,8 +30,8 @@ export class QuestionCardComponent implements OnInit {
 
       primary: {
         access: this.isOwner() || this.isCurrentUserProfile(),
-        icon: 'edit',
-        functionality: 'edit'
+        icon: this.getIconAndFunction(this.label),
+        functionality: this.getIconAndFunction(this.label)
       },
       secondary: {
         access: this.isOwner() || this.isCurrentUserProfile(),
@@ -45,7 +46,6 @@ export class QuestionCardComponent implements OnInit {
     const cookies: Cookies = this.cookieService.getAll();
     try {
       const user: User = JSON.parse(cookies.user);
-      console.log('questioner', this.question.questioner._id);
       return this.question.questioner._id === user._id;
     } catch (error) {
       return false;
@@ -63,6 +63,18 @@ export class QuestionCardComponent implements OnInit {
     }
   }
 
+  getIconAndFunction(label: string) {
+    switch (label) {
+      case 'Replies':
+      case 'Questions':
+        return 'edit';
+        break;
+
+      case 'Pinding Questions':
+        return 'reply';
+        break;
+    }
+  }
 
   openDialog(data, functionality, type): void {
     switch (functionality) {

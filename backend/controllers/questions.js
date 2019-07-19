@@ -61,6 +61,7 @@ const getQuestionsByUser = async (req, res) => {
 
     const user = await User.findOne({ username });
 
+
     if (!user) {
       throw new Error();
     }
