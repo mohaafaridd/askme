@@ -80,6 +80,10 @@ const getQuestionsByUser = async (req, res) => {
     const questionerRequests = questions.map(question => question.populate('questioner').execPopulate());
     await Promise.all(questionerRequests);
 
+    // Call connected user
+    const askedRequests = questions.map(question => question.populate('asked').execPopulate());
+    await Promise.all(askedRequests);
+
     // Picking the questions to fit the model
     const picked = questions.map(question => questionsHelpers.pickQuestion(question));
 

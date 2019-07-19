@@ -24,8 +24,10 @@ export class QuestionCardComponent implements OnInit {
   ) { }
   user: User;
   options: Options;
+  isQuestions: boolean;
 
   ngOnInit() {
+    this.isQuestions = this.label === 'Questions';
     this.options = {
 
       primary: {

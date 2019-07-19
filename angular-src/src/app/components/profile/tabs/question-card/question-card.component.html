@@ -2,8 +2,13 @@
     <mat-card-header>
         <div mat-card-avatar class="header-image"></div>
         <mat-card-title>
-            <a mat-stroked-button color="accent" [routerLink]="['/' + question.questioner.username]">
+            <a *ngIf="!isQuestions" mat-stroked-button color="accent"
+                [routerLink]="['/' + question.questioner.username]">
                 {{question.questioner.firstName}} {{question.questioner.middleName}}
+            </a>
+            <span *ngIf="isQuestions">A question for </span>
+            <a *ngIf="isQuestions" mat-stroked-button color="warn" [routerLink]="['/' + question.asked.username]">
+                {{question.asked.firstName}} {{question.asked.middleName}}
             </a>
         </mat-card-title>
         <mat-card-subtitle>
