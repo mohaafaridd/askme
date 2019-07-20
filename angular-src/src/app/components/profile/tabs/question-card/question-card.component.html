@@ -3,26 +3,33 @@
         <div mat-card-avatar class="header-image"></div>
         <mat-card-title>
             <a *ngIf="!isQuestions" mat-stroked-button color="accent"
-                [routerLink]="['/' + question.questioner.username]">
-                {{question.questioner.firstName}} {{question.questioner.middleName}}
+                [routerLink]="['/' + question?.questioner.username]">
+                {{question?.questioner.firstName}} {{question?.questioner.middleName}}
             </a>
             <span *ngIf="isQuestions">A question for </span>
-            <a *ngIf="isQuestions" mat-stroked-button color="warn" [routerLink]="['/' + question.asked.username]">
-                {{question.asked.firstName}} {{question.asked.middleName}}
+            <a *ngIf="isQuestions" mat-stroked-button color="warn" [routerLink]="['/' + question?.asked.username]">
+                {{question?.asked.firstName}} {{question?.asked.middleName}}
             </a>
         </mat-card-title>
         <mat-card-subtitle>
-            {{question.createdAt | date: 'medium'}}
+            {{question?.createdAt | date: 'medium'}}
         </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
-        <p>{{question.content}}</p>
+        <p>{{question?.content}}</p>
 
-        <app-reply *ngFor="let reply of question.replies" [replyId]="reply.id"></app-reply>
+        <app-reply *ngFor="let reply of question?.replies" [replyId]="reply.id"></app-reply>
     </mat-card-content>
 
     <mat-card-actions>
+
+        <a mat-mini-fab (click)="copyQuestionLink(question)">
+            <mat-icon>
+                copy
+            </mat-icon>
+        </a>
+
         <a *ngIf="options.primary.access" mat-mini-fab color="primary"
             (click)="openDialog(question, options.primary.functionality, 'question')">
             <mat-icon>

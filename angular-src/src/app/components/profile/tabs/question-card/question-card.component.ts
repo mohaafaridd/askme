@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { User, Cookies } from 'src/app/models/models';
+import { User, Cookies, Question } from 'src/app/models/models';
 import { CookieService } from 'ngx-cookie-service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { MatDialog } from '@angular/material';
 import { Options } from 'src/app/models/action.interface';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-question-card',
@@ -48,6 +49,7 @@ export class QuestionCardComponent implements OnInit {
     const cookies: Cookies = this.cookieService.getAll();
     try {
       const user: User = JSON.parse(cookies.user);
+      console.log('here', user, this.question);
       return this.question.questioner._id === user._id;
     } catch (error) {
       return false;
@@ -135,5 +137,9 @@ export class QuestionCardComponent implements OnInit {
 
 
 
+  }
+
+  copyQuestionLink(question: Question) {
+    console.log(question.id);
   }
 }

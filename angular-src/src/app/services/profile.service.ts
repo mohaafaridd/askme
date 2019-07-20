@@ -30,7 +30,7 @@ export class ProfileService {
   getUserQuestions(username: string) {
     return this.http.get(`${environment.LINK}/questions/user/${username}`).subscribe(
       (response: CustomResponse) => {
-        return this.questionsSubject.next(response.questions)
+        return this.questionsSubject.next(response.questions);
       }
     );
   }
