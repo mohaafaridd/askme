@@ -1,10 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
-import { Reply, Question, CustomResponse, Cookies } from 'src/app/models/models';
+import { Reply, Question, CustomResponse, Cookies, User } from 'src/app/models/models';
 import { RepliesService } from 'src/app/services/replies.service';
 import { QuestionsService } from 'src/app/services/questions.service';
 import { CookieService } from 'ngx-cookie-service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dialog',
@@ -21,7 +23,9 @@ export class DialogComponent implements OnInit {
     private repliesService: RepliesService,
     private questionsService: QuestionsService,
     private cookieService: CookieService,
-    private dialogRef: MatDialogRef<DialogComponent>
+    private dialogRef: MatDialogRef<DialogComponent>,
+    private notificationService: NotificationService,
+
   ) {
     this.modes = {
       edit: this.data.mode === 'edit',
@@ -38,17 +42,20 @@ export class DialogComponent implements OnInit {
 
   onSubmit() {
     const question: Question = this.data.question;
+    const cookies: Cookies = this.cookieService.getAll();
+    const user: User = JSON.parse(cookies.user);
+
     const reply: Reply = {
       question: question.id,
       content: this.input.value,
+      by: user._id
     };
-
-    const cookies: Cookies = this.cookieService.getAll();
 
     const token = cookies.token;
 
     this.repliesService.postReply(reply, token).subscribe(() => {
       this.dialogRef.close();
+      this.notificationService.open('Reply posted', 'close', environment.NOTIFICATION_TIME);
     });
   }
 
@@ -79,6 +86,7 @@ export class DialogComponent implements OnInit {
         this.dialogRef.close();
       });
     }
+    this.notificationService.open(`${type} edited`, 'close', environment.NOTIFICATION_TIME);
   }
 
 
@@ -87,7 +95,6 @@ export class DialogComponent implements OnInit {
     const cookies: Cookies = this.cookieService.getAll();
 
     const token = cookies.token;
-
     if (type === 'reply') {
       const reply: Reply = {
         id: data.id,
@@ -96,7 +103,7 @@ export class DialogComponent implements OnInit {
       };
 
       this.repliesService.deleteReply(reply, token).subscribe(() => {
-
+        this.dialogRef.close();
       });
     } else {
       const question: Question = {
@@ -110,6 +117,8 @@ export class DialogComponent implements OnInit {
         this.dialogRef.close();
       });
     }
+    this.notificationService.open(`${type} deleted`, 'close', environment.NOTIFICATION_TIME);
+
   }
 
   ngOnInit() {

@@ -31,7 +31,7 @@ export class QuestionCardComponent implements OnInit {
     this.options = {
 
       primary: {
-        access: this.isOwner(),
+        access: this.isOwner() || this.isPindingQuestion(this.label),
         icon: this.getIconAndFunction(this.label),
         functionality: this.getIconAndFunction(this.label)
       },
@@ -76,6 +76,14 @@ export class QuestionCardComponent implements OnInit {
         return 'reply';
         break;
     }
+  }
+
+  isPindingQuestion(label: string) {
+    if (label === 'Pinding Questions') {
+      return true;
+    }
+
+    return false;
   }
 
   openDialog(data, functionality, type): void {
