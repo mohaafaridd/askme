@@ -17,10 +17,10 @@ export class ProfileComponent implements OnInit {
     public dialog: MatDialog,
     private profileService: ProfileService,
   ) {
-    this.bootstrap();
   }
 
   ngOnInit() {
+    this.bootstrap();
     this.router.events.subscribe((e: any) => {
       const lastEvent = e instanceof NavigationEnd;
       if (lastEvent) {
@@ -37,55 +37,6 @@ export class ProfileComponent implements OnInit {
     this.profileService.getUserPindingQuestions(username);
   }
 
-  openDialog(data, functionality, type): void {
-    switch (functionality) {
-      case 'reply': {
-        const dialogRef = this.dialog.open(DialogComponent, {
-          data: {
-            mode: functionality,
-            question: data
-          }
-        });
 
-        dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-        });
-        break;
-      }
-
-      case 'edit': {
-        const dialogRef = this.dialog.open(DialogComponent, {
-          data: {
-            mode: functionality,
-            data,
-            type
-          }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-        });
-        break;
-      }
-
-      case 'delete': {
-        const dialogRef = this.dialog.open(DialogComponent, {
-          data: {
-            mode: functionality,
-            data,
-            type
-          }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-        });
-        break;
-      }
-    }
-
-
-
-  }
 }
 

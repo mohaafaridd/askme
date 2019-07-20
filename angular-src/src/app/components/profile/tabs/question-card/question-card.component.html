@@ -23,13 +23,15 @@
     </mat-card-content>
 
     <mat-card-actions>
-        <a *ngIf="options.primary.access" mat-mini-fab color="primary">
+        <a *ngIf="options.primary.access" mat-mini-fab color="primary"
+            (click)="openDialog(question, options.primary.functionality, 'question')">
             <mat-icon>
                 {{ options.primary.icon }}
             </mat-icon>
         </a>
 
-        <a *ngIf="options.secondary.access" mat-mini-fab color="accent">
+        <a *ngIf="options.secondary.access" mat-mini-fab color="accent"
+            (click)="openDialog(question, options.secondary.functionality, 'question')">
             <mat-icon>
                 {{ options.secondary.icon }}
             </mat-icon>

@@ -31,7 +31,7 @@ export class QuestionCardComponent implements OnInit {
     this.options = {
 
       primary: {
-        access: this.isOwner() || this.isCurrentUserProfile(),
+        access: this.isOwner(),
         icon: this.getIconAndFunction(this.label),
         functionality: this.getIconAndFunction(this.label)
       },

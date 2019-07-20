@@ -4,6 +4,8 @@ import { CustomResponse, Reply, Cookies, User } from 'src/app/models/models';
 import { Options } from 'src/app/models/action.interface';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute } from '@angular/router';
+import { DialogComponent } from '../../../dialog/dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-reply',
@@ -15,13 +17,13 @@ export class ReplyComponent implements OnInit {
   @Input() replyId;
 
   options: Options;
-
   reply: Reply;
 
   constructor(
     private repliesService: RepliesService,
     private cookieService: CookieService,
     private activeRoute: ActivatedRoute,
+    public dialog: MatDialog,
 
   ) {
 
@@ -71,4 +73,51 @@ export class ReplyComponent implements OnInit {
     }
   }
 
+  openDialog(data, functionality, type): void {
+    switch (functionality) {
+      case 'reply': {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          data: {
+            mode: functionality,
+            question: data
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+        break;
+      }
+
+      case 'edit': {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          data: {
+            mode: functionality,
+            data,
+            type
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+        break;
+      }
+
+      case 'delete': {
+        const dialogRef = this.dialog.open(DialogComponent, {
+          data: {
+            mode: functionality,
+            data,
+            type
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+        break;
+      }
+    }
+  }
 }

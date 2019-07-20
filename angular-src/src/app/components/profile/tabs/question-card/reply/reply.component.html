@@ -16,13 +16,15 @@
     </mat-card-content>
 
     <mat-card-actions>
-        <a *ngIf="options?.primary.access" mat-mini-fab color="primary">
+        <a *ngIf="options?.primary.access" mat-mini-fab color="primary"
+            (click)="openDialog(reply, options.primary.functionality, 'reply')">
             <mat-icon>
                 {{ options.primary.icon }}
             </mat-icon>
         </a>
 
-        <a *ngIf="options?.secondary.access" mat-mini-fab color="accent">
+        <a *ngIf="options?.secondary.access" mat-mini-fab color="accent"
+            (click)="openDialog(reply, options.secondary.functionality, 'question')">
             <mat-icon>
                 {{ options.secondary.icon }}
             </mat-icon>
