@@ -23,6 +23,7 @@ import { AskQuestionComponent } from './components/profile/ask-question/ask-ques
 import { TabsComponent } from './components/profile/tabs/tabs.component';
 import { QuestionCardComponent } from './components/profile/tabs/question-card/question-card.component';
 import { ReplyComponent } from './components/profile/tabs/question-card/reply/reply.component';
+import { QuestionPageComponent } from './components/question-page/question-page.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ReplyComponent } from './components/profile/tabs/question-card/reply/re
     TabsComponent,
     QuestionCardComponent,
     ReplyComponent,
+    QuestionPageComponent,
   ],
   imports: [
     BrowserModule,

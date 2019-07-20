@@ -55,7 +55,7 @@ export class DialogComponent implements OnInit {
 
     this.repliesService.postReply(reply, token).subscribe(() => {
       this.dialogRef.close();
-      this.notificationService.open('Reply posted', 'close', environment.NOTIFICATION_TIME);
+      this.notificationService.open('Reply posted ✔', 'close', environment.NOTIFICATION_TIME);
     });
   }
 
@@ -86,7 +86,7 @@ export class DialogComponent implements OnInit {
         this.dialogRef.close();
       });
     }
-    this.notificationService.open(`${type} edited`, 'close', environment.NOTIFICATION_TIME);
+    this.notificationService.open(`${type} edited ✔`, 'close', environment.NOTIFICATION_TIME);
   }
 
 
@@ -117,7 +117,7 @@ export class DialogComponent implements OnInit {
         this.dialogRef.close();
       });
     }
-    this.notificationService.open(`${type} deleted`, 'close', environment.NOTIFICATION_TIME);
+    this.notificationService.open(`${type} deleted ✔`, 'close', environment.NOTIFICATION_TIME);
 
   }
 
