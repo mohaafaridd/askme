@@ -14,7 +14,8 @@ import {
   MatTabsModule,
   MatPaginatorModule,
   MatDividerModule,
-  MatDialogModule
+  MatDialogModule,
+  MatChipsModule
 } from '@angular/material';
 
 @NgModule({
@@ -32,7 +33,8 @@ import {
     MatTabsModule,
     MatPaginatorModule,
     MatDividerModule,
-    MatDialogModule
+    MatDialogModule,
+    MatChipsModule
   ],
   exports: [
     MatButtonModule,
@@ -48,7 +50,8 @@ import {
     MatTabsModule,
     MatPaginatorModule,
     MatDividerModule,
-    MatDialogModule
+    MatDialogModule,
+    MatChipsModule
   ],
 })
 export class CustomMaterialModule { }

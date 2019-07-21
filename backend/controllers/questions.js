@@ -119,7 +119,7 @@ const getIncomingQuestions = async (req, res) => {
     // Picking the questions to fit the model
     const picked = questions.map(question => questionsHelpers.pickQuestion(question));
 
-    // Return filtered array with whether all answered questions or pinding ones
+    // Return filtered array with whether all answered questions or pending ones
     const filtered = questionsHelpers.filterOnState(state, picked);
 
     res.send({ success: true, message: `All questions answered by user ${username}`, questions: filtered });

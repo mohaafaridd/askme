@@ -21,7 +21,7 @@ const filterOnState = (state, questions) => {
       return questions.filter(question => question.replies.length !== 0);
     }
 
-    case 'pinding': {
+    case 'pending': {
       return questions.filter(question => question.replies.length === 0);
     }
 

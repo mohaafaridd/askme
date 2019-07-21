@@ -41,8 +41,8 @@ export class TabsComponent implements OnInit {
     return this.profileService.questions$;
   }
 
-  get pinding$() {
-    return this.profileService.pinding$;
+  get pending$() {
+    return this.profileService.pending$;
   }
 
   setTabOptions(): Array<Action> {
@@ -60,13 +60,13 @@ export class TabsComponent implements OnInit {
       data: this.questions$,
     };
 
-    const pinding: Action = {
-      label: 'Pinding Questions',
+    const pending: Action = {
+      label: 'Pending Questions',
       authorized: this.isCurrentUserProfile(),
-      data: this.pinding$,
+      data: this.pending$,
     };
 
-    output.push(replies, questions, pinding);
+    output.push(replies, questions, pending);
 
     return output;
   }
