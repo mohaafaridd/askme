@@ -6,7 +6,13 @@
                 [routerLink]="['/' + question?.questioner.username]">
                 {{question?.questioner.firstName}} {{question?.questioner.middleName}}
             </a>
-            <span *ngIf="isQuestions">A question for </span>
+
+            <a *ngIf="isQuestions && !isCurrentUserProfile()" mat-stroked-button color="accent"
+                [routerLink]="['/' + question?.questioner.username]">
+                {{question?.questioner.firstName}} {{question?.questioner.middleName}}
+            </a>
+            <span *ngIf="isQuestions && !isCurrentUserProfile()"> asked </span>
+            <span *ngIf="isQuestions && isCurrentUserProfile()">A question for </span>
             <a *ngIf="isQuestions" mat-stroked-button color="warn" [routerLink]="['/' + question?.asked.username]">
                 {{question?.asked.firstName}} {{question?.asked.middleName}}
             </a>

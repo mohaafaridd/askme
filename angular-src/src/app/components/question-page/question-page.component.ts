@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { QuestionsService } from 'src/app/services/questions.service';
+import { CustomResponse } from 'src/app/models/models';
 
 @Component({
   selector: 'app-question-page',
@@ -9,18 +10,20 @@ import { QuestionsService } from 'src/app/services/questions.service';
 })
 export class QuestionPageComponent implements OnInit {
 
+
   constructor(
     private activeRoute: ActivatedRoute,
     private router: Router,
     private questionsService: QuestionsService
-  ) { }
+  ) {
+    this.bootstrap();
+  }
 
   get question$() {
     return this.questionsService.question$;
   }
 
   ngOnInit() {
-    this.bootstrap();
     this.router.events.subscribe((e: any) => {
       const lastEvent = e instanceof NavigationEnd;
       if (lastEvent) {

@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { User, Cookies, Question } from 'src/app/models/models';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { MatDialog } from '@angular/material';
 import { Options } from 'src/app/models/action.interface';
-import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-question-card',
@@ -15,19 +14,31 @@ import { environment } from 'src/environments/environment.prod';
 export class QuestionCardComponent implements OnInit {
 
   @Input() question;
-  @Input() label;
+  @Input() label: string;
+
+  user: User;
+  options: Options;
+  isQuestions: boolean;
 
   constructor(
     private cookieService: CookieService,
     private activeRoute: ActivatedRoute,
     public dialog: MatDialog,
 
-  ) { }
-  user: User;
-  options: Options;
-  isQuestions: boolean;
+  ) {
+  }
 
   ngOnInit() {
+    this.bootstrap();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['question']) {
+      this.bootstrap();
+    }
+  }
+
+  bootstrap() {
     this.isQuestions = this.label === 'Questions';
     this.options = {
 
@@ -49,7 +60,6 @@ export class QuestionCardComponent implements OnInit {
     const cookies: Cookies = this.cookieService.getAll();
     try {
       const user: User = JSON.parse(cookies.user);
-      console.log('here', user, this.question);
       return this.question.questioner._id === user._id;
     } catch (error) {
       return false;
@@ -81,11 +91,7 @@ export class QuestionCardComponent implements OnInit {
   }
 
   isPindingQuestion(label: string) {
-    if (label === 'Pinding Questions') {
-      return true;
-    }
-
-    return false;
+    return label === 'Pinding Questions';
   }
 
   openDialog(data, functionality, type): void {
@@ -140,6 +146,6 @@ export class QuestionCardComponent implements OnInit {
   }
 
   copyQuestionLink(question: Question) {
-    console.log(question.id);
+    // console.log(question.id);
   }
 }
