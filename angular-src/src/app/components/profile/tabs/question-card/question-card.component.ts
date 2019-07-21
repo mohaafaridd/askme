@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { MatDialog } from '@angular/material';
 import { Options } from 'src/app/models/action.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-question-card',
@@ -146,6 +147,13 @@ export class QuestionCardComponent implements OnInit {
   }
 
   copyQuestionLink(question: Question) {
-    // console.log(question.id);
+    console.log(question.id);
+    const textarea = document.createElement('textarea');
+    textarea.value = `${environment.LINK}/question/${question.id}`;
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
   }
 }

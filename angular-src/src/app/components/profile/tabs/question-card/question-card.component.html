@@ -29,11 +29,20 @@
     </mat-card-content>
 
     <mat-card-actions>
+        <!-- (click)="copyQuestionLink(question)" -->
 
-        <a mat-mini-fab (click)="copyQuestionLink(question)">
+        <a mat-stroked-button (click)="copyQuestionLink(question)">
             <mat-icon>
                 copy
             </mat-icon>
+            copy
+        </a>
+
+        <a mat-stroked-button target="_blank" [routerLink]="['/question/' + question?.id]">
+            <mat-icon>
+                open
+            </mat-icon>
+            open
         </a>
 
         <a *ngIf="options.primary.access" mat-mini-fab color="primary"
