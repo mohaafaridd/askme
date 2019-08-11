@@ -30,4 +30,4 @@ app.use(connectRoutes());
 
 server.listen(port, () => {
   console.log(`Server is on port ${port}`);
-})
+});
