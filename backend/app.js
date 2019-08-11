@@ -4,9 +4,11 @@ const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
-const { connectDB } = require('./backend/database/mongoose');
+require('dotenv').config();
 
-const { connectRoutes } = require('./backend/routes/routes');
+const { connectDB } = require('./database/mongoose');
+
+const { connectRoutes } = require('./routes/routes');
 
 const app = express();
 
