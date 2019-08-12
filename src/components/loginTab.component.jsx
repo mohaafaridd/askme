@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class LoginTab extends Component {
+class LoginTab extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
       password: ''
     };
+
     this.onNameChange = this.onNameChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -25,7 +27,17 @@ export default class LoginTab extends Component {
         }
       })
       .then(response => {
-        console.log(response.data);
+        const { token } = response.data;
+        const user = JSON.stringify(response.data.user);
+        //get this.props.cookies
+        const { cookies } = this.props;
+        console.log('hereeeeeeeeeeee', user);
+        //setting a cookie
+        cookies.set('token', token, { path: '/' });
+        cookies.set('user', user, { path: '/' });
+        // localStorage.setItem('token', token);
+        // localStorage.setItem('user', JSON.stringify(user));
+        // console.log(response.data);
       })
       .catch(error => {
         console.log('here', error.response.data);
@@ -69,3 +81,12 @@ export default class LoginTab extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    state: state,
+    cookies: ownProps.cookies
+  };
+};
+
+export default connect(mapStateToProps)(LoginTab);
