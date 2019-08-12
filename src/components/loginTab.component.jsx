@@ -32,8 +32,14 @@ class LoginTab extends Component {
         const { cookies } = this.props;
 
         //setting a cookie
-        cookies.set('token', token, { path: '/' });
-        cookies.set('user', user, { path: '/' });
+        cookies.set('token', token, {
+          path: '/',
+          maxAge: process.env.REACT_APP_EXP_DATE
+        });
+        cookies.set('user', user, {
+          path: '/',
+          maxAge: process.env.REACT_APP_EXP_DATE
+        });
 
         console.log('logged in', this.state);
         this.props.dispatch(login(cookies.get('token')));

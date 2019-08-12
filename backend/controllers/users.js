@@ -3,7 +3,6 @@ const _ = require('lodash');
 const User = require('../models/user');
 
 const postRegister = async (req, res) => {
-
   try {
     let passedUser = req.body.user;
 
@@ -25,66 +24,67 @@ const postRegister = async (req, res) => {
 
     const token = await user.generateAuthToken();
 
-    res.cookie('token', token, { maxAge: process.env.EXP_DATE });
+    res.cookie('token', token, { maxAge: process.env.REACT_APP_EXP_DATE });
 
-    res.status(201).send({ success: true, message: 'user is created', user, token });
-
+    res
+      .status(201)
+      .send({ success: true, message: 'user is created', user, token });
   } catch (error) {
-
-    res.status(400).send({ success: false, message: 'failed creating user', cause: error.message });
-
+    res
+      .status(400)
+      .send({
+        success: false,
+        message: 'failed creating user',
+        cause: error.message
+      });
   }
-
-}
+};
 
 const postLogin = async (req, res) => {
   try {
-
     let passedUser = req.body.user;
 
     const user = await User.findByCredentials(passedUser);
 
     const token = await user.generateAuthToken();
 
-    res.cookie('token', token, { maxAge: process.env.EXP_DATE });
+    res.cookie('token', token, { maxAge: process.env.REACT_APP_EXP_DATE });
 
-    res.status(200).send({ success: true, message: 'user has logged in', user, token });
-
+    res
+      .status(200)
+      .send({ success: true, message: 'user has logged in', user, token });
   } catch (error) {
-
     res.status(400).send({ success: false, message: 'Login failed' });
-
   }
-
-}
+};
 
 const getUser = async (req, res) => {
-
   try {
     const { id } = req.params;
 
-    const user = await User.findOne({ username: req.params.id })
+    const user = await User.findOne({ username: req.params.id });
 
-    const picked = _.pick(user, ['_id', 'id', 'firstName', 'middleName', 'username', 'createdAt']);
+    const picked = _.pick(user, [
+      '_id',
+      'id',
+      'firstName',
+      'middleName',
+      'username',
+      'createdAt'
+    ]);
 
     res.send({
       success: true,
       message: 'user found',
       user: picked
     });
-
   } catch (error) {
-
     res.send({ success: false, message: 'user not found', error });
-
   }
-
-}
+};
 
 const postLogout = async (req, res) => {
-
   try {
-
     const { user: passedUser, token: passedToken } = req.body;
 
     const user = await User.findOne({ id: passedUser.id });
@@ -100,13 +100,9 @@ const postLogout = async (req, res) => {
     await req.user.save();
 
     res.send({ success: true, message: 'user has logged out' });
-
   } catch (error) {
-
     res.status(500).send({ success: false, message: 'Error logging out' });
-
   }
-
 };
 
 module.exports = {
@@ -114,4 +110,4 @@ module.exports = {
   postLogin,
   getUser,
   postLogout
-}
+};

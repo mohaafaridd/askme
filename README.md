@@ -14,8 +14,8 @@ you need these environment variables in your backend folder
 
 `JWT_SECRET` this is used in creating jwt tokens
 
-`EXP_DATE` token expiration date
-
 ### Frontend
+
+`REACT_APP_EXP_DATE` token expiration date
 
 `REACT_APP_SERVER_URL` which defines server's link for example `http://localhost:3000`
