@@ -22,19 +22,19 @@ app.use(cookieParser());
 
 app.use(cors());
 
+const publicPath = path.join(__dirname, '..', 'build');
+
+app.use(express.static(publicPath));
+
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
 
-// app.use(connectRoutes());
-
-app.use(express.static(path.join(__dirname, 'frontend', 'build')));
-
-// ...
-// Right before your app.listen(), add this:
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+  res.sendFile(path.join(publicPath, 'index.html'));
 });
+
+app.use(connectRoutes());
 
 server.listen(port, () => {
   console.log(`Server is on port ${port}`);
