@@ -20,7 +20,7 @@ class LoginTab extends Component {
   onSubmit(e) {
     e.preventDefault();
     axios
-      .post('http://localhost:3000/users/login', {
+      .post(`${process.env.REACT_APP_SERVER_URL}/users/login`, {
         user: {
           input: this.state.name,
           password: this.state.password

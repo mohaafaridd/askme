@@ -15,7 +15,7 @@ class Navbar extends React.Component {
     const token = cookies.get('token');
     const user = cookies.get('user');
     axios
-      .post('http://localhost:3000/users/logout', {
+      .post(`${process.env.REACT_APP_SERVER_URL}/users/logout`, {
         token,
         user
       })
