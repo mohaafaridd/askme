@@ -10,7 +10,7 @@ export class RegistrationMessages {
   static caseMatch(field) {
     switch (field) {
       case 'firstname':
-      case 'lastname':
+      case 'middlename':
         return `${field} can contain only characters`;
 
       case 'username':

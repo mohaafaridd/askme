@@ -1,18 +1,11 @@
-const _ = require('lodash')
+const _ = require('lodash');
 
-const pickReply = (reply) => {
-
-  reply.by = _.pick(reply.by, [
-    'firstName',
-    'middleName',
-    'username',
-    '_id'
-  ]);
+const pickReply = reply => {
+  reply.by = _.pick(reply.by, ['firstname', 'lastname', 'username', '_id']);
 
   return reply;
-
 };
 
 module.exports = {
-  pickReply,
-}
+  pickReply
+};

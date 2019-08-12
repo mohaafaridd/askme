@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 import { RegistrationMessages } from '../messages/registerMessages';
 
@@ -10,16 +11,16 @@ const regexValues = {
 };
 
 const SignupSchema = Yup.object().shape({
-  firstName: Yup.string()
+  firstname: Yup.string()
     .min(2, RegistrationMessages.minLength(2))
     .max(15, RegistrationMessages.maxLength(15))
     .matches(regexValues.names, RegistrationMessages.caseMatch('firstname'))
     .required('First name is required'),
 
-  lastName: Yup.string()
+  lastname: Yup.string()
     .min(2, RegistrationMessages.minLength(2))
     .max(15, RegistrationMessages.maxLength(15))
-    .matches(regexValues.names, RegistrationMessages.caseMatch('lastName'))
+    .matches(regexValues.names, RegistrationMessages.caseMatch('lastname'))
     .required('Last name is required'),
 
   username: Yup.string()
@@ -40,18 +41,24 @@ const SignupSchema = Yup.object().shape({
 
 export default class RegisterPage extends Component {
   initialValues = {
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     username: '',
     email: '',
     password: ''
   };
 
   onSubmit(values, { setSubmitting }) {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
+    axios
+      .post(`${process.env.REACT_APP_SERVER_URL}/users/register`, {
+        user: { ...values }
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error.response.data);
+      });
   }
 
   render() {
@@ -65,13 +72,13 @@ export default class RegisterPage extends Component {
         >
           {({ errors, touched }) => (
             <Form>
-              <Field name="firstName" placeholder="first name" />
-              {errors.firstName && touched.firstName ? (
-                <div>{errors.firstName}</div>
+              <Field name="firstname" placeholder="first name" />
+              {errors.firstname && touched.firstname ? (
+                <div>{errors.firstname}</div>
               ) : null}
-              <Field name="lastName" placeholder="last name" />
-              {errors.lastName && touched.lastName ? (
-                <div>{errors.lastName}</div>
+              <Field name="lastname" placeholder="last name" />
+              {errors.lastname && touched.lastname ? (
+                <div>{errors.lastname}</div>
               ) : null}
               <Field name="username" placeholder="username" />
               {errors.username && touched.username ? (
@@ -85,96 +92,13 @@ export default class RegisterPage extends Component {
                 <div>{errors.password}</div>
               ) : null}
 
+              {/* <p>Form status {SignupSchema.isValid().then(valid => valid)}</p> */}
+
               <button type="submit">Submit</button>
             </Form>
           )}
         </Formik>
       </div>
-      // <div>
-      //   <h1>Register Page</h1>
-      //   <Formik
-      //     initialValues={this.initialValues}
-      //     validate={values => {
-      //       let errors = {};
-
-      //       if (!values.firstname) return errors;
-      //     }}
-      //     onSubmit={this.onSubmit}
-      //   >
-      //     {({
-      //       values,
-      //       errors,
-      //       touched,
-      //       handleChange,
-      //       handleBlur,
-      //       handleSubmit,
-      //       isSubmitting
-      //     }) => (
-      //       <form onSubmit={handleSubmit}>
-      //         <input
-      //           type="text"
-      //           autoFocus
-      //           name="firstname"
-      //           placeholder="first name"
-      //           onChange={handleChange}
-      //           onBlur={handleBlur}
-      //           value={values.firstname}
-      //         />
-      //         {errors.firstname && touched.firstname && errors.firstname}
-
-      //         <input
-      //           type="text"
-      //           autoFocus
-      //           name="lastname"
-      //           placeholder="last name"
-      //           onChange={handleChange}
-      //           onBlur={handleBlur}
-      //           value={values.lastname}
-      //         />
-      //         {errors.lastname && touched.lastname && errors.lastname}
-
-      //         <input
-      //           type="text"
-      //           autoFocus
-      //           name="username"
-      //           placeholder="username"
-      //           onChange={handleChange}
-      //           onBlur={handleBlur}
-      //           value={values.username}
-      //         />
-      //         {errors.username && touched.username && errors.username}
-
-      //         <input
-      //           type="email"
-      //           autoFocus
-      //           name="email"
-      //           placeholder="email"
-      //           onChange={handleChange}
-      //           onBlur={handleBlur}
-      //           value={values.email}
-      //         />
-      //         {errors.email && touched.email && errors.email}
-
-      //         <input
-      //           type="password"
-      //           autoFocus
-      //           name="password"
-      //           placeholder="password"
-      //           onChange={handleChange}
-      //           onBlur={handleBlur}
-      //           value={values.password}
-      //         />
-      //         {errors.password && touched.password && errors.password}
-
-      //         <p>Form status: {isSubmitting.toString()}</p>
-
-      //         <button type="submit" disabled={isSubmitting}>
-      //           Submit
-      //         </button>
-      //       </form>
-      //     )}
-      //   </Formik>
-      // </div>
     );
   }
 }

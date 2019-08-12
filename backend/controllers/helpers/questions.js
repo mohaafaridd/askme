@@ -1,18 +1,27 @@
-const _ = require('lodash')
+const _ = require('lodash');
 
-const pickQuestion = (question) => {
-  question.questioner = _.pick(question.questioner, ['firstName', 'middleName', 'username', '_id']);
-  question.asked = _.pick(question.asked, ['firstName', 'middleName', 'username', '_id']);
-  return _.pick(question,
-    ['_id',
-      'id',
-      'content',
-      'createdAt',
-      'questioner',
-      'asked',
-      'replies'
-    ]
-  );
+const pickQuestion = question => {
+  question.questioner = _.pick(question.questioner, [
+    'firstname',
+    'lastname',
+    'username',
+    '_id'
+  ]);
+  question.asked = _.pick(question.asked, [
+    'firstname',
+    'lastname',
+    'username',
+    '_id'
+  ]);
+  return _.pick(question, [
+    '_id',
+    'id',
+    'content',
+    'createdAt',
+    'questioner',
+    'asked',
+    'replies'
+  ]);
 };
 
 const filterOnState = (state, questions) => {
@@ -29,9 +38,9 @@ const filterOnState = (state, questions) => {
       return questions;
     }
   }
-}
+};
 
 module.exports = {
   pickQuestion,
   filterOnState
-}
+};

@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 
 const userSchema = mongoose.Schema(
   {
-    firstName: {
+    firstname: {
       type: String,
       required: true,
       minlength: 2,
@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema(
       match: /^[a-zA-Z]+$/
     },
 
-    middleName: {
+    lastname: {
       type: String,
       required: true,
       minlength: 2,

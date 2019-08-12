@@ -1,12 +1,8 @@
 const _ = require('lodash');
-const pickedUserForQuestion = (user) => {
-  return _.pick(user, [
-    'username',
-    'firstName',
-    'middleName'
-  ])
+const pickedUserForQuestion = user => {
+  return _.pick(user, ['username', 'firstname', 'lastname']);
 };
 
 module.exports = {
-  pickedUserForQuestion,
-}
+  pickedUserForQuestion
+};

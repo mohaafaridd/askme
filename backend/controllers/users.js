@@ -30,13 +30,11 @@ const postRegister = async (req, res) => {
       .status(201)
       .send({ success: true, message: 'user is created', user, token });
   } catch (error) {
-    res
-      .status(400)
-      .send({
-        success: false,
-        message: 'failed creating user',
-        cause: error.message
-      });
+    res.status(400).send({
+      success: false,
+      message: 'failed creating user',
+      cause: error.message
+    });
   }
 };
 
@@ -67,8 +65,8 @@ const getUser = async (req, res) => {
     const picked = _.pick(user, [
       '_id',
       'id',
-      'firstName',
-      'middleName',
+      'firstname',
+      'lastname',
       'username',
       'createdAt'
     ]);
