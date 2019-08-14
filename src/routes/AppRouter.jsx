@@ -15,7 +15,10 @@ class App extends Component {
         <div>
           <NavbarComponent cookies={this.props.cookies} />
           <Switch>
-            <Route path="/register" component={RegisterPage} />
+            <Route
+              path="/register"
+              render={() => <RegisterPage cookies={this.props.cookies} />}
+            />
           </Switch>
         </div>
       </BrowserRouter>

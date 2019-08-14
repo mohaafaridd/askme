@@ -33,7 +33,7 @@ class Navbar extends React.Component {
     return (
       <header>
         <span>Questionary</span>
-        {this.props.cookies.get('token') ? (
+        {this.props.logged ? (
           <button onClick={this.onClickLogout}>Logout</button>
         ) : (
           <LoginTab cookies={this.props.cookies} />
@@ -44,9 +44,12 @@ class Navbar extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const { cookies } = ownProps.cookies;
+  console.log(cookies.user);
   return {
     state: state,
-    cookies: ownProps.cookies
+    cookies: ownProps.cookies,
+    logged: !!cookies.token
   };
 };
 

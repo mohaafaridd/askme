@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
+import { connect } from 'react-redux';
+
 import * as Yup from 'yup';
 import axios from 'axios';
 
@@ -39,7 +41,12 @@ const SignupSchema = Yup.object().shape({
     .required('Password is required')
 });
 
-export default class RegisterPage extends Component {
+class RegisterPage extends Component {
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
   initialValues = {
     firstname: '',
     lastname: '',
@@ -55,6 +62,18 @@ export default class RegisterPage extends Component {
       })
       .then(response => {
         console.log(response.data);
+        const { token } = response.data;
+        const user = JSON.stringify(response.data.user);
+        const { cookies } = this.props;
+        //setting a cookie
+        cookies.set('token', token, {
+          path: '/',
+          maxAge: process.env.REACT_APP_EXP_DATE
+        });
+        cookies.set('user', user, {
+          path: '/',
+          maxAge: process.env.REACT_APP_EXP_DATE
+        });
       })
       .catch(error => {
         console.log(error.response.data);
@@ -92,8 +111,6 @@ export default class RegisterPage extends Component {
                 <div>{errors.password}</div>
               ) : null}
 
-              {/* <p>Form status {SignupSchema.isValid().then(valid => valid)}</p> */}
-
               <button type="submit">Submit</button>
             </Form>
           )}
@@ -102,3 +119,12 @@ export default class RegisterPage extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    state: state,
+    cookies: ownProps.cookies
+  };
+};
+
+export default connect(mapStateToProps)(RegisterPage);

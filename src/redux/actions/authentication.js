@@ -1,9 +1,7 @@
-export const login = token => ({
-  type: 'LOGIN',
-  token
+export const login = () => ({
+  type: 'LOGIN'
 });
 
-export const logout = token => ({
-  type: 'LOGOUT',
-  token
+export const logout = () => ({
+  type: 'LOGOUT'
 });

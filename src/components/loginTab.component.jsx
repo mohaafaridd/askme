@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import * as _ from 'lodash';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../redux/actions/authentication';
@@ -28,15 +29,17 @@ class LoginTab extends Component {
       })
       .then(response => {
         const { token } = response.data;
-        const user = JSON.stringify(response.data.user);
+        const user = response.data.user;
+        const pickedProperties = ['_id', 'firstname', 'lastname', 'username'];
+        const pickedUser = _.pick(user, pickedProperties);
+        const stringifiedUser = JSON.stringify(pickedUser);
         const { cookies } = this.props;
-
         //setting a cookie
         cookies.set('token', token, {
           path: '/',
           maxAge: process.env.REACT_APP_EXP_DATE
         });
-        cookies.set('user', user, {
+        cookies.set('user', stringifiedUser, {
           path: '/',
           maxAge: process.env.REACT_APP_EXP_DATE
         });
