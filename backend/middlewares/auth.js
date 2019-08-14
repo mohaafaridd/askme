@@ -5,7 +5,10 @@ const auth = async (req, res, next) => {
   try {
     const token = req.cookies.token || req.body.token;
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findOne({ _id: decoded._id, 'tokens.token': token });
+    const user = await User.findOne({
+      _id: decoded._id,
+      'tokens.token': token
+    });
 
     if (!user) {
       throw new Error();
@@ -15,7 +18,9 @@ const auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).json({ success: false, message: `You're not authorized` });
+    res
+      .status(401)
+      .json({ success: false, message: `You're not authorized`, error });
   }
 };
 

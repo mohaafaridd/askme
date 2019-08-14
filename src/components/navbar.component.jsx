@@ -10,23 +10,26 @@ class Navbar extends React.Component {
     this.onClickLogout = this.onClickLogout.bind(this);
   }
 
-  onClickLogout() {
-    const { cookies } = this.props;
-    const token = cookies.get('token');
-    const user = cookies.get('user');
-    axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/users/logout`, {
-        token,
-        user
-      })
-      .then(response => {
-        cookies.remove('token');
-        cookies.remove('user');
-        this.props.dispatch(logout(cookies.get('token')));
-      })
-      .catch(error => {
-        console.log(error.response.data);
-      });
+  async onClickLogout() {
+    try {
+      const { cookies } = this.props;
+      const token = cookies.get('token');
+      const user = cookies.get('user');
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/users/logout`,
+        {
+          token,
+          user
+        }
+      );
+
+      cookies.remove('token');
+      cookies.remove('user');
+      this.props.dispatch(logout(cookies.get('token')));
+      console.log('Logged out');
+    } catch (error) {
+      console.log('Error logging out', error);
+    }
   }
 
   render() {

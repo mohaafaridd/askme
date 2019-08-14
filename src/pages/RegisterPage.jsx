@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
-
+import { Redirect } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
 
@@ -42,6 +42,10 @@ const SignupSchema = Yup.object().shape({
 });
 
 class RegisterPage extends Component {
+  state = {
+    redirect: false
+  };
+
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -55,30 +59,42 @@ class RegisterPage extends Component {
     password: ''
   };
 
-  onSubmit(values, { setSubmitting }) {
-    axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/users/register`, {
-        user: { ...values }
-      })
-      .then(response => {
-        console.log(response.data);
-        const { token } = response.data;
-        const user = JSON.stringify(response.data.user);
-        const { cookies } = this.props;
-        //setting a cookie
-        cookies.set('token', token, {
-          path: '/',
-          maxAge: process.env.REACT_APP_EXP_DATE
-        });
-        cookies.set('user', user, {
-          path: '/',
-          maxAge: process.env.REACT_APP_EXP_DATE
-        });
-      })
-      .catch(error => {
-        console.log(error.response.data);
+  async onSubmit(values, { setSubmitting }) {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/users/register`,
+        { user: { ...values } }
+      );
+
+      const { token, user } = response.data;
+      const { cookies } = this.props;
+
+      cookies.set('token', token, {
+        path: '/',
+        maxAge: process.env.REACT_APP_EXP_DATE
       });
+      cookies.set('user', user, {
+        path: '/',
+        maxAge: process.env.REACT_APP_EXP_DATE
+      });
+      this.setRedirect();
+      console.log('Account Registered!');
+    } catch (error) {
+      console.error('Registration Failed!');
+      console.log(error.response.data || error);
+    }
   }
+
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    });
+  };
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
+  };
 
   render() {
     return (

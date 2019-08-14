@@ -18,38 +18,43 @@ class LoginTab extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
-    axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/users/login`, {
-        user: {
-          input: this.state.name,
-          password: this.state.password
+    try {
+      const response = axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/users/login`,
+        {
+          user: {
+            input: this.state.name,
+            password: this.state.password
+          }
         }
-      })
-      .then(response => {
-        const { token } = response.data;
-        const user = response.data.user;
-        const pickedProperties = ['_id', 'firstname', 'lastname', 'username'];
-        const pickedUser = _.pick(user, pickedProperties);
-        const stringifiedUser = JSON.stringify(pickedUser);
-        const { cookies } = this.props;
-        //setting a cookie
-        cookies.set('token', token, {
-          path: '/',
-          maxAge: process.env.REACT_APP_EXP_DATE
-        });
-        cookies.set('user', stringifiedUser, {
-          path: '/',
-          maxAge: process.env.REACT_APP_EXP_DATE
-        });
-
-        console.log('logged in', this.state);
-        this.props.dispatch(login(cookies.get('token')));
-      })
-      .catch(error => {
-        console.log(error.response.data);
+      );
+      const { token, user } = response.data;
+      const pickedProperties = [
+        '_id',
+        'firstname',
+        'lastname',
+        'username',
+        'id'
+      ];
+      const pickedUser = _.pick(user, pickedProperties);
+      const stringifiedUser = JSON.stringify(pickedUser);
+      const { cookies } = this.props;
+      //setting a cookie
+      cookies.set('token', token, {
+        path: '/',
+        maxAge: process.env.REACT_APP_EXP_DATE
       });
+      cookies.set('user', stringifiedUser, {
+        path: '/',
+        maxAge: process.env.REACT_APP_EXP_DATE
+      });
+
+      this.props.dispatch(login(cookies.get('token')));
+    } catch (error) {
+      console.log('Login Failed', error);
+    }
   }
 
   onNameChange(e) {
