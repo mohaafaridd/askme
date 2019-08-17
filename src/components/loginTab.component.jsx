@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import * as _ from 'lodash';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../redux/actions/authentication';
@@ -20,41 +18,8 @@ class LoginTab extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
-    try {
-      const response = axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/users/login`,
-        {
-          user: {
-            input: this.state.name,
-            password: this.state.password
-          }
-        }
-      );
-      const { token, user } = response.data;
-      const pickedProperties = [
-        '_id',
-        'firstname',
-        'lastname',
-        'username',
-        'id'
-      ];
-      const pickedUser = _.pick(user, pickedProperties);
-      const stringifiedUser = JSON.stringify(pickedUser);
-      const { cookies } = this.props;
-      //setting a cookie
-      cookies.set('token', token, {
-        path: '/',
-        maxAge: process.env.REACT_APP_EXP_DATE
-      });
-      cookies.set('user', stringifiedUser, {
-        path: '/',
-        maxAge: process.env.REACT_APP_EXP_DATE
-      });
-
-      this.props.dispatch(login(cookies.get('token')));
-    } catch (error) {
-      console.log('Login Failed', error);
-    }
+    const user = { input: this.state.name, password: this.state.password };
+    this.props.login(user, this.props.cookies);
   }
 
   onNameChange(e) {
@@ -101,4 +66,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(LoginTab);
+export default connect(
+  mapStateToProps,
+  { login }
+)(LoginTab);

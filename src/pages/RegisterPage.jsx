@@ -99,6 +99,8 @@ class RegisterPage extends Component {
   render() {
     return (
       <div>
+        {this.renderRedirect()}
+
         <h1>Signup</h1>
         <Formik
           initialValues={this.initialValues}

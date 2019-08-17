@@ -1,7 +1,14 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import AuthenticationReducers from './reducers/authenticationReducers';
 
-export default () => {
-  const store = createStore(AuthenticationReducers);
-  return store;
-};
+const initialState = {};
+const middleware = [thunk];
+
+const store = createStore(
+  AuthenticationReducers,
+  initialState,
+  applyMiddleware(...middleware)
+);
+
+export default store;
