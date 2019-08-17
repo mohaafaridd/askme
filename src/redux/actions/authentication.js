@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from './types';
+import { LOGIN, LOGOUT, REGISTER } from './types';
 import axios from 'axios';
 import * as _ from 'lodash';
 
@@ -61,6 +61,40 @@ export const logout = cookies => async dispach => {
     console.log(error);
     dispach({
       type: LOGOUT,
+      payload: false
+    });
+  }
+};
+
+export const register = (cookies, formValues) => async dispach => {
+  try {
+    const response = await axios.post(
+      `${process.env.REACT_APP_SERVER_URL}/users/register`,
+      { user: { ...formValues } }
+    );
+
+    const { token, user } = response.data;
+
+    cookies.set('token', token, {
+      path: '/',
+      maxAge: process.env.REACT_APP_EXP_DATE
+    });
+    cookies.set('user', user, {
+      path: '/',
+      maxAge: process.env.REACT_APP_EXP_DATE
+    });
+
+    dispach({
+      type: REGISTER,
+      payload: true
+    });
+
+    console.log('Account Registered!');
+  } catch (error) {
+    console.error('Registration Failed!');
+    console.log(error.response.data || error);
+    dispach({
+      type: REGISTER,
       payload: false
     });
   }

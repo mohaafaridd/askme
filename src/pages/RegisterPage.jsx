@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
 
+import { register } from '../redux/actions/authentication.js';
 import { RegistrationMessages } from '../messages/registerMessages';
 
 const regexValues = {
@@ -60,29 +61,10 @@ class RegisterPage extends Component {
   };
 
   async onSubmit(values, { setSubmitting }) {
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/users/register`,
-        { user: { ...values } }
-      );
+    const { cookies } = this.props;
+    this.props.dispatch(register(cookies, values));
 
-      const { token, user } = response.data;
-      const { cookies } = this.props;
-
-      cookies.set('token', token, {
-        path: '/',
-        maxAge: process.env.REACT_APP_EXP_DATE
-      });
-      cookies.set('user', user, {
-        path: '/',
-        maxAge: process.env.REACT_APP_EXP_DATE
-      });
-      this.setRedirect();
-      console.log('Account Registered!');
-    } catch (error) {
-      console.error('Registration Failed!');
-      console.log(error.response.data || error);
-    }
+    this.setRedirect();
   }
 
   setRedirect = () => {

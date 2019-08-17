@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from '../actions/types';
+import { LOGIN, LOGOUT, REGISTER } from '../actions/types';
 // Expenses Reducer
 const defaultAuth = {
   logged: false
@@ -10,6 +10,9 @@ export default (state = defaultAuth, action) => {
       return { ...state, logged: action.payload };
 
     case LOGOUT:
+      return { ...state, logged: action.payload };
+
+    case REGISTER:
       return { ...state, logged: action.payload };
 
     default:
